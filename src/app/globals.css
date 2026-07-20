@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  scrollbar-color: rgba(196, 61, 255, 0.4) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0613;
+  color: #f3edfb;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(196, 61, 255, 0.35);
+  color: #ffffff;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+.fill-icon {
+  font-variation-settings: "FILL" 1;
+}
+
+/* Fixed mesh-gradient backdrop, shared by every page */
+.app-mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background-color: #0a0613;
+  background-image:
+    radial-gradient(ellipse 900px 600px at 15% 0%, rgba(196, 61, 255, 0.16), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, rgba(255, 79, 163, 0.1), transparent 55%),
+    radial-gradient(ellipse 800px 500px at 50% 100%, rgba(122, 31, 184, 0.14), transparent 60%);
+}
+
+@layer components {
+  /* ---- Glass surface, the base of every card/panel across the site ---- */
+  .glass {
+    @apply relative border border-primary/[0.14] bg-[rgba(11,6,20,0.6)] shadow-card backdrop-blur-[28px] backdrop-saturate-[1.6] transition-[transform,box-shadow,border-color] duration-300 ease-premium;
+  }
+  /* Border/glow only — the lift (translateY) is owned by Framer Motion's
+     whileHover on <GlassCard>, so we don't fight the same CSS property
+     from two systems at once. */
+  .glass-hover {
+    @apply hover:border-primary/40 hover:shadow-glow;
+  }
+
+  .hex-icon {
+    clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+  }
+
+  /* ---- Typography helpers ---- */
+  .text-gradient-brand {
+    @apply bg-gradient-text bg-clip-text text-transparent [filter:drop-shadow(0_0_30px_rgba(196,61,255,0.35))];
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-primary/30 px-4 py-2 text-micro uppercase tracking-widest text-primary;
+  }
+
+  /* ---- Buttons ---- */
+  .btn-base {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full text-button transition-[transform,box-shadow] duration-300 ease-premium active:scale-[0.97];
+  }
+  .btn-primary {
+    @apply btn-base bg-gradient-brand bg-[length:200%_200%] text-white shadow-glow hover:scale-[1.04] hover:shadow-glow-lg hover:animate-gradient-pan;
+  }
+  .btn-ghost {
+    @apply btn-base glass text-on-surface hover:scale-[1.03] hover:border-primary/40;
+  }
+  .btn-outline {
+    @apply btn-base border border-primary/30 text-primary hover:bg-primary hover:text-background;
+  }
+  .btn-whatsapp {
+    @apply btn-base bg-[linear-gradient(135deg,#25D366_0%,#128C7E_100%)] text-white shadow-[0_0_25px_rgba(37,211,102,0.35)] hover:scale-[1.04] hover:shadow-[0_0_35px_rgba(37,211,102,0.55)];
+  }
+
+  /* ---- Subtle noise texture, layered under mesh gradients for depth ---- */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.9) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .line-grid {
+    background-image:
+      linear-gradient(rgba(196, 61, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(196, 61, 255, 0.12) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+}
+
+@layer utilities {
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+}
