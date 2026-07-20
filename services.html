@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Services | Dr. Ayman Tarek - Elite Neurosurgery &amp; Neurology</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-surface": "#f3edfb",
+                        "on-primary-container": "#3a0060",
+                        "primary": "#c43dff",
+                        "inverse-on-surface": "#241a38",
+                        "secondary-fixed": "#f3d9ff",
+                        "primary-container": "#7a1fb8",
+                        "background": "#0a0613",
+                        "secondary-container": "#5a1f8a",
+                        "secondary-fixed-dim": "#e9a8ff",
+                        "surface-container": "#170d26",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#c43dff",
+                        "on-tertiary": "#2b0046",
+                        "on-primary": "#2b0046",
+                        "surface-container-low": "#120a1e",
+                        "on-secondary-container": "#f3d9ff",
+                        "outline-variant": "#3a2c52",
+                        "on-tertiary-container": "#3a0060",
+                        "surface-variant": "#2e2140",
+                        "on-surface": "#f3edfb",
+                        "on-primary-fixed": "#2b0046",
+                        "on-tertiary-fixed-variant": "#7a1fb8",
+                        "on-error": "#690005",
+                        "primary-fixed": "#f3d9ff",
+                        "on-background": "#f3edfb",
+                        "tertiary": "#ff4fa3",
+                        "surface-bright": "#241a38",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#7a1fb8",
+                        "surface-dim": "#060410",
+                        "surface": "#0a0613",
+                        "secondary": "#e9a8ff",
+                        "on-tertiary-fixed": "#3a0060",
+                        "tertiary-fixed-dim": "#ff4fa3",
+                        "on-surface-variant": "#a99bc2",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#b8266f",
+                        "outline": "#7c6f94",
+                        "surface-container-highest": "#24163a",
+                        "on-secondary-fixed": "#3a0060",
+                        "tertiary-fixed": "#ffd3e8",
+                        "inverse-primary": "#7a1fb8",
+                        "surface-container-lowest": "#040209",
+                        "primary-fixed-dim": "#c43dff",
+                        "on-secondary": "#3a0060",
+                        "on-primary-fixed-variant": "#7a1fb8",
+                        "surface-container-high": "#1d1130"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "container-max": "1440px",
+                        "section-gap": "96px",
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "component-padding": "32px"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Epilogue"],
+                        "body-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "headline-md": ["Epilogue"],
+                        "headline-lg": ["Epilogue"],
+                        "label-md": ["Manrope"],
+                        "display-lg": ["Epilogue"],
+                        "headline-sm": ["Epilogue"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0613;
+            background-image:
+                radial-gradient(ellipse 900px 600px at 15% 0%, rgba(196, 61, 255, 0.16), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 100% 20%, rgba(255, 79, 163, 0.10), transparent 55%);
+            background-attachment: fixed;
+            color: #f3edfb;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(11, 6, 20, 0.6);
+            backdrop-filter: blur(28px) saturate(160%);
+            border: 1px solid rgba(196, 61, 255, 0.14);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 20px 40px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(196, 61, 255, 0.4);
+            box-shadow: 0 0 45px rgba(196, 61, 255, 0.2);
+            transform: translateY(-4px);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #ff4fa3 0%, #c43dff 55%, #7a1fb8 100%);
+            box-shadow: 0 0 30px rgba(196, 61, 255, 0.35);
+            transition: all 0.3s ease;
+        }
+        .btn-gradient:hover {
+            box-shadow: 0 0 40px rgba(255, 79, 163, 0.55);
+            transform: scale(1.05);
+        }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.35);
+            transition: all 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            box-shadow: 0 0 35px rgba(37, 211, 102, 0.55);
+            transform: scale(1.05);
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #ff4fa3 0%, #c43dff 60%, #9d4dff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 30px rgba(196, 61, 255, 0.35));
+        }
+        .glow-orb {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(90px);
+            pointer-events: none;
+        }
+        .hex-icon {
+            clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        }
+        @keyframes float-y {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .float-badge { animation: float-y 5s ease-in-out infinite; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon { font-variation-settings: 'FILL' 1; }
+
+        /* Service card image zoom + arrow reveal */
+        .service-card .service-media { overflow: hidden; }
+        .service-card .service-media img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .service-card:hover .service-media img { transform: scale(1.08); }
+        .service-card .service-arrow {
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .service-card:hover .service-arrow {
+            transform: translateX(4px);
+            background: rgba(196, 61, 255, 0.9);
+        }
+
+        /* Service detail modal */
+        #serviceModal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #serviceModal.is-open { opacity: 1; pointer-events: auto; }
+        #modalOverlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(4, 2, 9, 0.75);
+            backdrop-filter: blur(10px);
+        }
+        #modalPanel {
+            transform: scale(0.92) translateY(12px);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #serviceModal.is-open #modalPanel { transform: scale(1) translateY(0); }
+
+        /* FAQ accordion */
+        .faq-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+        .faq-trigger .faq-icon { transition: transform 0.3s ease; }
+        .faq-item.is-open .faq-trigger .faq-icon { transform: rotate(45deg); }
+
+        /* Patient journey scroll reveal */
+        .journey-step { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .journey-step.is-visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="antialiased">
+<!-- Floating vertical social widget (matches the rest of the website) -->
+<div class="hidden lg:flex flex-col items-center gap-3 fixed left-6 top-1/2 -translate-y-1/2 z-40">
+<a aria-label="Facebook" class="w-11 h-11 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-primary hover:shadow-[0_0_20px_rgba(196,61,255,0.5)] transition-all" href="#">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M13.5 21v-7.5h2.5l.5-3h-3V8.5c0-.87.24-1.5 1.53-1.5H16.5V4.35C16.2 4.31 15.19 4.22 14 4.22c-2.47 0-4.16 1.51-4.16 4.28V10.5H7v3h2.84V21h3.66z"></path></svg>
+</a>
+<a aria-label="Instagram" class="w-11 h-11 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-primary hover:shadow-[0_0_20px_rgba(196,61,255,0.5)] transition-all" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><rect height="17" rx="5" width="17" x="3.5" y="3.5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" fill="currentColor" r="1" stroke="none"></circle></svg>
+</a>
+<a aria-label="TikTok" class="w-11 h-11 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-primary hover:shadow-[0_0_20px_rgba(196,61,255,0.5)] transition-all" href="#">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M16.5 3c.4 2.2 1.9 3.7 4.1 3.9v2.9c-1.5 0-2.9-.5-4.1-1.3v6.6c0 3.3-2.6 5.9-5.9 5.9S4.7 18.4 4.7 15.1c0-3.2 2.5-5.8 5.7-5.9v3c-1.5.1-2.7 1.3-2.7 2.9 0 1.6 1.3 2.9 2.9 2.9s2.9-1.3 2.9-2.9V3h3z"></path></svg>
+</a>
+<a aria-label="LinkedIn" class="w-11 h-11 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-primary hover:shadow-[0_0_20px_rgba(196,61,255,0.5)] transition-all" href="#">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 100 3.92 1.96 1.96 0 000-3.92zM20.44 20h-3.37v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.68V8.5h3.24v1.57h.05c.45-.85 1.56-1.75 3.21-1.75 3.43 0 4.26 2.26 4.26 5.2V20z"></path></svg>
+</a>
+<span class="w-8 h-px bg-primary/20"></span>
+<a aria-label="Call now" class="w-11 h-11 rounded-full btn-gradient flex items-center justify-center text-white" href="tel:+201000000000">
+<span class="material-symbols-outlined text-xl fill-icon">call</span>
+</a>
+</div>
+<!-- Top Navigation (shared across every page — see nav.js) -->
+<script>window.SITE_BRAND = { icon: "neurology", name: "Dr. Ayman Tarek" };</script>
+<script src="nav.js"></script>
+
+<!-- ============================== -->
+<!-- SECTION 1 — HERO (reuses the exact homepage hero image) -->
+<!-- ============================== -->
+<section class="relative min-h-[60vh] lg:h-[520px] flex items-center pt-20 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover object-[center_top]" data-alt="A professional cinematic portrait of Dr. Ayman Tarek, a neurosurgeon wearing a dark tailored suit, looking confident and authoritative. He stands against a deep violet background featuring holographic neural network projections and abstract glass elements. The lighting is high-contrast and dramatic, highlighting surgical precision and expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw"/>
+<!-- subtle dark overlay -->
+<div class="absolute inset-0 bg-background/60"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/60"></div>
+</div>
+<div class="glow-orb w-[500px] h-[500px] bg-primary/20 -top-32 -left-40 z-[1]"></div>
+<div class="glow-orb w-[420px] h-[420px] bg-tertiary/15 bottom-0 -right-24 z-[1]"></div>
+<div class="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop" style="animation: fade-up 0.8s ease-out both;">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border-primary/30 shadow-[0_0_25px_rgba(196,61,255,0.2)] mb-6">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(196,61,255,0.8)]"></span>
+<span class="font-label-md text-label-md text-primary tracking-widest uppercase">What We Offer</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-white leading-tight mb-4">Services</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-8">Professional Neurosurgical Care &amp; Advanced Medical Solutions</p>
+<button class="btn-gradient px-9 py-4 rounded-full font-label-md text-label-md text-white shadow-lg flex items-center gap-2"><span class="material-symbols-outlined text-xl">calendar_month</span>Book Now</button>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 2 — OUR SERVICES (8 cards, opens detail modal) -->
+<!-- ============================== -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-section-gap mb-section-gap" id="services">
+<div class="text-center mb-14">
+<h2 class="font-headline-lg text-headline-lg text-white mb-4">Our Services</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Comprehensive neurosurgical and neurological care, delivered with precision, safety, and a patient-first approach. Select a service to learn more.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+
+<button class="service-card glass-card rounded-[28px] overflow-hidden text-left group flex flex-col" data-service-id="brain-tumor">
+<div class="service-media relative aspect-[4/3]"><img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj_BLuiyILw1YhqAC3tRIDF2988vEFMbdp2CShPuVIiDUoHM1kMzpKG_4i0s5CUQUmeVMDWsJnumLQFXXrf0m-Mjl34wizujbVZdXvUYuolvYMi8YyTkj8UyYy6owS1CMhwr6GhKZvbQVx4zQYVu5JL4WeKrZ9IM5Qa-npZXsG-RmAevHAwlFxJCgUchdKulNiNaTwgXXFMihF3Ca3g_TTGj18eVkdNijbGyFBcA_Ydb9qTxI01BtA"/><div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div></div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Brain Tumor Surgery</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">Advanced micro-surgical resection of complex neuro-oncology cases with maximum tissue preservation.</p>
+<span class="service-arrow w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center self-start"><span class="material-symbols-outlined text-primary text-xl">arrow_outward</span></span>
+</div>
+</button>
+
+<button class="service-card glass-card rounded-[28px] overflow-hidden text-left group flex flex-col" data-service-id="spinal-fusion">
+<div class="service-media relative aspect-[4/3]"><img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC42DEKTaJe4KxQbrNk7_4N3r0uR17-UWvsiLQT9WN28BJjyNIf9oMv97lm1Q8CGg8qn6Up0qmxsaW4aC2ssTp6J-he9nwGHBfzPwnpUe76ZruS-_QHzTZPRVLGzDOgRIPW8_HAbZlOQuWwmDQTLgUMu-aKclM0mZFCe-rJ-OelKL5pLACXDbF6hkocNBqDF7npayc5mKjEOOMjgdOjrHIO0mnQXNstc-VUj9lgw_gxArPZFJUD8htb"/><div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div></div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Spinal Fusion &amp; Disc Replacement</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">Minimally invasive spinal fusion and artificial disc replacement to restore stability and mobility.</p>
+<span class="service-arrow w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center self-start"><span class="material-symbols-outlined text-primary text-xl">arrow_outward</span></span>
+</div>
+</button>
+
+<button class="service-card glass-card rounded-[28px] overflow-hidden text-left group flex flex-col" data-service-id="neuro-endoscopy">
+<div class="service-media relative aspect-[4/3]"><img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGP6klrdOkaqLvlrfoMX7AfD2Ic6H8jgwmKRZypU2FjhK07NPZMQ2pij14DYs6TqVdsQ22uvX0yGm-3_Mz9rDK-ZvQOTzYvMUCqWdenca9F4lD5Ocq8LJiVMMuxbuzeH-nT1oHMiyczcIdSqFeExP1eGrfiAs7NB-VsTV1HlmTpETg9JIRyWRIiFQg5F79aCEvZkhTKDZBF-NMypOxuu7ASYLJexGp_rWY6OSjF8d8G_LLu6Ze9dc1"/><div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div></div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Minimally Invasive Neuro-Endoscopy</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">Keyhole endoscopic techniques for faster recovery and reduced surgical trauma.</p>
+<span class="service-arrow w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center self-start"><span class="material-symbols-outlined text-primary text-xl">arrow_outward</span></span>
+</div>
+</button>
+
+<button class="service-card glass-card rounded-[28px] overflow-hidden text-left group flex flex-col" data-service-id="epilepsy">
+<div class="service-media relative aspect-[4/3]"><img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk"/><div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div></div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Epilepsy &amp; Movement Disorder Surgery</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">Precision diagnostics and surgical treatment for drug-resistant epilepsy and movement disorders.</p>
+<span class="service-arrow w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center self-start"><span class="material-symbols-outlined text-primary text-xl">arrow_outward</span></span>
+</div>
+</button>
+
+<button class="service-card glass-card rounded-[28px] overflow-hidden text-left group flex flex-col" data-service-id="pediatric">
+<div class="service-media relative aspect-[4/3]"><img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT02aCXBfYCWE8rbwfhuNv_I8eAL7C0AlQUQu0RKPoG3OhOWu6zfPyjGgq6Qkpe2JmNyY7TwRfJL6EBx4DbAF4W2hmpO-4Ry2B7rM4AjafcZGL2IeszWF0bwHj5d_PD_XKC75OpP0uK1lA7CfiRyYNqh3dbKtKci2TnVpbQke6eRod8-2rocqS6KQ8U-UHLgPOjFc8QUlrxDDOZSwI70YJB9TE252FVlkjWd77tdI5MWTU1lFV_yb9"/><div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div></div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Pediatric Neurosurgery</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">Specialized surgical care for congenital and acquired neurological conditions in children.</p>
+<span class="service-arrow w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center self-start"><span class="material-symbols-outlined text-primary text-xl">arrow_outward</span></span>
+</div>
+</button>
+
+<button class="service-card glass-card rounded-[28px] overflow-hidden text-left group flex flex-col" data-service-id="peripheral-nerve">
+<div class="service-media relative aspect-[4/3]"><img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTn3cyqUNe0ocnTjAZNiU5K9DqBl7NhprA_LEZLFZdsfYHOSUvWgG4z5ly_9fRYrWBfOch68eVi6fVDiJRcEZ9QKfi5Hj6oqaqOVKEMusztlkmYqVhxRwvogyhNcuiel8bNSOj3TtidYMdw9NdHd_55yE7p3rVGC-iaOvAyZV5tB3ohCj8Zkhed11RQnRdpdNgf5A1NfHSeO6erTwhaMrdCajgAonxI05DC1TiGTJj3Yd5T0EZsOmC"/><div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div></div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Peripheral Nerve Surgery</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">Microsurgical repair and reconstruction of injured or compressed peripheral nerves.</p>
+<span class="service-arrow w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center self-start"><span class="material-symbols-outlined text-primary text-xl">arrow_outward</span></span>
+</div>
+</button>
+
+<button class="service-card glass-card rounded-[28px] overflow-hidden text-left group flex flex-col" data-service-id="stroke">
+<div class="service-media relative aspect-[4/3]"><img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj_BLuiyILw1YhqAC3tRIDF2988vEFMbdp2CShPuVIiDUoHM1kMzpKG_4i0s5CUQUmeVMDWsJnumLQFXXrf0m-Mjl34wizujbVZdXvUYuolvYMi8YyTkj8UyYy6owS1CMhwr6GhKZvbQVx4zQYVu5JL4WeKrZ9IM5Qa-npZXsG-RmAevHAwlFxJCgUchdKulNiNaTwgXXFMihF3Ca3g_TTGj18eVkdNijbGyFBcA_Ydb9qTxI01BtA"/><div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div></div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Stroke &amp; Cerebrovascular Surgery</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">Emergency and elective treatment of aneurysms, AVMs, and cerebrovascular disease.</p>
+<span class="service-arrow w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center self-start"><span class="material-symbols-outlined text-primary text-xl">arrow_outward</span></span>
+</div>
+</button>
+
+<button class="service-card glass-card rounded-[28px] overflow-hidden text-left group flex flex-col" data-service-id="robotic-spine">
+<div class="service-media relative aspect-[4/3]"><img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC42DEKTaJe4KxQbrNk7_4N3r0uR17-UWvsiLQT9WN28BJjyNIf9oMv97lm1Q8CGg8qn6Up0qmxsaW4aC2ssTp6J-he9nwGHBfzPwnpUe76ZruS-_QHzTZPRVLGzDOgRIPW8_HAbZlOQuWwmDQTLgUMu-aKclM0mZFCe-rJ-OelKL5pLACXDbF6hkocNBqDF7npayc5mKjEOOMjgdOjrHIO0mnQXNstc-VUj9lgw_gxArPZFJUD8htb"/><div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div></div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Robotic-Assisted Spine Surgery</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-1">Sub-millimeter surgical accuracy powered by robotic navigation and real-time imaging.</p>
+<span class="service-arrow w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center self-start"><span class="material-symbols-outlined text-primary text-xl">arrow_outward</span></span>
+</div>
+</button>
+
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 3 — WHY CHOOSE OUR SERVICES (7 features) -->
+<!-- ============================== -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+<div class="text-center mb-14">
+<h2 class="font-headline-lg text-headline-lg text-white mb-4">Why Choose Our Services</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Every treatment plan is built on precision, safety, and genuine care for the patient behind the diagnosis.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="glass-card p-7 rounded-[28px] flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-5"><span class="material-symbols-outlined text-3xl text-primary">tune</span></div>
+<h3 class="font-body-lg text-body-lg font-bold text-white mb-2">Personalized Treatment</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Care plans built entirely around each patient's diagnosis and goals.</p>
+</div>
+<div class="glass-card p-7 rounded-[28px] flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-5"><span class="material-symbols-outlined text-3xl text-primary">workspace_premium</span></div>
+<h3 class="font-body-lg text-body-lg font-bold text-white mb-2">Experienced Surgeon</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Over 20 years of specialized neurosurgical practice.</p>
+</div>
+<div class="glass-card p-7 rounded-[28px] flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-5"><span class="material-symbols-outlined text-3xl text-primary">precision_manufacturing</span></div>
+<h3 class="font-body-lg text-body-lg font-bold text-white mb-2">Advanced Technology</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Robotic navigation, AI diagnostics, and intraoperative imaging.</p>
+</div>
+<div class="glass-card p-7 rounded-[28px] flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-5"><span class="material-symbols-outlined text-3xl text-primary">public</span></div>
+<h3 class="font-body-lg text-body-lg font-bold text-white mb-2">International Standards</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Protocols aligned with globally recognized surgical societies.</p>
+</div>
+<div class="glass-card p-7 rounded-[28px] flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-5"><span class="material-symbols-outlined text-3xl text-primary">domain</span></div>
+<h3 class="font-body-lg text-body-lg font-bold text-white mb-2">Modern Facilities</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">State-of-the-art operating suites and diagnostic centers.</p>
+</div>
+<div class="glass-card p-7 rounded-[28px] flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-5"><span class="material-symbols-outlined text-3xl text-primary">bolt</span></div>
+<h3 class="font-body-lg text-body-lg font-bold text-white mb-2">Fast Recovery</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Minimally invasive techniques that shorten downtime.</p>
+</div>
+<div class="glass-card p-7 rounded-[28px] flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-5"><span class="material-symbols-outlined text-3xl text-primary">volunteer_activism</span></div>
+<h3 class="font-body-lg text-body-lg font-bold text-white mb-2">Patient-Centered Care</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Transparent communication at every step of the journey.</p>
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 4 — LATEST TECHNOLOGIES (3-column) -->
+<!-- ============================== -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+<div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1fr_0.9fr] gap-10 items-center">
+<!-- Left: technology list -->
+<div class="space-y-5 order-2 lg:order-1">
+<div class="flex items-start gap-4">
+<span class="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">biotech</span></span>
+<div><h4 class="font-body-lg text-body-lg font-bold text-white">Advanced Microsurgery</h4><p class="font-label-md text-label-md text-on-surface-variant">Sub-millimeter precision under high-magnification optics.</p></div>
+</div>
+<div class="flex items-start gap-4">
+<span class="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">camera</span></span>
+<div><h4 class="font-body-lg text-body-lg font-bold text-white">Endoscopic Neurosurgery</h4><p class="font-label-md text-label-md text-on-surface-variant">Keyhole access for reduced trauma and faster healing.</p></div>
+</div>
+<div class="flex items-start gap-4">
+<span class="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">explore</span></span>
+<div><h4 class="font-body-lg text-body-lg font-bold text-white">Neuronavigation</h4><p class="font-label-md text-label-md text-on-surface-variant">Real-time 3D guidance during complex procedures.</p></div>
+</div>
+<div class="flex items-start gap-4">
+<span class="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">smart_toy</span></span>
+<div><h4 class="font-body-lg text-body-lg font-bold text-white">AI Assisted Diagnosis</h4><p class="font-label-md text-label-md text-on-surface-variant">Machine-learning-supported imaging analysis.</p></div>
+</div>
+<div class="flex items-start gap-4">
+<span class="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">view_in_ar</span></span>
+<div><h4 class="font-body-lg text-body-lg font-bold text-white">3D Surgical Planning</h4><p class="font-label-md text-label-md text-on-surface-variant">Patient-specific virtual modeling before every operation.</p></div>
+</div>
+<div class="flex items-start gap-4">
+<span class="w-11 h-11 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-xl">monitor_heart</span></span>
+<div><h4 class="font-body-lg text-body-lg font-bold text-white">Intraoperative Monitoring</h4><p class="font-label-md text-label-md text-on-surface-variant">Continuous neurophysiological monitoring for maximum safety.</p></div>
+</div>
+</div>
+<!-- Center: featured image -->
+<div class="relative order-1 lg:order-2 flex items-center justify-center">
+<div class="absolute inset-6 bg-primary/25 blur-[80px] rounded-full"></div>
+<div class="relative float-badge w-full max-w-[420px] aspect-square rounded-[36px] overflow-hidden glass-card border-primary/20 shadow-[0_0_70px_rgba(196,61,255,0.3)]">
+<img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk"/>
+</div>
+</div>
+<!-- Right: heading + CTA -->
+<div class="space-y-6 order-3 text-center lg:text-left">
+<h2 class="font-headline-lg text-headline-lg text-white">Latest Technologies We Use</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Every procedure is supported by a fully integrated technology stack — from AI-assisted diagnosis to robotic-guided precision in the operating room — designed to maximize safety and minimize recovery time.</p>
+<button class="btn-gradient px-9 py-4 rounded-full font-label-md text-label-md text-white shadow-lg">Book Appointment</button>
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 5 — PATIENT JOURNEY -->
+<!-- ============================== -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-white mb-4">Your Treatment Journey</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">A clear, guided path from your first consultation to a full recovery.</p>
+</div>
+<div class="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="hidden lg:block absolute top-9 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-primary/0 via-primary/40 to-primary/0"></div>
+<div class="journey-step relative flex flex-col items-center text-center" style="transition-delay:0ms;">
+<div class="w-[72px] h-[72px] rounded-full glass-card border-primary/30 flex items-center justify-center mb-5 relative z-10 shadow-[0_0_30px_rgba(196,61,255,0.25)]"><span class="material-symbols-outlined text-primary text-3xl">forum</span></div>
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Consultation</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">A thorough discussion of your symptoms, history, and goals.</p>
+</div>
+<div class="journey-step relative flex flex-col items-center text-center" style="transition-delay:120ms;">
+<div class="w-[72px] h-[72px] rounded-full glass-card border-primary/30 flex items-center justify-center mb-5 relative z-10 shadow-[0_0_30px_rgba(196,61,255,0.25)]"><span class="material-symbols-outlined text-primary text-3xl">quick_reference_all</span></div>
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Diagnosis</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Advanced imaging and testing to pinpoint the exact condition.</p>
+</div>
+<div class="journey-step relative flex flex-col items-center text-center" style="transition-delay:240ms;">
+<div class="w-[72px] h-[72px] rounded-full glass-card border-primary/30 flex items-center justify-center mb-5 relative z-10 shadow-[0_0_30px_rgba(196,61,255,0.25)]"><span class="material-symbols-outlined text-primary text-3xl">medical_services</span></div>
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Treatment</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">A personalized surgical or non-surgical treatment plan.</p>
+</div>
+<div class="journey-step relative flex flex-col items-center text-center" style="transition-delay:360ms;">
+<div class="w-[72px] h-[72px] rounded-full glass-card border-primary/30 flex items-center justify-center mb-5 relative z-10 shadow-[0_0_30px_rgba(196,61,255,0.25)]"><span class="material-symbols-outlined text-primary text-3xl">favorite</span></div>
+<h3 class="font-headline-sm text-headline-sm text-white mb-2">Recovery</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Structured follow-up care to support a full, lasting recovery.</p>
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 6 — FREQUENTLY ASKED QUESTIONS -->
+<!-- ============================== -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+<div class="max-w-3xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-white text-center mb-14">Frequently Asked Questions</h2>
+<div class="space-y-4" id="faqList">
+<div class="faq-item glass-card rounded-2xl overflow-hidden">
+<button class="faq-trigger w-full flex justify-between items-center gap-4 p-6 text-left">
+<span class="font-body-lg text-body-lg font-bold text-white">How do I know if I need to see a neurosurgeon?</span>
+<span class="material-symbols-outlined text-primary faq-icon">add</span>
+</button>
+<div class="faq-panel">
+<p class="px-6 pb-6 font-body-md text-body-md text-on-surface-variant">If you're experiencing persistent headaches, chronic back or neck pain, numbness, or neurological symptoms that haven't improved with conservative treatment, a specialist consultation can help identify the underlying cause and the right next step.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl overflow-hidden">
+<button class="faq-trigger w-full flex justify-between items-center gap-4 p-6 text-left">
+<span class="font-body-lg text-body-lg font-bold text-white">Are minimally invasive procedures as effective as open surgery?</span>
+<span class="material-symbols-outlined text-primary faq-icon">add</span>
+</button>
+<div class="faq-panel">
+<p class="px-6 pb-6 font-body-md text-body-md text-on-surface-variant">In most eligible cases, yes. Minimally invasive and endoscopic techniques achieve comparable surgical outcomes to open surgery, with the added benefit of smaller incisions, less blood loss, and a faster return to daily activities.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl overflow-hidden">
+<button class="faq-trigger w-full flex justify-between items-center gap-4 p-6 text-left">
+<span class="font-body-lg text-body-lg font-bold text-white">What should I bring to my first consultation?</span>
+<span class="material-symbols-outlined text-primary faq-icon">add</span>
+</button>
+<div class="faq-panel">
+<p class="px-6 pb-6 font-body-md text-body-md text-on-surface-variant">Please bring any prior imaging (MRI/CT scans), a list of current medications, relevant medical records, and your insurance information so we can give you the most accurate assessment.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl overflow-hidden">
+<button class="faq-trigger w-full flex justify-between items-center gap-4 p-6 text-left">
+<span class="font-body-lg text-body-lg font-bold text-white">How long is the typical recovery period?</span>
+<span class="material-symbols-outlined text-primary faq-icon">add</span>
+</button>
+<div class="faq-panel">
+<p class="px-6 pb-6 font-body-md text-body-md text-on-surface-variant">Recovery time varies significantly by procedure — from a few days for minimally invasive treatments to several weeks for complex reconstructive surgery. Your surgeon will outline a specific recovery timeline during your consultation.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl overflow-hidden">
+<button class="faq-trigger w-full flex justify-between items-center gap-4 p-6 text-left">
+<span class="font-body-lg text-body-lg font-bold text-white">Do you offer remote or second-opinion consultations?</span>
+<span class="material-symbols-outlined text-primary faq-icon">add</span>
+</button>
+<div class="faq-panel">
+<p class="px-6 pb-6 font-body-md text-body-md text-on-surface-variant">Yes. We offer virtual second-opinion consultations for patients who have already been diagnosed elsewhere and would like an independent review of their imaging and treatment plan.</p>
+</div>
+</div>
+<div class="faq-item glass-card rounded-2xl overflow-hidden">
+<button class="faq-trigger w-full flex justify-between items-center gap-4 p-6 text-left">
+<span class="font-body-lg text-body-lg font-bold text-white">Is financing or insurance support available?</span>
+<span class="material-symbols-outlined text-primary faq-icon">add</span>
+</button>
+<div class="faq-panel">
+<p class="px-6 pb-6 font-body-md text-body-md text-on-surface-variant">Our patient coordination team works directly with most major insurance providers and can also discuss flexible payment options during your first visit.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 7 — FINAL CTA -->
+<!-- ============================== -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-20">
+<div class="relative glass-card rounded-[40px] overflow-hidden p-margin-mobile md:p-section-gap flex flex-col items-center gap-6 text-center border-primary/15 shadow-[0_0_80px_rgba(196,61,255,0.15)]">
+<h2 class="font-display-lg text-[42px] text-white leading-tight max-w-2xl">Ready to Take the First Step Toward Better Health?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Schedule a consultation with Dr. Ayman Tarek and get a clear, expert plan built around your diagnosis.</p>
+<div class="flex flex-wrap justify-center gap-4 pt-2">
+<button class="btn-gradient px-10 py-4 rounded-full font-label-md text-label-md text-white shadow-2xl">Book Appointment</button>
+<a class="btn-whatsapp inline-flex items-center gap-2 px-8 py-4 rounded-full font-label-md text-label-md text-white" href="#">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.79.47 3.47 1.29 4.94L2 22l5.29-1.39a9.87 9.87 0 004.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.38-.49.08-1.11.11-1.79-.11-.41-.13-.94-.3-1.62-.6-2.85-1.23-4.71-4.1-4.85-4.29-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09 1-2.37.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.14.07.14.11.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.21 1.37.28.14.44.12.61-.07.16-.19.7-.81.89-1.09.19-.28.38-.23.63-.14.26.09 1.65.78 1.93.92.28.14.47.21.54.33.07.12.07.68-.17 1.36z"></path></svg>
+                    Contact via WhatsApp
+            </a>
+</div>
+</div>
+</section>
+
+<!-- Footer (reused exactly from the rest of the website) -->
+<footer class="bg-surface-container-lowest w-full pt-section-gap pb-10 border-t border-outline-variant/30">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">neurology</span>
+<span class="font-headline-sm font-bold text-primary">Dr. Ayman Tarek</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Setting the global standard in neurological surgery and clinical diagnostics through precision, passion, and technological innovation.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-primary hover:shadow-[0_0_20px_rgba(196,61,255,0.5)] transition-all" href="#"><span class="material-symbols-outlined text-xl">face_nod</span></a>
+<a class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-primary hover:shadow-[0_0_20px_rgba(196,61,255,0.5)] transition-all" href="#"><span class="material-symbols-outlined text-xl">camera</span></a>
+<a class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-on-surface-variant hover:text-primary hover:shadow-[0_0_20px_rgba(196,61,255,0.5)] transition-all" href="#"><span class="material-symbols-outlined text-xl">group</span></a>
+</div>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-white uppercase tracking-widest mb-6">Expertise</h4>
+<ul class="space-y-3">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-transform hover:translate-x-1 block" href="#">Neurosurgery</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-transform hover:translate-x-1 block" href="#">Neurology</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-transform hover:translate-x-1 block" href="#">Spine Care</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-transform hover:translate-x-1 block" href="#">Neuro-Oncology</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-white uppercase tracking-widest mb-6">Patient Journey</h4>
+<ul class="space-y-3">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-transform hover:translate-x-1 block" href="#">First Visit Guide</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-transform hover:translate-x-1 block" href="#">Clinical Research</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-transform hover:translate-x-1 block" href="#">Recovery Resources</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-transform hover:translate-x-1 block" href="#">Insurance &amp; Billing</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-white uppercase tracking-widest mb-6">Newsletter</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Get the latest medical breakthroughs delivered to your inbox.</p>
+<div class="relative">
+<input class="w-full bg-surface-container rounded-full border border-outline-variant/30 focus:border-primary focus:shadow-[0_0_20px_rgba(196,61,255,0.25)] px-6 py-3 text-white placeholder-on-surface-variant/40 outline-none transition-shadow" placeholder="Your email address" type="email"/>
+<button class="absolute right-2 top-2 w-8 h-8 rounded-full btn-gradient flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-white">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-14 pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Dr. Ayman Tarek. Global Excellence in Neurosurgery.</p>
+<div class="flex gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+
+<!-- Service detail modal (single template, populated by JS from SERVICES data) -->
+<div id="serviceModal">
+<div id="modalOverlay"></div>
+<div class="relative glass-card rounded-[32px] max-w-2xl w-full max-h-[85vh] overflow-y-auto border-primary/20 shadow-[0_0_80px_rgba(196,61,255,0.25)]" id="modalPanel">
+<button aria-label="Close" class="absolute top-5 right-5 z-10 w-10 h-10 rounded-full glass-card flex items-center justify-center text-white hover:text-primary transition-colors" id="modalClose">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="w-full h-56 md:h-64 bg-cover bg-center" id="modalImage"></div>
+<div class="p-8 space-y-6">
+<h3 class="font-headline-lg text-headline-lg text-white" id="modalTitle"></h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant" id="modalDescription"></p>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-white mb-3">Key Benefits</h4>
+<ul class="space-y-2" id="modalBenefits"></ul>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-white mb-3">Treatment Process</h4>
+<ol class="space-y-2" id="modalProcess"></ol>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-card p-4 rounded-xl border-primary/10">
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Recovery</p>
+<p class="font-body-md text-body-md font-bold text-white" id="modalRecovery"></p>
+</div>
+<div class="glass-card p-4 rounded-xl border-primary/10">
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Duration</p>
+<p class="font-body-md text-body-md font-bold text-white" id="modalDuration"></p>
+</div>
+</div>
+<button class="btn-gradient w-full py-4 rounded-full font-label-md text-label-md text-white">Book Appointment</button>
+</div>
+</div>
+</div>
+
+<script>
+        /* ===== Service data (single source powering both the cards and the modal) ===== */
+        var SERVICES = {
+            "brain-tumor": {
+                title: "Brain Tumor Surgery",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCj_BLuiyILw1YhqAC3tRIDF2988vEFMbdp2CShPuVIiDUoHM1kMzpKG_4i0s5CUQUmeVMDWsJnumLQFXXrf0m-Mjl34wizujbVZdXvUYuolvYMi8YyTkj8UyYy6owS1CMhwr6GhKZvbQVx4zQYVu5JL4WeKrZ9IM5Qa-npZXsG-RmAevHAwlFxJCgUchdKulNiNaTwgXXFMihF3Ca3g_TTGj18eVkdNijbGyFBcA_Ydb9qTxI01BtA",
+                description: "Advanced micro-surgical resection of benign and malignant brain tumors, combining intraoperative imaging with neuronavigation to maximize tumor removal while protecting healthy tissue and critical brain function.",
+                benefits: ["Maximum tumor removal with minimal impact on healthy tissue", "Real-time intraoperative imaging for precision", "Multidisciplinary tumor board review for every case", "Reduced risk of neurological complications"],
+                process: ["Initial consultation and full neurological assessment", "Advanced MRI/CT imaging and 3D surgical planning", "Microsurgical tumor resection under neuronavigation", "Post-operative monitoring and pathology review"],
+                recovery: "2 – 6 weeks",
+                duration: "3 – 6 hours"
+            },
+            "spinal-fusion": {
+                title: "Spinal Fusion & Disc Replacement",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC42DEKTaJe4KxQbrNk7_4N3r0uR17-UWvsiLQT9WN28BJjyNIf9oMv97lm1Q8CGg8qn6Up0qmxsaW4aC2ssTp6J-he9nwGHBfzPwnpUe76ZruS-_QHzTZPRVLGzDOgRIPW8_HAbZlOQuWwmDQTLgUMu-aKclM0mZFCe-rJ-OelKL5pLACXDbF6hkocNBqDF7npayc5mKjEOOMjgdOjrHIO0mnQXNstc-VUj9lgw_gxArPZFJUD8htb",
+                description: "Minimally invasive stabilization or artificial disc replacement for degenerative disc disease, herniated discs, and spinal instability, restoring mobility while relieving chronic pain.",
+                benefits: ["Smaller incisions and less muscle disruption", "Preserved spinal mobility with disc replacement options", "Significant, lasting pain relief", "Shorter hospital stay than traditional open surgery"],
+                process: ["Consultation with spinal imaging review", "Non-surgical treatment trial where appropriate", "Minimally invasive fusion or disc replacement procedure", "Guided physical therapy and follow-up"],
+                recovery: "4 – 8 weeks",
+                duration: "2 – 4 hours"
+            },
+            "neuro-endoscopy": {
+                title: "Minimally Invasive Neuro-Endoscopy",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDGP6klrdOkaqLvlrfoMX7AfD2Ic6H8jgwmKRZypU2FjhK07NPZMQ2pij14DYs6TqVdsQ22uvX0yGm-3_Mz9rDK-ZvQOTzYvMUCqWdenca9F4lD5Ocq8LJiVMMuxbuzeH-nT1oHMiyczcIdSqFeExP1eGrfiAs7NB-VsTV1HlmTpETg9JIRyWRIiFQg5F79aCEvZkhTKDZBF-NMypOxuu7ASYLJexGp_rWY6OSjF8d8G_LLu6Ze9dc1",
+                description: "Keyhole endoscopic access for pituitary tumors, hydrocephalus, and select cranial conditions — treating deep-seated pathology through natural corridors with minimal tissue disruption.",
+                benefits: ["No visible scarring in most cases", "Significantly reduced surgical trauma", "Shorter operating time for eligible cases", "Faster return to daily activities"],
+                process: ["Detailed imaging to confirm endoscopic eligibility", "Pre-operative planning with the surgical team", "Endoscopic procedure through a natural or minimal-access corridor", "Same-day or next-day mobilization"],
+                recovery: "1 – 3 weeks",
+                duration: "1.5 – 3 hours"
+            },
+            "epilepsy": {
+                title: "Epilepsy & Movement Disorder Surgery",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk",
+                description: "Precision diagnostic mapping and surgical treatment for drug-resistant epilepsy and movement disorders such as Parkinson's disease, including resective surgery and deep brain stimulation.",
+                benefits: ["Seizure freedom or major reduction in seizure frequency", "Reduced dependence on high-dose medication", "Improved motor control for movement disorders", "Comprehensive pre-surgical seizure mapping"],
+                process: ["Video-EEG monitoring and seizure mapping", "Multidisciplinary epilepsy team review", "Resective surgery or device implantation", "Long-term neurological follow-up"],
+                recovery: "2 – 4 weeks",
+                duration: "3 – 5 hours"
+            },
+            "pediatric": {
+                title: "Pediatric Neurosurgery",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDT02aCXBfYCWE8rbwfhuNv_I8eAL7C0AlQUQu0RKPoG3OhOWu6zfPyjGgq6Qkpe2JmNyY7TwRfJL6EBx4DbAF4W2hmpO-4Ry2B7rM4AjafcZGL2IeszWF0bwHj5d_PD_XKC75OpP0uK1lA7CfiRyYNqh3dbKtKci2TnVpbQke6eRod8-2rocqS6KQ8U-UHLgPOjFc8QUlrxDDOZSwI70YJB9TE252FVlkjWd77tdI5MWTU1lFV_yb9",
+                description: "Specialized surgical care for congenital and acquired neurological conditions in infants and children, delivered in a facility built for pediatric comfort and safety.",
+                benefits: ["Child-specific surgical protocols and equipment", "Family-centered communication throughout care", "Coordinated care with pediatric specialists", "Long-term developmental follow-up"],
+                process: ["Pediatric neurological assessment", "Age-appropriate imaging and planning", "Surgery with dedicated pediatric anesthesia support", "Developmental follow-up program"],
+                recovery: "Varies by procedure",
+                duration: "Varies by procedure"
+            },
+            "peripheral-nerve": {
+                title: "Peripheral Nerve Surgery",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBTn3cyqUNe0ocnTjAZNiU5K9DqBl7NhprA_LEZLFZdsfYHOSUvWgG4z5ly_9fRYrWBfOch68eVi6fVDiJRcEZ9QKfi5Hj6oqaqOVKEMusztlkmYqVhxRwvogyhNcuiel8bNSOj3TtidYMdw9NdHd_55yE7p3rVGC-iaOvAyZV5tB3ohCj8Zkhed11RQnRdpdNgf5A1NfHSeO6erTwhaMrdCajgAonxI05DC1TiGTJj3Yd5T0EZsOmC",
+                description: "Microsurgical repair, decompression, and reconstruction of injured or compressed peripheral nerves, restoring sensation and motor function affected by trauma or entrapment.",
+                benefits: ["Restored sensation and motor function", "Relief from chronic nerve-related pain", "Microsurgical precision under high magnification", "Individualized rehabilitation planning"],
+                process: ["Nerve conduction studies and clinical evaluation", "Surgical planning based on injury type", "Microsurgical repair or decompression", "Structured rehabilitation and nerve recovery monitoring"],
+                recovery: "6 – 12 weeks",
+                duration: "1.5 – 4 hours"
+            },
+            "stroke": {
+                title: "Stroke & Cerebrovascular Surgery",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCj_BLuiyILw1YhqAC3tRIDF2988vEFMbdp2CShPuVIiDUoHM1kMzpKG_4i0s5CUQUmeVMDWsJnumLQFXXrf0m-Mjl34wizujbVZdXvUYuolvYMi8YyTkj8UyYy6owS1CMhwr6GhKZvbQVx4zQYVu5JL4WeKrZ9IM5Qa-npZXsG-RmAevHAwlFxJCgUchdKulNiNaTwgXXFMihF3Ca3g_TTGj18eVkdNijbGyFBcA_Ydb9qTxI01BtA",
+                description: "Emergency and elective surgical treatment of aneurysms, arteriovenous malformations (AVMs), and other cerebrovascular disease, backed by a rapid-response stroke care protocol.",
+                benefits: ["Rapid-response emergency stroke protocol", "Advanced vascular imaging for precise planning", "Both microsurgical and endovascular treatment options", "Coordinated stroke rehabilitation support"],
+                process: ["Emergency or elective vascular imaging (CTA/MRA)", "Vascular team treatment planning", "Microsurgical or endovascular intervention", "Post-treatment neurological monitoring and rehabilitation"],
+                recovery: "Varies by case severity",
+                duration: "2 – 6 hours"
+            },
+            "robotic-spine": {
+                title: "Robotic-Assisted Spine Surgery",
+                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC42DEKTaJe4KxQbrNk7_4N3r0uR17-UWvsiLQT9WN28BJjyNIf9oMv97lm1Q8CGg8qn6Up0qmxsaW4aC2ssTp6J-he9nwGHBfzPwnpUe76ZruS-_QHzTZPRVLGzDOgRIPW8_HAbZlOQuWwmDQTLgUMu-aKclM0mZFCe-rJ-OelKL5pLACXDbF6hkocNBqDF7npayc5mKjEOOMjgdOjrHIO0mnQXNstc-VUj9lgw_gxArPZFJUD8htb",
+                description: "Sub-millimeter surgical accuracy powered by robotic navigation and real-time 3D imaging, improving implant placement accuracy for complex spinal reconstructions.",
+                benefits: ["Sub-millimeter implant placement accuracy", "Reduced radiation exposure with advanced imaging", "Smaller incisions than conventional instrumentation", "Lower risk of instrumentation-related complications"],
+                process: ["3D spinal imaging and robotic surgical planning", "Patient-specific instrumentation mapping", "Robotic-guided instrumentation and fusion", "Early mobilization and guided rehabilitation"],
+                recovery: "4 – 8 weeks",
+                duration: "3 – 5 hours"
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            /* ---- Reused scroll-reveal utility (same pattern as the rest of the site) ---- */
+            var revealObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove("opacity-0", "translate-y-10");
+                        entry.target.classList.add("opacity-100", "translate-y-0");
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll("section > div").forEach(function (el) {
+                el.classList.add("transition-all", "duration-700", "ease-out");
+            });
+
+            /* ---- Patient journey step reveal ---- */
+            var journeyObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("is-visible");
+                        journeyObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            document.querySelectorAll(".journey-step").forEach(function (el) {
+                journeyObserver.observe(el);
+            });
+
+            /* ---- Service detail modal ---- */
+            var modal = document.getElementById("serviceModal");
+            var modalImage = document.getElementById("modalImage");
+            var modalTitle = document.getElementById("modalTitle");
+            var modalDescription = document.getElementById("modalDescription");
+            var modalBenefits = document.getElementById("modalBenefits");
+            var modalProcess = document.getElementById("modalProcess");
+            var modalRecovery = document.getElementById("modalRecovery");
+            var modalDuration = document.getElementById("modalDuration");
+
+            function openModal(id) {
+                var data = SERVICES[id];
+                if (!data) return;
+                modalImage.style.backgroundImage = "url('" + data.image + "')";
+                modalTitle.textContent = data.title;
+                modalDescription.textContent = data.description;
+
+                modalBenefits.innerHTML = "";
+                data.benefits.forEach(function (item) {
+                    var li = document.createElement("li");
+                    li.className = "flex items-start gap-3";
+                    li.innerHTML = '<span class="material-symbols-outlined text-primary text-lg fill-icon shrink-0 mt-0.5">check_circle</span><span class="font-body-md text-body-md text-on-surface-variant">' + item + "</span>";
+                    modalBenefits.appendChild(li);
+                });
+
+                modalProcess.innerHTML = "";
+                data.process.forEach(function (item, index) {
+                    var li = document.createElement("li");
+                    li.className = "flex items-start gap-3";
+                    li.innerHTML = '<span class="w-6 h-6 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">' + (index + 1) + '</span><span class="font-body-md text-body-md text-on-surface-variant">' + item + "</span>";
+                    modalProcess.appendChild(li);
+                });
+
+                modalRecovery.textContent = data.recovery;
+                modalDuration.textContent = data.duration;
+
+                modal.classList.add("is-open");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeModal() {
+                modal.classList.remove("is-open");
+                document.body.style.overflow = "";
+            }
+
+            document.querySelectorAll(".service-card").forEach(function (card) {
+                card.addEventListener("click", function () {
+                    openModal(card.getAttribute("data-service-id"));
+                });
+            });
+
+            document.getElementById("modalClose").addEventListener("click", closeModal);
+            document.getElementById("modalOverlay").addEventListener("click", closeModal);
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+            });
+
+            /* ---- FAQ accordion (single-open) ---- */
+            var faqItems = document.querySelectorAll(".faq-item");
+            faqItems.forEach(function (item) {
+                var trigger = item.querySelector(".faq-trigger");
+                var panel = item.querySelector(".faq-panel");
+                trigger.addEventListener("click", function () {
+                    var isOpen = item.classList.contains("is-open");
+
+                    faqItems.forEach(function (other) {
+                        other.classList.remove("is-open");
+                        other.querySelector(".faq-panel").style.maxHeight = "0px";
+                    });
+
+                    if (!isOpen) {
+                        item.classList.add("is-open");
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>
