@@ -1,12 +1,15 @@
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { IconBadge } from "@/components/ui/IconBadge";
+import { ImageBadge } from "@/components/ui/ImageBadge";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 
 export interface Feature {
   icon: string;
   title: string;
   desc: string;
+  /** When present, renders in the exact same badge footprint as the icon (via ImageBadge) instead of the icon glyph. */
+  image?: string;
 }
 
 interface FeatureGridProps {
@@ -32,13 +35,21 @@ export function FeatureGrid({ eyebrow, title, subtitle, features, layout = "icon
           <StaggerChild key={feature.title}>
             {layout === "icon-top" ? (
               <GlassCard radius="2xl" className="flex h-full flex-col items-center p-7 text-center">
-                <IconBadge icon={feature.icon} className="mb-5 h-16 w-16 rounded-2xl" iconClassName="text-3xl" />
+                {feature.image ? (
+                  <ImageBadge src={feature.image} alt={feature.title} className="mb-5 h-16 w-16 rounded-2xl" />
+                ) : (
+                  <IconBadge icon={feature.icon} className="mb-5 h-16 w-16 rounded-2xl" iconClassName="text-3xl" />
+                )}
                 <h3 className="mb-2 text-body-lg font-bold text-white">{feature.title}</h3>
                 <p className="text-small text-on-surface-variant">{feature.desc}</p>
               </GlassCard>
             ) : (
               <GlassCard radius="xl" className="flex h-full items-start gap-4 p-7">
-                <IconBadge icon={feature.icon} className="h-12 w-12 rounded-full" iconClassName="text-2xl" />
+                {feature.image ? (
+                  <ImageBadge src={feature.image} alt={feature.title} className="h-12 w-12 rounded-full" />
+                ) : (
+                  <IconBadge icon={feature.icon} className="h-12 w-12 rounded-full" iconClassName="text-2xl" />
+                )}
                 <div>
                   <h3 className="mb-1 text-body-lg font-bold text-white">{feature.title}</h3>
                   <p className="text-small text-on-surface-variant">{feature.desc}</p>
