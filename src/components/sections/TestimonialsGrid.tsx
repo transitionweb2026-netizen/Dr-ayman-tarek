@@ -23,7 +23,7 @@ function Stars() {
 /** Flat grid of testimonial mini-cards — used where a large volume of reviews needs a compact layout. */
 export function TestimonialsGrid({ title, testimonials }: { title: string; testimonials: Testimonial[] }) {
   return (
-    <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
+    <section className="mx-auto max-w-container-max px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop">
       <SectionHeading title={title} />
       <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6" gap={0.05}>
         {testimonials.map((t) => (
