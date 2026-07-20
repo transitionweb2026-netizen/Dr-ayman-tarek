@@ -6,6 +6,7 @@ import { StatsStrip } from "@/components/sections/StatsStrip";
 import { TestimonialsGrid } from "@/components/sections/TestimonialsGrid";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = { title: "Cosmetic Surgery" };
@@ -126,10 +127,8 @@ export default function DrAymanTarekPage() {
           className="grid grid-cols-1 items-center gap-10 overflow-hidden border-primary/15 p-margin-mobile text-center shadow-glow-lg md:grid-cols-[1fr_1.4fr_1fr] md:p-section-gap"
         >
           <Reveal scale className="flex items-center justify-center">
-            <div className="mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full glass border-primary/30 shadow-glow-lg">
-              <span className="material-symbols-outlined animate-pulse text-[100px] text-primary drop-shadow-[0_0_35px_rgba(196,61,255,0.8)]">
-                face_retouching_natural
-              </span>
+            <div className="icon-badge-neon mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full">
+              <NeonIcon name="face_retouching_natural" className="animate-pulse text-[100px]" />
             </div>
           </Reveal>
 
@@ -167,21 +166,21 @@ export default function DrAymanTarekPage() {
 
           <Reveal delay={0.1} direction="right" className="space-y-4 text-center md:text-left">
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <span className="material-symbols-outlined shrink-0 text-2xl text-primary">location_on</span>
+              <NeonIcon name="location_on" className="shrink-0 text-2xl" />
               <div>
                 <p className="text-body font-bold text-white">123 Victory Street, Nasr City, Cairo</p>
                 <p className="text-small text-on-surface-variant">Clinic Address</p>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <span className="material-symbols-outlined shrink-0 text-2xl text-primary">schedule</span>
+              <NeonIcon name="schedule" className="shrink-0 text-2xl" />
               <div>
                 <p className="text-body font-bold text-white">Sat - Thu: 10 AM - 8 PM</p>
                 <p className="text-small text-on-surface-variant">Working Hours</p>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 md:justify-start">
-              <span className="material-symbols-outlined shrink-0 text-2xl text-primary">call</span>
+              <NeonIcon name="call" className="shrink-0 text-2xl" />
               <div>
                 <p className="text-body font-bold text-white">+20 100 000 0000</p>
                 <p className="text-small text-on-surface-variant">Booking &amp; Inquiries</p>

@@ -6,6 +6,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { SERVICES, type Service } from "@/data/services";
 
@@ -25,8 +26,11 @@ function ServiceCard({ service, onSelect }: { service: Service; onSelect: () => 
         <div className="flex flex-1 flex-col p-6">
           <h3 className="mb-2 text-card-title text-white">{service.title}</h3>
           <p className="mb-4 flex-1 text-body text-on-surface-variant">{service.shortDescription}</p>
-          <span className="flex h-10 w-10 items-center justify-center self-start rounded-full border border-primary/30 bg-primary/15 transition-all duration-300 group-hover:translate-x-1 group-hover:bg-primary">
-            <span className="material-symbols-outlined text-xl text-primary group-hover:text-background">
+          {/* Keeps its own invert-on-hover (icon flips to dark once the badge
+              hover-fills solid) so color is inherited, not forced by NeonIcon —
+              same reasoning as the specialties hex badges. */}
+          <span className="flex h-10 w-10 items-center justify-center self-start rounded-full border border-neon-border bg-neon-container text-neon shadow-neon-rest transition-all duration-300 ease-premium group-hover:translate-x-1 group-hover:scale-[1.08] group-hover:bg-neon group-hover:text-background group-hover:shadow-neon-hover">
+            <span className="material-symbols-outlined text-xl [filter:drop-shadow(0_0_4px_rgba(192,38,255,.55))] group-hover:![filter:none]">
               arrow_outward
             </span>
           </span>
@@ -70,9 +74,7 @@ export function ServicesGrid() {
                 <ul className="space-y-2">
                   {active.benefits.map((benefit) => (
                     <li key={benefit} className="flex items-start gap-3">
-                      <span className="material-symbols-outlined fill-icon mt-0.5 shrink-0 text-lg text-primary">
-                        check_circle
-                      </span>
+                      <NeonIcon name="check_circle" filled className="mt-0.5 shrink-0 text-lg" />
                       <span className="text-body text-on-surface-variant">{benefit}</span>
                     </li>
                   ))}

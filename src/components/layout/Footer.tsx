@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 
 const expertiseLinks = ["Neurosurgery", "Neurology", "Spine Care", "Neuro-Oncology"];
 const journeyLinks = [
@@ -16,7 +17,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile md:grid-cols-4 md:px-margin-desktop">
         <Reveal className="space-y-6">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-2xl text-primary">neurology</span>
+            <NeonIcon name="neurology" className="text-2xl" />
             <span className="text-card-title font-bold text-primary">Dr. Ayman Tarek</span>
           </div>
           <p className="text-body text-on-surface-variant">
@@ -25,12 +26,8 @@ export function Footer() {
           </p>
           <div className="flex gap-4">
             {["face_nod", "camera", "group"].map((icon) => (
-              <a
-                key={icon}
-                href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full glass text-on-surface-variant transition-all hover:text-primary hover:shadow-glow"
-              >
-                <span className="material-symbols-outlined text-xl">{icon}</span>
+              <a key={icon} href="#" className="icon-badge-neon flex h-10 w-10 items-center justify-center rounded-full">
+                <NeonIcon name={icon} className="text-xl" />
               </a>
             ))}
           </div>

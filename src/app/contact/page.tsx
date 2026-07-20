@@ -4,6 +4,8 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { IconBadge } from "@/components/ui/IconBadge";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 
@@ -40,9 +42,7 @@ export default function ContactPage() {
             <Stagger className="grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-4" gap={0.08}>
               {QUICK_INFO.map((item) => (
                 <StaggerChild key={item.label} className="flex flex-col items-center gap-3">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl glass border-primary/20">
-                    <span className="material-symbols-outlined text-2xl text-primary">{item.icon}</span>
-                  </span>
+                  <IconBadge icon={item.icon} className="h-14 w-14 rounded-2xl" />
                   <p className="text-body-lg font-bold text-white">{item.value}</p>
                   <p className="text-small text-on-surface-variant">{item.label}</p>
                 </StaggerChild>
@@ -63,9 +63,7 @@ export default function ContactPage() {
               <div className="line-grid relative flex aspect-[4/3] items-center justify-center bg-surface-container">
                 <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-background/30" />
                 <div className="relative flex flex-col items-center">
-                  <span className="material-symbols-outlined fill-icon animate-pulse-node text-5xl text-primary drop-shadow-[0_0_20px_rgba(196,61,255,0.8)]">
-                    location_on
-                  </span>
+                  <NeonIcon name="location_on" filled className="animate-pulse-node text-5xl" />
                   <span className="glass mt-2 rounded-full px-4 py-1.5 text-small text-white">
                     42 Excellence Avenue, Cairo, Egypt
                   </span>
@@ -74,7 +72,7 @@ export default function ContactPage() {
               <div className="flex items-center justify-between gap-3 p-5">
                 <p className="text-small text-on-surface-variant">Map preview — interactive map loads on the live site.</p>
                 <a href="#" className="flex shrink-0 items-center gap-1 text-small text-primary">
-                  <span className="material-symbols-outlined text-lg">open_in_new</span>Directions
+                  <NeonIcon name="open_in_new" className="text-lg" />Directions
                 </a>
               </div>
             </GlassCard>
@@ -102,6 +100,10 @@ export default function ContactPage() {
 
           <Reveal delay={0.18}>
             <GlassCard radius="2xl" interactive={false} className="border-error/30 p-7 shadow-[0_0_40px_rgba(255,180,171,0.1)]">
+              {/* Intentionally excluded from the neon system: this badge is red/error
+                  to signal urgency, matching the card's own error-colored border.
+                  Recoloring it neon purple would undercut that "this is urgent"
+                  semantic, so it keeps its own color instead. */}
               <div className="flex items-start gap-4">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-error/40 bg-error/10">
                   <span className="material-symbols-outlined fill-icon text-2xl text-error">emergency</span>

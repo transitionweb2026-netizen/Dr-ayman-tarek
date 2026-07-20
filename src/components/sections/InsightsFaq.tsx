@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Accordion } from "@/components/ui/Accordion";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 
 const ARTICLES = [
@@ -51,7 +52,7 @@ function ArticleCard({ article }: { article: (typeof ARTICLES)[number] }) {
         <p className="line-clamp-2 text-body text-on-surface-variant">{article.excerpt}</p>
       </div>
       <a className="mt-auto flex items-center gap-2 pt-4 text-small text-primary" href="#">
-        Read Story <span className="material-symbols-outlined text-sm">open_in_new</span>
+        Read Story <NeonIcon name="open_in_new" className="text-sm" />
       </a>
     </GlassCard>
   );

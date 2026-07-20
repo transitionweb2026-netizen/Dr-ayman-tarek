@@ -24,7 +24,10 @@ export function VideoSeriesPreview() {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/40 transition-colors group-hover:bg-black/20">
-                    <span className="material-symbols-outlined text-6xl text-white opacity-80 drop-shadow-[0_0_25px_rgba(196,61,255,0.7)] transition-all group-hover:scale-110 group-hover:opacity-100">
+                    {/* Kept white (not full NeonIcon purple) so the glyph stays legible
+                        over a video thumbnail — the purple neon glow halo around it is
+                        what carries the "neon" treatment here. */}
+                    <span className="material-symbols-outlined text-6xl text-white opacity-80 [filter:drop-shadow(0_0_12px_rgba(192,38,255,.6))_drop-shadow(0_0_24px_rgba(192,38,255,.45))] transition-all duration-300 ease-in-out group-hover:scale-[1.08] group-hover:opacity-100 group-hover:[filter:drop-shadow(0_0_12px_rgba(192,38,255,.6))_drop-shadow(0_0_24px_rgba(192,38,255,.45))_drop-shadow(0_0_40px_rgba(192,38,255,.3))]">
                       play_circle
                     </span>
                   </div>

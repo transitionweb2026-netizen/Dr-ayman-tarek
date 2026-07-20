@@ -55,6 +55,13 @@ const config: Config = {
         "on-secondary": "#3a0060",
         "on-primary-fixed-variant": "#7a1fb8",
         "surface-container-high": "#1d1130",
+        // ---- Neon icon system ----
+        neon: {
+          DEFAULT: "#C026FF",
+          glow: "rgba(192,38,255,.55)",
+          "glow-soft": "rgba(168,85,247,.35)",
+          border: "rgba(192,38,255,.35)",
+        },
       },
       borderRadius: {
         DEFAULT: "0.25rem",
@@ -113,12 +120,16 @@ const config: Config = {
         "glow-lg": "0 0 70px rgba(196, 61, 255, 0.3)",
         premium: "0 20px 40px rgba(0, 0, 0, 0.35)",
         card: "inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 40px rgba(0,0,0,0.35)",
+        // ---- Neon icon system ----
+        "neon-rest": "0 0 25px rgba(192,38,255,.18)",
+        "neon-hover": "0 0 12px rgba(192,38,255,.6), 0 0 24px rgba(192,38,255,.45), 0 0 40px rgba(192,38,255,.3)",
       },
       backgroundImage: {
         "gradient-brand": "linear-gradient(135deg, #ff4fa3 0%, #c43dff 55%, #7a1fb8 100%)",
         "gradient-text": "linear-gradient(90deg, #ff4fa3 0%, #c43dff 60%, #9d4dff 100%)",
         "gradient-mesh":
           "radial-gradient(ellipse 900px 600px at 15% 0%, rgba(196,61,255,0.16), transparent 60%), radial-gradient(ellipse 700px 500px at 100% 20%, rgba(255,79,163,0.10), transparent 55%)",
+        "neon-container": "linear-gradient(180deg, rgba(192,38,255,.08), rgba(192,38,255,.03))",
       },
       transitionTimingFunction: {
         premium: "cubic-bezier(0.16, 1, 0.3, 1)",

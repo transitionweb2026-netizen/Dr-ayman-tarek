@@ -102,6 +102,57 @@ body {
       linear-gradient(90deg, rgba(196, 61, 255, 0.12) 1px, transparent 1px);
     background-size: 28px 28px;
   }
+
+  /* =========================================================
+     Neon icon system — the single source of truth for every
+     Material Symbols icon across the site (see components/ui/
+     NeonIcon.tsx and IconBadge.tsx, which apply these classes).
+     ========================================================= */
+
+  /* Bare glowing glyph: bright purple + soft outer bloom + inner glow.
+     Uses drop-shadow (not text-shadow) because Material Symbols glyphs
+     alias like SVGs, so drop-shadow traces the glyph shape without ever
+     fringing/blurring the icon itself — only the shadow blurs. */
+  .icon-neon {
+    color: #c026ff;
+    transform: translateZ(0) scale(1);
+    filter: drop-shadow(0 0 4px rgba(192, 38, 255, 0.55)) drop-shadow(0 0 10px rgba(168, 85, 247, 0.35));
+    transition:
+      filter 300ms ease,
+      transform 300ms ease;
+    will-change: transform, filter;
+  }
+  .icon-neon-trigger:hover .icon-neon,
+  .icon-neon:hover {
+    transform: translateZ(0) scale(1.08);
+    filter: drop-shadow(0 0 12px rgba(192, 38, 255, 0.6)) drop-shadow(0 0 24px rgba(192, 38, 255, 0.45))
+      drop-shadow(0 0 40px rgba(192, 38, 255, 0.3));
+  }
+
+  /* Glassmorphic neon container that wraps an .icon-neon glyph.
+     Radius/size are intentionally left to the consumer (circle, square,
+     hex — whatever the existing layout already used) so this never
+     changes any component's dimensions, only its surface treatment. */
+  .icon-badge-neon {
+    background-image: linear-gradient(180deg, rgba(192, 38, 255, 0.08), rgba(192, 38, 255, 0.03));
+    border: 1px solid rgba(192, 38, 255, 0.25);
+    box-shadow: 0 0 25px rgba(192, 38, 255, 0.18);
+    backdrop-filter: blur(12px);
+    transition:
+      transform 300ms ease,
+      box-shadow 300ms ease,
+      border-color 300ms ease;
+    will-change: transform, box-shadow;
+  }
+  .icon-badge-neon-trigger:hover .icon-badge-neon,
+  .icon-badge-neon:hover {
+    transform: translateY(-2px) translateZ(0);
+    border-color: rgba(192, 38, 255, 0.5);
+    box-shadow:
+      0 0 12px rgba(192, 38, 255, 0.6),
+      0 0 24px rgba(192, 38, 255, 0.45),
+      0 0 40px rgba(192, 38, 255, 0.3);
+  }
 }
 
 @layer utilities {

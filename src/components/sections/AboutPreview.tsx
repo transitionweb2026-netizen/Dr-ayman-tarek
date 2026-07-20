@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import type { ReactNode } from "react";
 
 const DEFAULT_VIDEO_THUMB =
@@ -36,11 +37,11 @@ export function AboutPreview({
             whileTap={{ scale: 0.95 }}
             className="relative z-10 flex h-24 w-24 items-center justify-center rounded-full border border-primary/50 bg-primary/20 backdrop-blur-md shadow-glow-lg"
           >
-            <span className="material-symbols-outlined fill-icon text-5xl text-primary">play_arrow</span>
+            <NeonIcon name="play_arrow" filled className="text-5xl" />
           </motion.button>
           <div className="absolute bottom-6 left-6 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full glass">
-              <span className="material-symbols-outlined text-sm text-white">visibility</span>
+            <div className="icon-badge-neon flex h-10 w-10 items-center justify-center rounded-full">
+              <NeonIcon name="visibility" className="text-sm" />
             </div>
             <span className="text-small text-white">{videoCaption}</span>
           </div>

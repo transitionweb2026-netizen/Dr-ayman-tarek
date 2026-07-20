@@ -1,5 +1,6 @@
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Counter } from "@/components/ui/Counter";
+import { IconBadge } from "@/components/ui/IconBadge";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 
 export interface Stat {
@@ -25,11 +26,7 @@ export function StatsStrip({ stats = DEFAULT_STATS, overlap = false }: { stats?:
           <Stagger className="grid grid-cols-2 gap-6 text-center md:grid-cols-4" gap={0.08}>
             {stats.map((stat) => (
               <StaggerChild key={stat.label} className="flex flex-col items-center gap-3">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl glass border-primary/20">
-                  <span className="material-symbols-outlined text-3xl text-primary drop-shadow-[0_0_10px_rgba(196,61,255,0.6)]">
-                    {stat.icon}
-                  </span>
-                </span>
+                <IconBadge icon={stat.icon} className="h-14 w-14 rounded-2xl" iconClassName="text-3xl" />
                 <p className="text-[36px] font-bold leading-none text-white">
                   <Counter target={stat.value} suffix={stat.suffix} />
                 </p>

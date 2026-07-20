@@ -17,6 +17,7 @@ const WHY_CHOOSE = [
   { icon: "domain", title: "Modern Facilities", desc: "State-of-the-art operating suites and diagnostic centers." },
   { icon: "bolt", title: "Fast Recovery", desc: "Minimally invasive techniques that shorten downtime." },
   { icon: "volunteer_activism", title: "Patient-Centered Care", desc: "Transparent communication at every step of the journey." },
+  { icon: "shield", title: "Safety First", desc: "Rigorous safety protocols, continuous monitoring, and uncompromising patient protection throughout every stage of treatment." },
 ];
 
 const FAQ_ITEMS = [

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { GlowOrb } from "@/components/decor/GlowOrb";
 import { Button } from "@/components/ui/Button";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import type { ReactNode } from "react";
 
 interface PageHeroProps {
@@ -76,7 +77,7 @@ export function PageHero({
             {subtitle}
           </p>
           {ctaLabel && (
-            <Button icon={<span className="material-symbols-outlined text-xl">{ctaIcon}</span>}>{ctaLabel}</Button>
+            <Button icon={<NeonIcon name={ctaIcon} neon={false} className="text-xl text-white" />}>{ctaLabel}</Button>
           )}
           {children}
         </motion.div>

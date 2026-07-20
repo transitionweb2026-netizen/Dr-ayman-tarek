@@ -7,6 +7,8 @@ import { Timeline } from "@/components/sections/Timeline";
 import { StatsStrip } from "@/components/sections/StatsStrip";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { IconBadge } from "@/components/ui/IconBadge";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 
@@ -75,9 +77,7 @@ export default function AboutPage() {
           {MISSION_CARDS.map((card) => (
             <StaggerChild key={card.title}>
               <GlassCard radius="2xl" className="h-full p-8">
-                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10">
-                  <span className="material-symbols-outlined text-3xl text-primary">{card.icon}</span>
-                </div>
+                <IconBadge icon={card.icon} className="mb-6 h-16 w-16 rounded-2xl" iconClassName="text-3xl" />
                 <h3 className="mb-3 text-card-title text-white">{card.title}</h3>
                 <p className="text-body text-on-surface-variant">{card.desc}</p>
               </GlassCard>
@@ -126,7 +126,7 @@ export default function AboutPage() {
               "On-site advanced imaging and diagnostics center",
             ].map((item) => (
               <StaggerChild key={item} className="flex items-center gap-3">
-                <span className="material-symbols-outlined fill-icon text-xl text-primary">check_circle</span>
+                <NeonIcon name="check_circle" filled className="text-xl" />
                 <span className="text-body text-on-surface">{item}</span>
               </StaggerChild>
             ))}

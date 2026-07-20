@@ -6,6 +6,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { VIDEOS, type Video } from "@/data/videos";
 
@@ -22,8 +23,11 @@ function VideoCard({ video, onSelect }: { video: Video; onSelect: () => void }) 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-full border border-primary/50 bg-primary/20 backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/35 group-hover:shadow-glow-lg">
-              <span className="material-symbols-outlined fill-icon text-3xl text-white">play_arrow</span>
+            {/* .icon-badge-neon already animates on :hover, and hovering the parent
+                button inherently hovers this nested span too — no separate
+                group-hover needed (would just fight the same transform property). */}
+            <span className="icon-badge-neon flex h-16 w-16 items-center justify-center rounded-full">
+              <NeonIcon name="play_arrow" filled neon={false} className="text-3xl text-white" />
             </span>
           </div>
           <span className="glass absolute left-4 top-4 rounded-full border-primary/20 px-3 py-1 text-small text-primary">
@@ -89,8 +93,8 @@ export function VideoLibrary() {
             <div className="relative flex aspect-video items-center justify-center bg-cover bg-center">
               <Image src={active.thumbnail} alt={active.title} fill className="object-cover" />
               <div className="absolute inset-0 bg-background/50" />
-              <button className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border border-primary/50 bg-primary/20 backdrop-blur-md transition-transform hover:scale-110 hover:shadow-glow-lg">
-                <span className="material-symbols-outlined fill-icon text-4xl text-white">play_arrow</span>
+              <button className="icon-badge-neon relative z-10 flex h-20 w-20 items-center justify-center rounded-full">
+                <NeonIcon name="play_arrow" filled neon={false} className="text-4xl text-white" />
               </button>
             </div>
             <div className="space-y-5 p-8">
@@ -109,7 +113,7 @@ export function VideoLibrary() {
                 <Button
                   variant="ghost"
                   onClick={handleShare}
-                  icon={<span className="material-symbols-outlined text-xl text-primary">share</span>}
+                  icon={<NeonIcon name="share" className="text-xl" />}
                 >
                   Share
                 </Button>

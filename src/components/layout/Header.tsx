@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { NAV_ITEMS, SITE_BRAND } from "@/data/nav";
 import { Button } from "@/components/ui/Button";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 
 /**
  * Shared header/nav, rendered once from the root layout.
@@ -40,9 +41,7 @@ export function Header() {
     >
       <nav className="mx-auto flex h-20 w-full max-w-container-max items-center justify-between px-margin-mobile md:px-margin-desktop">
         <Link href="/" className="flex items-center gap-3" aria-label="Back to homepage">
-          <span className="material-symbols-outlined text-3xl text-primary drop-shadow-[0_0_10px_rgba(196,61,255,0.6)]">
-            {SITE_BRAND.icon}
-          </span>
+          <NeonIcon name={SITE_BRAND.icon} className="text-3xl" />
           <span className="text-card-title font-bold text-primary">{SITE_BRAND.name}</span>
         </Link>
 
@@ -76,12 +75,12 @@ export function Header() {
         </div>
 
         <button
-          className="text-primary md:hidden"
+          className="icon-neon-trigger md:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
         >
-          <span className="material-symbols-outlined text-3xl">{mobileOpen ? "close" : "menu"}</span>
+          <NeonIcon name={mobileOpen ? "close" : "menu"} className="text-3xl" />
         </button>
       </nav>
 

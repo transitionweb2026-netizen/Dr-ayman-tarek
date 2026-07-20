@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { Button } from "@/components/ui/Button";
+import { IconBadge } from "@/components/ui/IconBadge";
 
 const TECHNOLOGIES = [
   { icon: "biotech", title: "Advanced Microsurgery", desc: "Sub-millimeter precision under high-magnification optics." },
@@ -22,9 +23,7 @@ export function TechShowcase() {
         <Stagger className="order-2 space-y-5 lg:order-1" gap={0.08}>
           {TECHNOLOGIES.map((tech) => (
             <StaggerChild key={tech.title} className="flex items-start gap-4">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
-                <span className="material-symbols-outlined text-xl text-primary">{tech.icon}</span>
-              </span>
+              <IconBadge icon={tech.icon} className="h-11 w-11 rounded-full" iconClassName="text-xl" />
               <div>
                 <h4 className="text-body-lg font-bold text-white">{tech.title}</h4>
                 <p className="text-small text-on-surface-variant">{tech.desc}</p>

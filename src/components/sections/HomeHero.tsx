@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { HolographicBrain } from "@/components/decor/HolographicBrain";
 import { HolographicSpine } from "@/components/decor/HolographicSpine";
 import { ParticleField } from "@/components/decor/ParticleField";
@@ -72,13 +73,10 @@ export function HomeHero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="flex flex-wrap gap-4"
           >
-            <Button icon={<span className="material-symbols-outlined text-xl">calendar_month</span>}>
+            <Button icon={<NeonIcon name="calendar_month" neon={false} className="text-xl text-white" />}>
               Start Patient Journey
             </Button>
-            <Button
-              variant="ghost"
-              icon={<span className="material-symbols-outlined fill-icon text-xl text-primary">play_circle</span>}
-            >
+            <Button variant="ghost" icon={<NeonIcon name="play_circle" filled className="text-xl" />}>
               Watch Procedures
             </Button>
           </motion.div>
@@ -115,9 +113,7 @@ export function HomeHero() {
           radius="xl"
           className="absolute bottom-[10%] left-[46%] w-60 -translate-x-1/2 animate-float-y p-5 shadow-glow"
         >
-          <span className="material-symbols-outlined mb-2 text-3xl text-primary drop-shadow-[0_0_10px_rgba(196,61,255,0.6)]">
-            verified
-          </span>
+          <NeonIcon name="verified" filled className="mb-2 text-3xl" />
           <h3 className="mb-1 text-card-title text-white">Board Certified</h3>
           <p className="text-small text-on-surface-variant">WFNS Distinguished Surgical Fellow</p>
         </GlassCard>
@@ -125,18 +121,14 @@ export function HomeHero() {
         <HolographicBrain className="absolute left-[36%] top-[10%] h-[72%] w-[19%]" />
         <HolographicSpine className="absolute right-[1%] top-[8%] h-[80%] w-[10%]" />
 
-        <div className="absolute left-[63%] top-[6%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full glass border-primary/20">
-          <span className="material-symbols-outlined text-2xl text-primary drop-shadow-[0_0_8px_rgba(196,61,255,0.6)]">
-            monitor_heart
-          </span>
+        <div className="icon-badge-neon absolute left-[63%] top-[6%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full">
+          <NeonIcon name="monitor_heart" className="text-2xl" />
         </div>
         <div
-          className="absolute bottom-[18%] left-[68%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full glass border-primary/20"
+          className="icon-badge-neon absolute bottom-[18%] left-[68%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full"
           style={{ animationDelay: "1.6s" }}
         >
-          <span className="material-symbols-outlined text-3xl text-primary drop-shadow-[0_0_8px_rgba(196,61,255,0.6)]">
-            graphic_eq
-          </span>
+          <NeonIcon name="graphic_eq" className="text-3xl" />
         </div>
 
         <ParticleField

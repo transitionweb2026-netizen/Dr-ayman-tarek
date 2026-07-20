@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { type ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 
 interface ModalProps {
   open: boolean;
@@ -61,9 +62,9 @@ export function Modal({ open, onClose, children, className }: ModalProps) {
             <button
               aria-label="Close"
               onClick={onClose}
-              className="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full glass text-white transition-colors hover:text-primary"
+              className="icon-badge-neon absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full"
             >
-              <span className="material-symbols-outlined">close</span>
+              <NeonIcon name="close" />
             </button>
             {children}
           </motion.div>

@@ -2,6 +2,7 @@
 
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 
@@ -84,12 +85,12 @@ export function TestimonialsPanel() {
             <Stagger className="w-full flex-1 space-y-4" gap={0.08}>
               {MILESTONES.map((m, i) => (
                 <StaggerChild key={m.year} className="flex items-start gap-3">
-                  <span
-                    className="material-symbols-outlined fill-icon mt-0.5 shrink-0 text-xl text-primary drop-shadow-[0_0_8px_rgba(196,61,255,0.6)]"
+                  <NeonIcon
+                    name="check_circle"
+                    filled
+                    className="mt-0.5 shrink-0 text-xl"
                     style={{ opacity: 1 - i * 0.15 }}
-                  >
-                    check_circle
-                  </span>
+                  />
                   <div>
                     <h4 className="text-body font-bold leading-snug text-white">{m.title}</h4>
                     <p className="text-small text-on-surface-variant">

@@ -1,5 +1,6 @@
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
+import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 
 interface FinalCtaProps {
@@ -26,10 +27,8 @@ export function FinalCta({
         className="flex flex-col items-center gap-6 overflow-hidden border-primary/15 p-margin-mobile text-center shadow-glow-lg md:flex-row md:p-section-gap md:text-left"
       >
         <Reveal scale className="relative z-10 w-full md:w-1/3">
-          <div className="mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full glass border-primary/30 shadow-glow-lg">
-            <span className="material-symbols-outlined animate-pulse text-[100px] text-primary drop-shadow-[0_0_35px_rgba(196,61,255,0.8)]">
-              {icon}
-            </span>
+          <div className="icon-badge-neon mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full">
+            <NeonIcon name={icon} className="animate-pulse text-[100px]" />
           </div>
         </Reveal>
         <div className="relative z-10 w-full space-y-6 md:w-2/3">

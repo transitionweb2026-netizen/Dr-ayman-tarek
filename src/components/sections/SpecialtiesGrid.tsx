@@ -22,8 +22,17 @@ export function SpecialtiesGrid() {
         {SPECIALTIES.map((item) => (
           <StaggerChild key={item.title}>
             <GlassCard radius="2xl" className="group flex h-full flex-col items-center p-7 text-center">
-              <div className="hex-icon mb-5 flex h-[92px] w-[92px] items-center justify-center border border-primary/30 bg-primary/10 shadow-[0_0_25px_rgba(196,61,255,0.15)] transition-all duration-500 group-hover:bg-primary group-hover:text-background group-hover:shadow-[0_0_35px_rgba(196,61,255,0.5)]">
-                <span className="material-symbols-outlined text-4xl">{item.icon}</span>
+              {/* This hex badge keeps its own signature interaction (icon inverts to
+                  dark on a solid-purple hex when hovered) rather than adopting the
+                  generic neon-glass container — so color here is inherited from the
+                  parent (text-neon at rest, text-background on hover) instead of the
+                  NeonIcon component, which would hard-code a color and break the
+                  inversion. The neon glow bloom is still applied, just via a
+                  drop-shadow that doesn't touch color. */}
+              <div className="hex-icon mb-5 flex h-[92px] w-[92px] items-center justify-center border border-neon-border bg-neon-container text-neon shadow-neon-rest transition-all duration-300 ease-premium group-hover:scale-[1.08] group-hover:bg-neon group-hover:text-background group-hover:shadow-neon-hover">
+                <span className="material-symbols-outlined text-4xl [filter:drop-shadow(0_0_4px_rgba(192,38,255,.55))_drop-shadow(0_0_10px_rgba(168,85,247,.35))] group-hover:![filter:none]">
+                  {item.icon}
+                </span>
               </div>
               <h3 className="mb-3 text-card-title text-white">{item.title}</h3>
               <p className="mb-6 text-body text-on-surface-variant">{item.desc}</p>

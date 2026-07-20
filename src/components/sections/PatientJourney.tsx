@@ -1,4 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { IconBadge } from "@/components/ui/IconBadge";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 
 const STEPS = [
@@ -20,9 +21,7 @@ export function PatientJourney() {
         <Stagger className="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4" gap={0.12}>
           {STEPS.map((step) => (
             <StaggerChild key={step.title} className="relative flex flex-col items-center text-center">
-              <div className="relative z-10 mb-5 flex h-[72px] w-[72px] items-center justify-center rounded-full glass border-primary/30 shadow-glow">
-                <span className="material-symbols-outlined text-3xl text-primary">{step.icon}</span>
-              </div>
+              <IconBadge icon={step.icon} className="relative z-10 mb-5 h-[72px] w-[72px] rounded-full" iconClassName="text-3xl" />
               <h3 className="mb-2 text-card-title text-white">{step.title}</h3>
               <p className="text-small text-on-surface-variant">{step.desc}</p>
             </StaggerChild>

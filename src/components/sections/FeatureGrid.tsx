@@ -1,5 +1,6 @@
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { IconBadge } from "@/components/ui/IconBadge";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 
 export interface Feature {
@@ -31,17 +32,13 @@ export function FeatureGrid({ eyebrow, title, subtitle, features, layout = "icon
           <StaggerChild key={feature.title}>
             {layout === "icon-top" ? (
               <GlassCard radius="2xl" className="flex h-full flex-col items-center p-7 text-center">
-                <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/30 bg-primary/10">
-                  <span className="material-symbols-outlined text-3xl text-primary">{feature.icon}</span>
-                </div>
+                <IconBadge icon={feature.icon} className="mb-5 h-16 w-16 rounded-2xl" iconClassName="text-3xl" />
                 <h3 className="mb-2 text-body-lg font-bold text-white">{feature.title}</h3>
                 <p className="text-small text-on-surface-variant">{feature.desc}</p>
               </GlassCard>
             ) : (
               <GlassCard radius="xl" className="flex h-full items-start gap-4 p-7">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10">
-                  <span className="material-symbols-outlined text-2xl text-primary">{feature.icon}</span>
-                </span>
+                <IconBadge icon={feature.icon} className="h-12 w-12 rounded-full" iconClassName="text-2xl" />
                 <div>
                   <h3 className="mb-1 text-body-lg font-bold text-white">{feature.title}</h3>
                   <p className="text-small text-on-surface-variant">{feature.desc}</p>
