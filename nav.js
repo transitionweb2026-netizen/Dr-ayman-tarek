@@ -17,6 +17,7 @@
     var NAV_ITEMS = [
         { label: "Home", href: "home.html" },
         { label: "Services", href: "services.html" },
+        { label: "Cosmetic Surgery", href: "dr-ayman-tarek.html" },
         { label: "About", href: "about.html" },
         { label: "Contact", href: "contact.html" }
     ];
