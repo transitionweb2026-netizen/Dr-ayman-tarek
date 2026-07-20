@@ -65,9 +65,7 @@ export default function DrAymanTarekPage() {
           </>
         }
         subtitle="Dr. Ayman Tarek, Consultant Plastic, Cosmetic & Reconstructive Surgeon, blends surgical precision with an artistic eye to deliver safe, natural results built entirely around you."
-        image={null}
         ctaLabel="Book Now"
-        height="md"
       />
 
       <AboutPreview
