@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
 import { AboutPreview } from "@/components/sections/AboutPreview";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
+import { TechnicalSpecialties } from "@/components/sections/TechnicalSpecialties";
 import { StatsStrip } from "@/components/sections/StatsStrip";
 import { TestimonialsGrid } from "@/components/sections/TestimonialsGrid";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -21,12 +22,12 @@ const CERTIFICATES = [
 ];
 
 const SPECIALTIES = [
-  { icon: "spa", image: "/illustrations/dr-ayman-tarek/specialty-liposuction.svg", title: "Liposuction & Body Contouring", desc: "Precision body sculpting with faster recovery times." },
-  { icon: "face", image: "/illustrations/dr-ayman-tarek/specialty-rhinoplasty.svg", title: "Rhinoplasty", desc: "Natural balance between form and breathing function." },
-  { icon: "face_retouching_natural", image: "/illustrations/dr-ayman-tarek/specialty-facelift.svg", title: "Facelift & Neck Lift", desc: "A more youthful look with virtually invisible scarring." },
-  { icon: "favorite", image: "/illustrations/dr-ayman-tarek/specialty-breast.svg", title: "Breast Augmentation & Reduction", desc: "Tailored solutions balancing proportion and comfort." },
-  { icon: "healing", image: "/illustrations/dr-ayman-tarek/specialty-burn-reconstructive.svg", title: "Burn & Reconstructive Surgery", desc: "Rebuilding damaged tissue with high surgical precision." },
-  { icon: "vaccines", image: "/illustrations/dr-ayman-tarek/specialty-botox-fillers.svg", title: "Botox & Dermal Fillers", desc: "Non-surgical solutions for immediate, natural-looking results." },
+  { image: "/illustrations/dr-ayman-tarek/card-liposuction.svg", title: "Liposuction & Body Contouring", desc: "Precision body sculpting with faster recovery times." },
+  { image: "/illustrations/dr-ayman-tarek/card-rhinoplasty.svg", title: "Rhinoplasty", desc: "Natural balance between form and breathing function." },
+  { image: "/illustrations/dr-ayman-tarek/card-facelift.svg", title: "Facelift & Neck Lift", desc: "A more youthful look with virtually invisible scarring." },
+  { image: "/illustrations/dr-ayman-tarek/card-breast.svg", title: "Breast Augmentation & Reduction", desc: "Tailored solutions balancing proportion and comfort." },
+  { image: "/illustrations/dr-ayman-tarek/card-burn-reconstructive.svg", title: "Burn & Reconstructive Surgery", desc: "Rebuilding damaged tissue with high surgical precision." },
+  { image: "/illustrations/dr-ayman-tarek/card-botox-fillers.svg", title: "Botox & Dermal Fillers", desc: "Non-surgical solutions for immediate, natural-looking results." },
 ];
 
 const ACHIEVEMENTS = [
@@ -101,12 +102,10 @@ export default function DrAymanTarekPage() {
         columns={3}
       />
 
-      <FeatureGrid
+      <TechnicalSpecialties
         title="Technical Specialties"
         subtitle="A comprehensive range of cosmetic and reconstructive procedures using the latest precision techniques."
-        features={SPECIALTIES}
-        layout="icon-side"
-        columns={3}
+        specialties={SPECIALTIES}
       />
 
       <FeatureGrid
