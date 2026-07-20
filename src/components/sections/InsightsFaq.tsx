@@ -21,6 +21,14 @@ const ARTICLES = [
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuBTn3cyqUNe0ocnTjAZNiU5K9DqBl7NhprA_LEZLFZdsfYHOSUvWgG4z5ly_9fRYrWBfOch68eVi6fVDiJRcEZ9QKfi5Hj6oqaqOVKEMusztlkmYqVhxRwvogyhNcuiel8bNSOj3TtidYMdw9NdHd_55yE7p3rVGC-iaOvAyZV5tB3ohCj8Zkhed11RQnRdpdNgf5A1NfHSeO6erTwhaMrdCajgAonxI05DC1TiGTJj3Yd5T0EZsOmC",
   },
+  {
+    tag: "Neurology",
+    date: "Nov 3, 2024",
+    title: "Advances in Epilepsy Surgery",
+    excerpt: "New diagnostic mapping techniques are helping identify surgical candidates earlier and with greater precision...",
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuDGP6klrdOkaqLvlrfoMX7AfD2Ic6H8jgwmKRZypU2FjhK07NPZMQ2pij14DYs6TqVdsQ22uvX0yGm-3_Mz9rDK-ZvQOTzYvMUCqWdenca9F4lD5Ocq8LJiVMMuxbuzeH-nT1oHMiyczcIdSqFeExP1eGrfiAs7NB-VsTV1HlmTpETg9JIRyWRIiFQg5F79aCEvZkhTKDZBF-NMypOxuu7ASYLJexGp_rWY6OSjF8d8G_LLu6Ze9dc1",
+  },
 ];
 
 const FAQ_ITEMS = [
@@ -60,13 +68,13 @@ function ArticleCard({ article }: { article: (typeof ARTICLES)[number] }) {
 
 export function InsightsFaq() {
   return (
-    <section className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile pb-section-gap-sm md:grid-cols-3 md:px-margin-desktop">
+    <section className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile pb-section-gap-sm md:grid-cols-2 md:px-margin-desktop lg:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.15fr)]">
       {ARTICLES.map((article, index) => (
         <Reveal key={article.title} delay={index * 0.1} className="h-full">
           <ArticleCard article={article} />
         </Reveal>
       ))}
-      <Reveal delay={ARTICLES.length * 0.1} className="h-full">
+      <Reveal delay={ARTICLES.length * 0.1} className="h-full md:col-span-2 lg:col-auto">
         <GlassCard radius="2xl" className="flex h-full flex-col p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-card-title text-white">Common Questions</h2>
