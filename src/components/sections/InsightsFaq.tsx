@@ -31,6 +31,9 @@ const ARTICLES = [
   },
 ];
 
+const FILLER_IMAGE =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk";
+
 const FAQ_ITEMS = [
   { question: "What is the recovery time for spine surgery?", answer: "Recovery varies by procedure — from a few days for minimally invasive treatments to several weeks for complex reconstructive surgery." },
   { question: "Do you offer second opinions?", answer: "Yes, we offer virtual and in-person second-opinion consultations for patients diagnosed elsewhere." },
@@ -70,13 +73,24 @@ function ArticleCard({ article }: { article: (typeof ARTICLES)[number] }) {
 
 export function InsightsFaq() {
   return (
-    <section className="mx-auto grid max-w-container-max grid-cols-1 items-start gap-gutter px-margin-mobile pb-section-gap-sm md:grid-cols-2 md:px-margin-desktop lg:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.3fr)]">
-      {ARTICLES.map((article, index) => (
-        <Reveal key={article.title} delay={index * 0.1}>
-          <ArticleCard article={article} />
-        </Reveal>
-      ))}
-      <Reveal delay={ARTICLES.length * 0.1} className="md:col-span-2 lg:col-auto">
+    <section className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile pb-section-gap-sm md:px-margin-desktop lg:grid-cols-[3.2fr_1.3fr] lg:items-stretch">
+      <div className="relative grid grid-cols-1 items-start gap-gutter md:grid-cols-2 lg:grid-cols-3">
+        {/* Fills the leftover height below the (shorter) cards, up to the
+            taller Common Questions panel's height — visible only once the
+            two columns sit side by side and stretch together at lg. */}
+        <div className="absolute inset-0 -z-10 hidden overflow-hidden rounded-[32px] lg:block">
+          <Image src={FILLER_IMAGE} alt="" fill className="object-cover" sizes="(min-width: 1024px) 65vw, 100vw" />
+          <div className="absolute inset-0 bg-background/40" />
+          <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-background to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
+        </div>
+        {ARTICLES.map((article, index) => (
+          <Reveal key={article.title} delay={index * 0.1}>
+            <ArticleCard article={article} />
+          </Reveal>
+        ))}
+      </div>
+      <Reveal delay={ARTICLES.length * 0.1}>
         <GlassCard radius="2xl" className="flex flex-col p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-card-title text-white">Common Questions</h2>
