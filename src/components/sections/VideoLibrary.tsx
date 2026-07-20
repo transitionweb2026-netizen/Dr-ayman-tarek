@@ -14,7 +14,7 @@ function VideoCard({ video, onSelect }: { video: Video; onSelect: () => void }) 
   return (
     <GlassCard as="article" radius="2xl" className="group flex h-full flex-col overflow-hidden text-left">
       <button onClick={onSelect} className="flex h-full flex-col text-left">
-        <div className="relative aspect-video overflow-hidden">
+        <div className="relative aspect-[9/16] overflow-hidden">
           <Image
             src={video.thumbnail}
             alt={video.title}
@@ -90,7 +90,7 @@ export function VideoLibrary() {
       >
         {active && (
           <>
-            <div className="relative flex aspect-video items-center justify-center bg-cover bg-center">
+            <div className="relative mx-auto mt-8 flex aspect-[9/16] w-full max-w-[300px] items-center justify-center overflow-hidden rounded-[28px] shadow-glow-lg">
               <Image src={active.thumbnail} alt={active.title} fill className="object-cover" />
               <div className="absolute inset-0 bg-background/50" />
               <button className="icon-badge-neon relative z-10 flex h-20 w-20 items-center justify-center rounded-full">

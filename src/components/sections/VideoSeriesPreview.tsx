@@ -16,7 +16,7 @@ export function VideoSeriesPreview() {
           <StaggerChild key={video.id}>
             <Link href="/videos">
               <GlassCard radius="3xl" className="group overflow-hidden">
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="relative aspect-[9/16] overflow-hidden">
                   <Image
                     src={video.thumbnail}
                     alt={video.title}

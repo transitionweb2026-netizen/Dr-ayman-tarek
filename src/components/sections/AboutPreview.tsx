@@ -27,23 +27,23 @@ export function AboutPreview({
   cta,
 }: AboutPreviewProps) {
   return (
-    <section className="mx-auto grid max-w-container-max grid-cols-1 items-center gap-10 px-margin-mobile pt-section-gap-sm md:px-margin-desktop lg:grid-cols-[1.55fr_1fr] lg:gap-12">
-      <Reveal direction="left" className="group relative">
+    <section className="mx-auto grid max-w-container-max grid-cols-1 items-center gap-10 px-margin-mobile pt-section-gap-sm md:px-margin-desktop lg:grid-cols-[minmax(0,300px)_1fr] lg:gap-12">
+      <Reveal direction="left" className="group relative mx-auto w-full max-w-[300px] lg:mx-0">
         <div className="absolute -inset-4 rounded-3xl bg-primary/15 blur-3xl transition-all duration-700 group-hover:bg-primary/25" />
-        <GlassCard radius="3xl" interactive={false} className="relative flex aspect-video items-center justify-center overflow-hidden">
+        <GlassCard radius="3xl" interactive={false} className="relative flex aspect-[9/16] w-full items-center justify-center overflow-hidden">
           <Image src={videoImage} alt="" fill className="object-cover opacity-40 transition-transform duration-700 group-hover:scale-105" />
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="relative z-10 flex h-24 w-24 items-center justify-center rounded-full border border-primary/50 bg-primary/20 backdrop-blur-md shadow-glow-lg"
+            className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border border-primary/50 bg-primary/20 backdrop-blur-md shadow-glow-lg"
           >
-            <NeonIcon name="play_arrow" filled className="text-5xl" />
+            <NeonIcon name="play_arrow" filled className="text-4xl" />
           </motion.button>
-          <div className="absolute bottom-6 left-6 flex items-center gap-3">
-            <div className="icon-badge-neon flex h-10 w-10 items-center justify-center rounded-full">
+          <div className="absolute inset-x-4 bottom-4 flex items-center gap-2">
+            <div className="icon-badge-neon flex h-9 w-9 shrink-0 items-center justify-center rounded-full">
               <NeonIcon name="visibility" className="text-sm" />
             </div>
-            <span className="text-small text-white">{videoCaption}</span>
+            <span className="text-small text-white line-clamp-1">{videoCaption}</span>
           </div>
         </GlassCard>
       </Reveal>

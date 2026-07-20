@@ -34,8 +34,8 @@ export function HomeHero() {
       <GlowOrb className="z-[1] -right-24 top-1/4 h-[480px] w-[480px]" color="tertiary" />
       <div className="dot-grid pointer-events-none absolute inset-0 z-[1] opacity-[0.05]" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1920px] px-6 md:px-14">
-        <div className="max-w-xl space-y-7 py-10 lg:py-16">
+      <div className="relative z-10 mx-auto w-full max-w-container-max px-margin-mobile md:px-margin-desktop">
+        <div className="max-w-xl space-y-7">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}

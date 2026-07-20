@@ -21,7 +21,7 @@ const DEFAULT_STATS: Stat[] = [
 export function StatsStrip({ stats = DEFAULT_STATS, overlap = false }: { stats?: Stat[]; overlap?: boolean }) {
   return (
     <section className={overlap ? "relative z-20 -mt-10" : "relative"}>
-      <div className="mx-auto max-w-[1920px] px-6 md:px-14">
+      <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
         <GlassCard radius="3xl" interactive={false} className="w-full px-gutter py-10 shadow-glow">
           <Stagger className="grid grid-cols-2 gap-6 text-center md:grid-cols-4" gap={0.08}>
             {stats.map((stat) => (
