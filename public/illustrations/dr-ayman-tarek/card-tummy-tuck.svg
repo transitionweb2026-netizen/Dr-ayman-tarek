@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="400" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a0e2e"/>
+      <stop offset="100%" stop-color="#0a0613"/>
+    </linearGradient>
+    <linearGradient id="g" x1="140" y1="40" x2="280" y2="270" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff4fa3"/>
+      <stop offset="100%" stop-color="#9d4dff"/>
+    </linearGradient>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <ellipse cx="205" cy="150" rx="140" ry="115" fill="url(#g)" opacity="0.22" filter="url(#blur)"/>
+  <path d="M162 54c-10 22-16 40-16 62 0 20 8 30 8 48 0 26-20 34-20 58 0 20 30 34 66 34s66-14 66-34c0-24-20-32-20-58 0-18 8-28 8-48 0-22-6-40-16-62"
+        fill="url(#g)" fill-opacity="0.14" stroke="url(#g)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M150 176c16 6 34 9 50 9s34-3 50-9" stroke="url(#g)" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.75"/>
+  <path d="M200 96v40" stroke="url(#g)" stroke-width="1.6" stroke-opacity="0.5" stroke-linecap="round"/>
+  <circle cx="200" cy="96" r="4" fill="#ffffff"/>
+  <circle cx="278" cy="130" r="3.2" fill="#ff9ed4"/>
+</svg>

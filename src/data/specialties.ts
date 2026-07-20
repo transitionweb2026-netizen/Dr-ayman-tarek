@@ -61,4 +61,24 @@ export const SPECIALTIES: ProcedureCardItem[] = [
     recovery: "No downtime",
     duration: "15 – 30 minutes",
   },
+  {
+    id: "tummy-tuck",
+    title: "Tummy Tuck (Abdominoplasty)",
+    shortDescription: "A firmer, flatter abdominal contour with a tailored approach.",
+    image: "/illustrations/dr-ayman-tarek/card-tummy-tuck.svg",
+    description:
+      "Removes excess skin and tightens weakened abdominal muscles to restore a firmer, flatter contour — often combined with liposuction for a more complete result after pregnancy or major weight loss.",
+    recovery: "3 – 5 weeks",
+    duration: "2 – 3 hours",
+  },
+  {
+    id: "scar-revision",
+    title: "Scar Revision",
+    shortDescription: "Refined techniques to minimize the appearance of scarring.",
+    image: "/illustrations/dr-ayman-tarek/card-scar-revision.svg",
+    description:
+      "Advanced surgical and non-surgical techniques to improve the appearance of scars from prior surgery, injury, or burns — softening texture and color for a smoother, more natural-looking result.",
+    recovery: "1 – 3 weeks",
+    duration: "30 – 90 minutes",
+  },
 ];
