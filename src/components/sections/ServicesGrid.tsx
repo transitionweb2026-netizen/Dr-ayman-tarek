@@ -6,7 +6,6 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { SERVICES, type Service } from "@/data/services";
 
@@ -68,32 +67,6 @@ export function ServicesGrid() {
             <div className="space-y-6 p-8">
               <h3 className="text-section-title text-white">{active.title}</h3>
               <p className="text-body-lg text-on-surface-variant">{active.description}</p>
-
-              <div>
-                <h4 className="mb-3 text-card-title text-white">Key Benefits</h4>
-                <ul className="space-y-2">
-                  {active.benefits.map((benefit) => (
-                    <li key={benefit} className="flex items-start gap-3">
-                      <NeonIcon name="check_circle" filled className="mt-0.5 shrink-0 text-lg" />
-                      <span className="text-body text-on-surface-variant">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="mb-3 text-card-title text-white">Treatment Process</h4>
-                <ol className="space-y-2">
-                  {active.process.map((step, index) => (
-                    <li key={step} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/15 text-xs font-bold text-primary">
-                        {index + 1}
-                      </span>
-                      <span className="text-body text-on-surface-variant">{step}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="glass rounded-xl border-primary/10 p-4">
