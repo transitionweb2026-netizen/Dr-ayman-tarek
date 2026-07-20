@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
 import { AboutPreview } from "@/components/sections/AboutPreview";
 import { FeatureGrid } from "@/components/sections/FeatureGrid";
-import { TechnicalSpecialties } from "@/components/sections/TechnicalSpecialties";
+import { ProcedureCardGrid } from "@/components/sections/ProcedureCardGrid";
 import { StatsStrip } from "@/components/sections/StatsStrip";
 import { TestimonialsGrid } from "@/components/sections/TestimonialsGrid";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
+import { SPECIALTIES } from "@/data/specialties";
 
 export const metadata: Metadata = { title: "Cosmetic Surgery" };
 
@@ -19,15 +20,6 @@ const CERTIFICATES = [
   { icon: "colorize", image: "/illustrations/dr-ayman-tarek/cert-injectables.svg", title: "Advanced Aesthetic Injectables Certification", desc: "Specialized training in the latest safe Botox and filler protocols." },
   { icon: "groups", image: "/illustrations/dr-ayman-tarek/cert-egyptian-society.svg", title: "Egyptian Society of Plastic Surgery Membership", desc: "Active member of the scientific board of the national plastic surgery society." },
   { icon: "military_tech", image: "/illustrations/dr-ayman-tarek/cert-body-contouring-award.svg", title: "Excellence in Body Contouring Award", desc: "Scientific recognition for excellence in safe body-sculpting techniques." },
-];
-
-const SPECIALTIES = [
-  { image: "/illustrations/dr-ayman-tarek/card-liposuction.svg", title: "Liposuction & Body Contouring", desc: "Precision body sculpting with faster recovery times." },
-  { image: "/illustrations/dr-ayman-tarek/card-rhinoplasty.svg", title: "Rhinoplasty", desc: "Natural balance between form and breathing function." },
-  { image: "/illustrations/dr-ayman-tarek/card-facelift.svg", title: "Facelift & Neck Lift", desc: "A more youthful look with virtually invisible scarring." },
-  { image: "/illustrations/dr-ayman-tarek/card-breast.svg", title: "Breast Augmentation & Reduction", desc: "Tailored solutions balancing proportion and comfort." },
-  { image: "/illustrations/dr-ayman-tarek/card-burn-reconstructive.svg", title: "Burn & Reconstructive Surgery", desc: "Rebuilding damaged tissue with high surgical precision." },
-  { image: "/illustrations/dr-ayman-tarek/card-botox-fillers.svg", title: "Botox & Dermal Fillers", desc: "Non-surgical solutions for immediate, natural-looking results." },
 ];
 
 const ACHIEVEMENTS = [
@@ -102,10 +94,10 @@ export default function DrAymanTarekPage() {
         columns={3}
       />
 
-      <TechnicalSpecialties
+      <ProcedureCardGrid
         title="Technical Specialties"
         subtitle="A comprehensive range of cosmetic and reconstructive procedures using the latest precision techniques."
-        specialties={SPECIALTIES}
+        items={SPECIALTIES}
       />
 
       <FeatureGrid

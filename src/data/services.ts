@@ -1,13 +1,8 @@
-export interface Service {
-  id: string;
-  title: string;
-  shortDescription: string;
-  description: string;
-  image: string;
+import type { ProcedureCardItem } from "@/components/sections/ProcedureCardGrid";
+
+export interface Service extends ProcedureCardItem {
   benefits: string[];
   process: string[];
-  recovery: string;
-  duration: string;
 }
 
 const IMG = {
