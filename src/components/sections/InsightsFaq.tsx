@@ -37,11 +37,13 @@ const FAQ_ITEMS = [
   { question: "How do I prepare for a neuro-consultation?", answer: "Bring any prior imaging, a list of current medications, and relevant medical records." },
   { question: "What insurance providers are accepted?", answer: "We work with most major insurance providers — our team can confirm your specific coverage before your visit." },
   { question: "Are robotic surgeries safer?", answer: "Robotic-assisted procedures offer sub-millimeter accuracy and, for eligible cases, a reduced complication rate compared to traditional techniques." },
+  { question: "How soon can I schedule a consultation?", answer: "Most new patients are seen within 3–5 business days; urgent cases are prioritized and can often be accommodated sooner." },
+  { question: "What should I expect during my first visit?", answer: "Your first visit includes a detailed review of your medical history, a physical examination, and a discussion of any imaging or test results you bring with you." },
 ];
 
 function ArticleCard({ article }: { article: (typeof ARTICLES)[number] }) {
   return (
-    <GlassCard radius="2xl" className="flex h-full flex-col p-6">
+    <GlassCard radius="2xl" className="flex flex-col p-6">
       <div className="mb-5 flex items-center justify-between">
         <h2 className="text-card-title text-white">Latest Insights</h2>
         <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">View All</button>
@@ -59,7 +61,7 @@ function ArticleCard({ article }: { article: (typeof ARTICLES)[number] }) {
         <h3 className="text-card-title text-white">{article.title}</h3>
         <p className="line-clamp-2 text-body text-on-surface-variant">{article.excerpt}</p>
       </div>
-      <a className="mt-auto flex items-center gap-2 pt-4 text-small text-primary" href="#">
+      <a className="flex items-center gap-2 pt-4 text-small text-primary" href="#">
         Read Story <NeonIcon name="open_in_new" className="text-sm" />
       </a>
     </GlassCard>
@@ -68,19 +70,19 @@ function ArticleCard({ article }: { article: (typeof ARTICLES)[number] }) {
 
 export function InsightsFaq() {
   return (
-    <section className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile pb-section-gap-sm md:grid-cols-2 md:px-margin-desktop lg:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.15fr)]">
+    <section className="mx-auto grid max-w-container-max grid-cols-1 items-start gap-gutter px-margin-mobile pb-section-gap-sm md:grid-cols-2 md:px-margin-desktop lg:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.3fr)]">
       {ARTICLES.map((article, index) => (
-        <Reveal key={article.title} delay={index * 0.1} className="h-full">
+        <Reveal key={article.title} delay={index * 0.1}>
           <ArticleCard article={article} />
         </Reveal>
       ))}
-      <Reveal delay={ARTICLES.length * 0.1} className="h-full md:col-span-2 lg:col-auto">
-        <GlassCard radius="2xl" className="flex h-full flex-col p-6">
+      <Reveal delay={ARTICLES.length * 0.1} className="md:col-span-2 lg:col-auto">
+        <GlassCard radius="2xl" className="flex flex-col p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-card-title text-white">Common Questions</h2>
             <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">View All</button>
           </div>
-          <Accordion items={FAQ_ITEMS.slice(0, 4)} />
+          <Accordion items={FAQ_ITEMS.slice(0, 6)} />
         </GlassCard>
       </Reveal>
     </section>
