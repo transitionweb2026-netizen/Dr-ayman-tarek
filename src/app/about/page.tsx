@@ -7,7 +7,7 @@ import { Timeline } from "@/components/sections/Timeline";
 import { StatsStrip } from "@/components/sections/StatsStrip";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { IconBadge } from "@/components/ui/IconBadge";
+import { ImageBadge } from "@/components/ui/ImageBadge";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
@@ -15,18 +15,18 @@ import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 export const metadata: Metadata = { title: "About" };
 
 const MISSION_CARDS = [
-  { icon: "flag", title: "Our Mission", desc: "To deliver world-class neurosurgical care that combines the latest medical technology with genuine, personalized attention — restoring not just function, but confidence." },
-  { icon: "visibility", title: "Our Vision", desc: "To be the region's most trusted destination for neurological and spinal care, recognized for outcomes, innovation, and the quality of the patient experience." },
-  { icon: "diversity_3", title: "Our Philosophy", desc: "Every patient is a partner in their own care. We believe informed, involved patients recover better — so we explain everything, and we never rush a decision." },
+  { icon: "flag", image: "/illustrations/about/mission-flag.svg", title: "Our Mission", desc: "To deliver world-class neurosurgical care that combines the latest medical technology with genuine, personalized attention — restoring not just function, but confidence." },
+  { icon: "visibility", image: "/illustrations/about/vision-eye.svg", title: "Our Vision", desc: "To be the region's most trusted destination for neurological and spinal care, recognized for outcomes, innovation, and the quality of the patient experience." },
+  { icon: "diversity_3", image: "/illustrations/about/philosophy-community.svg", title: "Our Philosophy", desc: "Every patient is a partner in their own care. We believe informed, involved patients recover better — so we explain everything, and we never rush a decision." },
 ];
 
 const CORE_VALUES = [
-  { icon: "verified_user", title: "Integrity", desc: "Honest guidance, even when it means recommending against surgery." },
-  { icon: "rocket_launch", title: "Innovation", desc: "Continuously adopting techniques that improve safety and outcomes." },
-  { icon: "favorite", title: "Compassion", desc: "Treating the person, not just the scan." },
-  { icon: "workspace_premium", title: "Excellence", desc: "Holding every procedure to the same exacting standard." },
-  { icon: "shield", title: "Safety", desc: "Rigorous protocols at every stage, from consultation to recovery." },
-  { icon: "forum", title: "Transparency", desc: "Clear answers about risks, costs, and expected outcomes." },
+  { icon: "verified_user", image: "/illustrations/about/value-integrity.svg", title: "Integrity", desc: "Honest guidance, even when it means recommending against surgery." },
+  { icon: "rocket_launch", image: "/illustrations/about/value-innovation.svg", title: "Innovation", desc: "Continuously adopting techniques that improve safety and outcomes." },
+  { icon: "favorite", image: "/illustrations/about/value-compassion.svg", title: "Compassion", desc: "Treating the person, not just the scan." },
+  { icon: "workspace_premium", image: "/illustrations/about/value-excellence.svg", title: "Excellence", desc: "Holding every procedure to the same exacting standard." },
+  { icon: "shield", image: "/illustrations/why-choose/safety-first.svg", title: "Safety", desc: "Rigorous protocols at every stage, from consultation to recovery." },
+  { icon: "forum", image: "/illustrations/about/value-transparency.svg", title: "Transparency", desc: "Clear answers about risks, costs, and expected outcomes." },
 ];
 
 const MILESTONES = [
@@ -39,10 +39,10 @@ const MILESTONES = [
 ];
 
 const CREDENTIALS = [
-  { icon: "school", title: "PhD in Neurosurgery", desc: "Global Medical University" },
-  { icon: "groups", title: "Fellow of WFNS", desc: "World Federation of Neurosurgical Societies" },
-  { icon: "psychology", title: "Board-Certified Neurology Consultant", desc: "National Board of Medical Specialties" },
-  { icon: "public", title: "International Speaker", desc: "30+ global neurosurgical conferences" },
+  { icon: "school", image: "/illustrations/about/credential-phd.svg", title: "PhD in Neurosurgery", desc: "Global Medical University" },
+  { icon: "groups", image: "/illustrations/about/credential-wfns.svg", title: "Fellow of WFNS", desc: "World Federation of Neurosurgical Societies" },
+  { icon: "psychology", image: "/illustrations/about/credential-board-brain.svg", title: "Board-Certified Neurology Consultant", desc: "National Board of Medical Specialties" },
+  { icon: "public", image: "/illustrations/why-choose/international-standards.svg", title: "International Speaker", desc: "30+ global neurosurgical conferences" },
 ];
 
 const FACILITY_IMAGE =
@@ -77,7 +77,7 @@ export default function AboutPage() {
           {MISSION_CARDS.map((card) => (
             <StaggerChild key={card.title}>
               <GlassCard radius="2xl" className="h-full p-8">
-                <IconBadge icon={card.icon} className="mb-6 h-16 w-16 rounded-2xl" iconClassName="text-3xl" />
+                <ImageBadge src={card.image} alt={card.title} className="mb-6 h-16 w-16 rounded-2xl" />
                 <h3 className="mb-3 text-card-title text-white">{card.title}</h3>
                 <p className="text-body text-on-surface-variant">{card.desc}</p>
               </GlassCard>

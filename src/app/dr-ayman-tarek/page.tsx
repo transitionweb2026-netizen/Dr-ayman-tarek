@@ -12,28 +12,28 @@ import { Reveal } from "@/components/motion/Reveal";
 export const metadata: Metadata = { title: "Cosmetic Surgery" };
 
 const CERTIFICATES = [
-  { icon: "workspace_premium", title: "European Board of Plastic Surgery", desc: "An internationally recognized accreditation for the highest standard of surgical practice." },
-  { icon: "verified", title: "ISAPS International Fellowship", desc: "Fellowship membership in advanced surgical and aesthetic techniques." },
-  { icon: "local_hospital", title: "Diploma in Burns & Reconstructive Surgery", desc: "Specialized training in tissue reconstruction and complex burn care." },
-  { icon: "colorize", title: "Advanced Aesthetic Injectables Certification", desc: "Specialized training in the latest safe Botox and filler protocols." },
-  { icon: "groups", title: "Egyptian Society of Plastic Surgery Membership", desc: "Active member of the scientific board of the national plastic surgery society." },
-  { icon: "military_tech", title: "Excellence in Body Contouring Award", desc: "Scientific recognition for excellence in safe body-sculpting techniques." },
+  { icon: "workspace_premium", image: "/illustrations/dr-ayman-tarek/cert-european-board.svg", title: "European Board of Plastic Surgery", desc: "An internationally recognized accreditation for the highest standard of surgical practice." },
+  { icon: "verified", image: "/illustrations/dr-ayman-tarek/cert-isaps-fellowship.svg", title: "ISAPS International Fellowship", desc: "Fellowship membership in advanced surgical and aesthetic techniques." },
+  { icon: "local_hospital", image: "/illustrations/dr-ayman-tarek/cert-burns-diploma.svg", title: "Diploma in Burns & Reconstructive Surgery", desc: "Specialized training in tissue reconstruction and complex burn care." },
+  { icon: "colorize", image: "/illustrations/dr-ayman-tarek/cert-injectables.svg", title: "Advanced Aesthetic Injectables Certification", desc: "Specialized training in the latest safe Botox and filler protocols." },
+  { icon: "groups", image: "/illustrations/dr-ayman-tarek/cert-egyptian-society.svg", title: "Egyptian Society of Plastic Surgery Membership", desc: "Active member of the scientific board of the national plastic surgery society." },
+  { icon: "military_tech", image: "/illustrations/dr-ayman-tarek/cert-body-contouring-award.svg", title: "Excellence in Body Contouring Award", desc: "Scientific recognition for excellence in safe body-sculpting techniques." },
 ];
 
 const SPECIALTIES = [
-  { icon: "spa", title: "Liposuction & Body Contouring", desc: "Precision body sculpting with faster recovery times." },
-  { icon: "face", title: "Rhinoplasty", desc: "Natural balance between form and breathing function." },
-  { icon: "face_retouching_natural", title: "Facelift & Neck Lift", desc: "A more youthful look with virtually invisible scarring." },
-  { icon: "favorite", title: "Breast Augmentation & Reduction", desc: "Tailored solutions balancing proportion and comfort." },
-  { icon: "healing", title: "Burn & Reconstructive Surgery", desc: "Rebuilding damaged tissue with high surgical precision." },
-  { icon: "vaccines", title: "Botox & Dermal Fillers", desc: "Non-surgical solutions for immediate, natural-looking results." },
+  { icon: "spa", image: "/illustrations/dr-ayman-tarek/specialty-liposuction.svg", title: "Liposuction & Body Contouring", desc: "Precision body sculpting with faster recovery times." },
+  { icon: "face", image: "/illustrations/dr-ayman-tarek/specialty-rhinoplasty.svg", title: "Rhinoplasty", desc: "Natural balance between form and breathing function." },
+  { icon: "face_retouching_natural", image: "/illustrations/dr-ayman-tarek/specialty-facelift.svg", title: "Facelift & Neck Lift", desc: "A more youthful look with virtually invisible scarring." },
+  { icon: "favorite", image: "/illustrations/dr-ayman-tarek/specialty-breast.svg", title: "Breast Augmentation & Reduction", desc: "Tailored solutions balancing proportion and comfort." },
+  { icon: "healing", image: "/illustrations/dr-ayman-tarek/specialty-burn-reconstructive.svg", title: "Burn & Reconstructive Surgery", desc: "Rebuilding damaged tissue with high surgical precision." },
+  { icon: "vaccines", image: "/illustrations/dr-ayman-tarek/specialty-botox-fillers.svg", title: "Botox & Dermal Fillers", desc: "Non-surgical solutions for immediate, natural-looking results." },
 ];
 
 const ACHIEVEMENTS = [
-  { icon: "timeline", title: "15+ Years of Experience", desc: "Over 4,000 successful cosmetic and reconstructive procedures across a career spanning Egypt and the Gulf region." },
-  { icon: "podium", title: "International Conference Speaker", desc: "Keynote speaker at more than 30 scientific conferences on the latest cosmetic surgery techniques." },
-  { icon: "science", title: "Peer-Reviewed Research Publications", desc: "Author of more than 12 scientific papers published in specialized plastic surgery journals." },
-  { icon: "public", title: "Patients From 20+ Countries", desc: "Growing trust from international patients seeking premium cosmetic care." },
+  { icon: "timeline", image: "/illustrations/dr-ayman-tarek/achievement-experience.svg", title: "15+ Years of Experience", desc: "Over 4,000 successful cosmetic and reconstructive procedures across a career spanning Egypt and the Gulf region." },
+  { icon: "podium", image: "/illustrations/dr-ayman-tarek/achievement-speaker.svg", title: "International Conference Speaker", desc: "Keynote speaker at more than 30 scientific conferences on the latest cosmetic surgery techniques." },
+  { icon: "science", image: "/illustrations/dr-ayman-tarek/achievement-research.svg", title: "Peer-Reviewed Research Publications", desc: "Author of more than 12 scientific papers published in specialized plastic surgery journals." },
+  { icon: "public", image: "/illustrations/why-choose/international-standards.svg", title: "Patients From 20+ Countries", desc: "Growing trust from international patients seeking premium cosmetic care." },
 ];
 
 const STATS = [
