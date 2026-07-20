@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Accordion } from "@/components/ui/Accordion";
-import { Stagger, StaggerChild } from "@/components/motion/Stagger";
+import { Reveal } from "@/components/motion/Reveal";
 
 const ARTICLES = [
   {
@@ -60,22 +60,20 @@ function ArticleCard({ article }: { article: (typeof ARTICLES)[number] }) {
 export function InsightsFaq() {
   return (
     <section className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile pb-section-gap-sm md:grid-cols-3 md:px-margin-desktop">
-      <Stagger className="contents" gap={0.1}>
-        {ARTICLES.map((article) => (
-          <StaggerChild key={article.title} className="h-full">
-            <ArticleCard article={article} />
-          </StaggerChild>
-        ))}
-        <StaggerChild className="h-full">
-          <GlassCard radius="2xl" className="flex h-full flex-col p-6">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-card-title text-white">Common Questions</h2>
-              <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">View All</button>
-            </div>
-            <Accordion items={FAQ_ITEMS.slice(0, 4)} />
-          </GlassCard>
-        </StaggerChild>
-      </Stagger>
+      {ARTICLES.map((article, index) => (
+        <Reveal key={article.title} delay={index * 0.1} className="h-full">
+          <ArticleCard article={article} />
+        </Reveal>
+      ))}
+      <Reveal delay={ARTICLES.length * 0.1} className="h-full">
+        <GlassCard radius="2xl" className="flex h-full flex-col p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="text-card-title text-white">Common Questions</h2>
+            <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">View All</button>
+          </div>
+          <Accordion items={FAQ_ITEMS.slice(0, 4)} />
+        </GlassCard>
+      </Reveal>
     </section>
   );
 }
