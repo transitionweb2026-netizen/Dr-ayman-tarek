@@ -29,10 +29,15 @@ const ARTICLES = [
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuDGP6klrdOkaqLvlrfoMX7AfD2Ic6H8jgwmKRZypU2FjhK07NPZMQ2pij14DYs6TqVdsQ22uvX0yGm-3_Mz9rDK-ZvQOTzYvMUCqWdenca9F4lD5Ocq8LJiVMMuxbuzeH-nT1oHMiyczcIdSqFeExP1eGrfiAs7NB-VsTV1HlmTpETg9JIRyWRIiFQg5F79aCEvZkhTKDZBF-NMypOxuu7ASYLJexGp_rWY6OSjF8d8G_LLu6Ze9dc1",
   },
+  {
+    tag: "Spine Care",
+    date: "Nov 18, 2024",
+    title: "Minimally Invasive Spine Techniques",
+    excerpt: "How smaller incisions and advanced navigation are reducing recovery time for complex spinal procedures...",
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuC42DEKTaJe4KxQbrNk7_4N3r0uR17-UWvsiLQT9WN28BJjyNIf9oMv97lm1Q8CGg8qn6Up0qmxsaW4aC2ssTp6J-he9nwGHBfzPwnpUe76ZruS-_QHzTZPRVLGzDOgRIPW8_HAbZlOQuWwmDQTLgUMu-aKclM0mZFCe-rJ-OelKL5pLACXDbF6hkocNBqDF7npayc5mKjEOOMjgdOjrHIO0mnQXNstc-VUj9lgw_gxArPZFJUD8htb",
+  },
 ];
-
-const FILLER_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk";
 
 const FAQ_ITEMS = [
   { question: "What is the recovery time for spine surgery?", answer: "Recovery varies by procedure — from a few days for minimally invasive treatments to several weeks for complex reconstructive surgery." },
@@ -75,7 +80,7 @@ export function InsightsFaq() {
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <div className="grid grid-cols-1 items-start gap-gutter lg:grid-cols-[3.2fr_1.3fr]">
-        <div className="grid grid-cols-1 items-start gap-gutter md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2">
           {ARTICLES.map((article, index) => (
             <Reveal key={article.title} delay={index * 0.1}>
               <ArticleCard article={article} />
@@ -92,19 +97,6 @@ export function InsightsFaq() {
           </GlassCard>
         </Reveal>
       </div>
-
-      {/* Medical dashboard image — its own clean block below the cards, not a background. */}
-      <Reveal className="mt-10 lg:mt-12">
-        <div className="glass relative aspect-[21/9] w-full overflow-hidden rounded-[32px] shadow-glow">
-          <Image
-            src={FILLER_IMAGE}
-            alt="Advanced neurosurgical technology dashboard"
-            fill
-            className="object-contain"
-            sizes="100vw"
-          />
-        </div>
-      </Reveal>
     </section>
   );
 }
