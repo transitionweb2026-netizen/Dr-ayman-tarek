@@ -82,4 +82,40 @@ export const VIDEOS: Video[] = [
     description:
       "A short tour of the operating suite where every procedure takes place — from intraoperative imaging equipment to the neuro-critical care unit that supports patients immediately after surgery.",
   },
+  {
+    id: "awake-craniotomy",
+    title: "Awake Craniotomy Explained",
+    category: "Brain Surgery",
+    duration: "5:52",
+    date: "June 30, 2024",
+    thumbnail:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuCj_BLuiyILw1YhqAC3tRIDF2988vEFMbdp2CShPuVIiDUoHM1kMzpKG_4i0s5CUQUmeVMDWsJnumLQFXXrf0m-Mjl34wizujbVZdXvUYuolvYMi8YyTkj8UyYy6owS1CMhwr6GhKZvbQVx4zQYVu5JL4WeKrZ9IM5Qa-npZXsG-RmAevHAwlFxJCgUchdKulNiNaTwgXXFMihF3Ca3g_TTGj18eVkdNijbGyFBcA_Ydb9qTxI01BtA",
+    shortDescription: "Why patients stay conscious during certain brain tumor resections — and why it's safe.",
+    description:
+      "A closer look at awake craniotomy — a technique that keeps patients conscious during surgery near critical speech and motor areas of the brain, allowing real-time monitoring that helps preserve function while maximizing safe tumor removal.",
+  },
+  {
+    id: "robotic-spine-fusion",
+    title: "Robotic-Assisted Spine Fusion",
+    category: "Robotic Neurosurgery",
+    duration: "6:18",
+    date: "June 12, 2024",
+    thumbnail:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk",
+    shortDescription: "Sub-millimeter implant placement guided by real-time 3D robotic navigation.",
+    description:
+      "How robotic-assisted navigation improves accuracy during complex spinal fusion — reducing radiation exposure, minimizing incision size, and helping ensure each implant is placed with sub-millimeter precision for a more predictable recovery.",
+  },
+  {
+    id: "surgery-day",
+    title: "What to Expect on Surgery Day",
+    category: "Patient Education",
+    duration: "4:47",
+    date: "May 24, 2024",
+    thumbnail:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuDT02aCXBfYCWE8rbwfhuNv_I8eAL7C0AlQUQu0RKPoG3OhOWu6zfPyjGgq6Qkpe2JmNyY7TwRfJL6EBx4DbAF4W2hmpO-4Ry2B7rM4AjafcZGL2IeszWF0bwHj5d_PD_XKC75OpP0uK1lA7CfiRyYNqh3dbKtKci2TnVpbQke6eRod8-2rocqS6KQ8U-UHLgPOjFc8QUlrxDDOZSwI70YJB9TE252FVlkjWd77tdI5MWTU1lFV_yb9",
+    shortDescription: "A step-by-step walkthrough of admission, anesthesia, surgery, and recovery.",
+    description:
+      "A practical, reassuring walkthrough of surgery day from start to finish — what happens at admission, how anesthesia is managed, what the surgical team does while you're in the OR, and what the first hours of recovery look like.",
+  },
 ];

@@ -9,7 +9,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Dr. Ayman Tarek", href: "/dr-ayman-tarek" },
   { label: "Services", href: "/services" },
   { label: "Videos", href: "/videos" },
-  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
