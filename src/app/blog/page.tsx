@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
 import { FeaturedArticle } from "@/components/sections/FeaturedArticle";
 import { ArticlesGrid } from "@/components/sections/ArticlesGrid";
-import { BlogSidebar } from "@/components/sections/BlogSidebar";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { FEATURED_ARTICLE, ARTICLES } from "@/data/blog";
 
@@ -19,14 +18,9 @@ export default function BlogPage() {
         ctaIcon="auto_stories"
       />
 
-      <section className="mx-auto max-w-container-max px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop">
-        <div className="grid grid-cols-1 items-start gap-gutter lg:grid-cols-[2fr_1fr]">
-          <div className="space-y-10">
-            <FeaturedArticle article={FEATURED_ARTICLE} />
-            <ArticlesGrid articles={ARTICLES} />
-          </div>
-          <BlogSidebar articles={ARTICLES} />
-        </div>
+      <section className="mx-auto max-w-container-max space-y-14 px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop">
+        <FeaturedArticle article={FEATURED_ARTICLE} />
+        <ArticlesGrid articles={ARTICLES} />
       </section>
 
       <FinalCta

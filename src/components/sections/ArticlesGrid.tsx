@@ -38,7 +38,7 @@ function BlogArticleCard({ article }: { article: BlogArticle }) {
 /** Responsive grid of blog article cards — same premium card treatment used site-wide. */
 export function ArticlesGrid({ articles }: { articles: BlogArticle[] }) {
   return (
-    <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2">
+    <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-3">
       {articles.map((article) => (
         <StaggerChild key={article.id}>
           <BlogArticleCard article={article} />
