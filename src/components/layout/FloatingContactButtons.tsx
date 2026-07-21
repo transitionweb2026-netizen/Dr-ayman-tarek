@@ -28,13 +28,13 @@ function FloatingButton({
   href,
   label,
   glowClassName,
-  floatDelay,
+  entranceDelay,
   children,
 }: {
   href: string;
   label: string;
   glowClassName: string;
-  floatDelay: number;
+  entranceDelay: number;
   children: ReactNode;
 }) {
   const [ripples, setRipples] = useState<Ripple[]>([]);
@@ -62,12 +62,17 @@ function FloatingButton({
       onClick={handleClick}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
-      animate={{ y: [0, -8, 0] }}
-      transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: floatDelay }}
+      initial={{ opacity: 0, x: 40 }}
+      animate={{ opacity: 1, x: 0, y: [0, -6, 0] }}
+      transition={{
+        opacity: { duration: 0.5, delay: entranceDelay, ease: [0.16, 1, 0.3, 1] },
+        x: { duration: 0.5, delay: entranceDelay, ease: [0.16, 1, 0.3, 1] },
+        y: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: entranceDelay + 0.5 },
+      }}
       whileHover={{ scale: 1.12 }}
       whileTap={{ scale: 0.94 }}
       className={cn(
-        "relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full text-white backdrop-blur-md transition-shadow duration-300 ease-premium",
+        "relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full text-white backdrop-blur-md transition-shadow duration-300 ease-premium",
         glowClassName,
       )}
     >
@@ -84,35 +89,29 @@ function FloatingButton({
 }
 
 /**
- * Replaces the old always-visible vertical SocialRail: just WhatsApp + Phone,
- * peeking off the right edge and sliding fully into view on hover.
+ * Two small floating action buttons — WhatsApp + Phone. Always fully inside
+ * the viewport; only the entrance animation briefly starts off-screen before
+ * settling into its final, fixed position (never revisited on hover/idle).
  */
 export function FloatingContactButtons() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, delay: 0.6 }}
-      className="group fixed right-0 top-1/2 z-40 -translate-y-1/2"
-    >
-      <div className="flex translate-x-[62%] flex-col gap-4 py-4 pl-5 pr-3 transition-transform duration-500 ease-premium group-hover:translate-x-0">
-        <FloatingButton
-          href={WHATSAPP_HREF}
-          label="Chat on WhatsApp"
-          glowClassName="bg-[linear-gradient(135deg,#25D366_0%,#128C7E_100%)] shadow-[0_0_25px_rgba(37,211,102,0.45)] hover:shadow-[0_0_40px_rgba(37,211,102,0.65)]"
-          floatDelay={0}
-        >
-          <WhatsAppGlyph className="h-6 w-6" />
-        </FloatingButton>
-        <FloatingButton
-          href={PHONE_HREF}
-          label="Call now"
-          glowClassName="bg-gradient-brand shadow-glow hover:shadow-glow-lg"
-          floatDelay={0.6}
-        >
-          <Phone className="h-6 w-6" strokeWidth={2} />
-        </FloatingButton>
-      </div>
-    </motion.div>
+    <div className="fixed right-4 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-3 sm:right-6">
+      <FloatingButton
+        href={WHATSAPP_HREF}
+        label="Chat on WhatsApp"
+        glowClassName="bg-[linear-gradient(135deg,#25D366_0%,#128C7E_100%)] shadow-[0_0_18px_rgba(37,211,102,0.45)] hover:shadow-[0_0_30px_rgba(37,211,102,0.65)]"
+        entranceDelay={0.4}
+      >
+        <WhatsAppGlyph className="h-5 w-5" />
+      </FloatingButton>
+      <FloatingButton
+        href={PHONE_HREF}
+        label="Call now"
+        glowClassName="bg-gradient-brand shadow-glow hover:shadow-glow-lg"
+        entranceDelay={0.55}
+      >
+        <Phone className="h-5 w-5" strokeWidth={2} />
+      </FloatingButton>
+    </div>
   );
 }
