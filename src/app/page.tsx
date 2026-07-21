@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
-      <StatsStrip overlap />
+      <StatsStrip />
       <AboutPreview
         title="About the Surgeon"
         cta={

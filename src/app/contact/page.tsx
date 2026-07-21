@@ -36,20 +36,18 @@ export default function ContactPage() {
         height="sm"
       />
 
-      <section className="relative z-20 -mt-10">
-        <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
-          <GlassCard radius="3xl" interactive={false} className="w-full px-gutter py-10 shadow-glow">
-            <Stagger className="grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-4" gap={0.08}>
-              {QUICK_INFO.map((item) => (
-                <StaggerChild key={item.label} className="flex flex-col items-center gap-3">
-                  <IconBadge icon={item.icon} className="h-14 w-14 rounded-2xl" />
-                  <p className="text-body-lg font-bold text-white">{item.value}</p>
-                  <p className="text-small text-on-surface-variant">{item.label}</p>
-                </StaggerChild>
-              ))}
-            </Stagger>
-          </GlassCard>
-        </div>
+      <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap-sm md:px-margin-desktop">
+        <GlassCard radius="3xl" interactive={false} className="w-full px-gutter py-10 shadow-glow">
+          <Stagger className="grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-4" gap={0.08}>
+            {QUICK_INFO.map((item) => (
+              <StaggerChild key={item.label} className="flex flex-col items-center gap-3">
+                <IconBadge icon={item.icon} className="h-14 w-14 rounded-2xl" />
+                <p className="text-body-lg font-bold text-white">{item.value}</p>
+                <p className="text-small text-on-surface-variant">{item.label}</p>
+              </StaggerChild>
+            ))}
+          </Stagger>
+        </GlassCard>
       </section>
 
       <section className="mx-auto grid max-w-container-max grid-cols-1 items-start gap-10 px-margin-mobile py-section-gap-sm md:px-margin-desktop lg:grid-cols-[1.2fr_1fr]">

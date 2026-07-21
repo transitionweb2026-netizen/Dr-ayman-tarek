@@ -23,7 +23,7 @@ const AVATARS = [
 
 export function HomeHero() {
   return (
-    <section className="relative flex min-h-[82vh] items-center overflow-hidden pt-20 lg:h-[700px]">
+    <section className="relative flex min-h-[82vh] items-center overflow-hidden pb-10 pt-20 lg:min-h-[700px]">
       {/* Full-bleed background artwork */}
       <div className="absolute inset-0 z-0">
         <Image src={HERO_IMAGE} alt="Dr. Ayman Tarek, neurosurgeon" fill priority className="object-cover object-top" />
