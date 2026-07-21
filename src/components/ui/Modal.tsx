@@ -62,7 +62,7 @@ export function Modal({ open, onClose, children, className }: ModalProps) {
             <button
               aria-label="Close"
               onClick={onClose}
-              className="icon-badge-neon absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full"
+              className="icon-badge-neon absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full"
             >
               <NeonIcon name="close" />
             </button>

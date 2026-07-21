@@ -26,7 +26,7 @@ export function Footer() {
           </p>
           <div className="flex gap-4">
             {["face_nod", "camera", "group"].map((icon) => (
-              <a key={icon} href="#" className="icon-badge-neon flex h-10 w-10 items-center justify-center rounded-full">
+              <a key={icon} href="#" className="icon-badge-neon flex h-12 w-12 items-center justify-center rounded-full">
                 <NeonIcon name={icon} className="text-xl" />
               </a>
             ))}
@@ -74,9 +74,12 @@ export function Footer() {
             <input
               type="email"
               placeholder="Your email address"
-              className="w-full rounded-full border border-outline-variant/30 bg-surface-container px-6 py-3 text-white placeholder-on-surface-variant/40 outline-none transition-shadow focus:border-primary focus:shadow-glow"
+              className="w-full rounded-full border border-outline-variant/30 bg-surface-container px-6 py-4 text-white placeholder-on-surface-variant/40 outline-none transition-shadow focus:border-primary focus:shadow-glow"
             />
-            <button className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full btn-primary">
+            <button
+              aria-label="Subscribe"
+              className="absolute right-1 top-1 flex h-12 w-12 items-center justify-center rounded-full btn-primary"
+            >
               <span className="material-symbols-outlined text-sm text-white">send</span>
             </button>
           </div>

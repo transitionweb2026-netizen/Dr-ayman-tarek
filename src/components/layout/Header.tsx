@@ -30,6 +30,20 @@ export function Header() {
     setMobileOpen(false);
   }, [pathname]);
 
+  // Same scroll-lock + Escape-to-close pattern as the shared Modal component.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    document.body.style.overflow = "hidden";
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [mobileOpen]);
+
   return (
     <header
       className={cn(
@@ -75,7 +89,7 @@ export function Header() {
         </div>
 
         <button
-          className="icon-neon-trigger md:hidden"
+          className="icon-neon-trigger flex h-12 w-12 items-center justify-center md:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
@@ -86,34 +100,49 @@ export function Header() {
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-primary/10 bg-background/95 backdrop-blur-2xl md:hidden"
-          >
-            <div className="flex flex-col gap-1 px-margin-mobile py-4">
-              {NAV_ITEMS.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={cn(
-                      "rounded-xl px-4 py-3 text-small transition-colors",
-                      isActive ? "bg-primary/10 text-primary" : "text-on-surface-variant hover:bg-white/5",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-              <Button size="md" className="mt-2 w-full">
-                Book Appointment
-              </Button>
-            </div>
-          </motion.div>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 z-40 bg-background/70 backdrop-blur-sm md:hidden"
+              onClick={() => setMobileOpen(false)}
+              aria-hidden
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 32 }}
+              className="fixed inset-y-0 right-0 z-50 flex w-[min(85vw,360px)] flex-col border-l border-primary/15 bg-background/95 pt-24 backdrop-blur-2xl md:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
+            >
+              <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-margin-mobile pb-8">
+                {NAV_ITEMS.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      aria-current={isActive ? "page" : undefined}
+                      className={cn(
+                        "flex min-h-[48px] items-center rounded-xl px-4 text-body-lg transition-colors",
+                        isActive ? "bg-primary/10 text-primary" : "text-on-surface-variant hover:bg-white/5",
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
+                <Button size="md" className="mt-4 w-full">
+                  Book Appointment
+                </Button>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>
