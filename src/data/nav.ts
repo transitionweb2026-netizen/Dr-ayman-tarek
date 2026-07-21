@@ -7,7 +7,7 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
-  { label: "Cosmetic Surgery", href: "/dr-ayman-tarek" },
+  { label: "Dr. Ayman Tarek", href: "/dr-ayman-tarek" },
   { label: "Videos", href: "/videos" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
