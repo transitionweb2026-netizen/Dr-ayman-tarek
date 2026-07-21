@@ -29,14 +29,6 @@ const ARTICLES = [
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuDGP6klrdOkaqLvlrfoMX7AfD2Ic6H8jgwmKRZypU2FjhK07NPZMQ2pij14DYs6TqVdsQ22uvX0yGm-3_Mz9rDK-ZvQOTzYvMUCqWdenca9F4lD5Ocq8LJiVMMuxbuzeH-nT1oHMiyczcIdSqFeExP1eGrfiAs7NB-VsTV1HlmTpETg9JIRyWRIiFQg5F79aCEvZkhTKDZBF-NMypOxuu7ASYLJexGp_rWY6OSjF8d8G_LLu6Ze9dc1",
   },
-  {
-    tag: "Spine Care",
-    date: "Nov 18, 2024",
-    title: "Minimally Invasive Spine Techniques",
-    excerpt: "How smaller incisions and advanced navigation are reducing recovery time for complex spinal procedures...",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuC42DEKTaJe4KxQbrNk7_4N3r0uR17-UWvsiLQT9WN28BJjyNIf9oMv97lm1Q8CGg8qn6Up0qmxsaW4aC2ssTp6J-he9nwGHBfzPwnpUe76ZruS-_QHzTZPRVLGzDOgRIPW8_HAbZlOQuWwmDQTLgUMu-aKclM0mZFCe-rJ-OelKL5pLACXDbF6hkocNBqDF7npayc5mKjEOOMjgdOjrHIO0mnQXNstc-VUj9lgw_gxArPZFJUD8htb",
-  },
 ];
 
 const FAQ_ITEMS = [
@@ -78,25 +70,23 @@ function ArticleCard({ article }: { article: (typeof ARTICLES)[number] }) {
 
 export function InsightsFaq() {
   return (
-    <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
-      <div className="grid grid-cols-1 items-start gap-gutter lg:grid-cols-[3.2fr_1.3fr]">
-        <div className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2">
-          {ARTICLES.map((article, index) => (
-            <Reveal key={article.title} delay={index * 0.1}>
-              <ArticleCard article={article} />
-            </Reveal>
-          ))}
-        </div>
-        <Reveal delay={ARTICLES.length * 0.1}>
-          <GlassCard radius="2xl" className="flex flex-col p-6">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-card-title text-white">Common Questions</h2>
-              <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">View All</button>
-            </div>
-            <Accordion items={FAQ_ITEMS.slice(0, 6)} />
-          </GlassCard>
-        </Reveal>
+    <section className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile pb-section-gap-sm md:px-margin-desktop lg:grid-cols-[3.2fr_1.3fr] lg:items-stretch">
+      <div className="grid grid-cols-1 items-start gap-gutter md:grid-cols-2 lg:grid-cols-3">
+        {ARTICLES.map((article, index) => (
+          <Reveal key={article.title} delay={index * 0.1}>
+            <ArticleCard article={article} />
+          </Reveal>
+        ))}
       </div>
+      <Reveal delay={ARTICLES.length * 0.1}>
+        <GlassCard radius="2xl" className="flex flex-col p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="text-card-title text-white">Common Questions</h2>
+            <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">View All</button>
+          </div>
+          <Accordion items={FAQ_ITEMS.slice(0, 6)} />
+        </GlassCard>
+      </Reveal>
     </section>
   );
 }
