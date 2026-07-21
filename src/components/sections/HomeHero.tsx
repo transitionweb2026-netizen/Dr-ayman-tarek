@@ -35,7 +35,7 @@ export function HomeHero() {
       <GlowOrb className="z-[1] -right-24 top-1/4 h-[480px] w-[480px]" color="tertiary" />
       <div className="dot-grid pointer-events-none absolute inset-0 z-[1] opacity-[0.05]" />
 
-      <div className="relative z-10 mx-auto w-full max-w-container-max px-margin-mobile md:px-margin-desktop">
+      <div className="relative z-10 w-full px-margin-mobile md:px-8 lg:px-12">
         <div className="max-w-xl space-y-7">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -106,7 +106,7 @@ export function HomeHero() {
       {/* Floating hero cards — Board Certified + Connect With Us. Normal-flow
           stack below the content on mobile/tablet; absolutely positioned
           beside the doctor's image (right side) once there's room at lg. */}
-      <div className="relative z-10 mt-10 flex flex-col items-center gap-5 px-margin-mobile md:px-margin-desktop lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
+      <div className="relative z-10 mt-10 flex flex-col items-center gap-5 px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
         <div className="w-full max-w-xs animate-float-y lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-[14%] lg:w-64">
           <GlassCard radius="xl" className="p-5 shadow-glow">
             <NeonIcon name="verified" filled className="mb-2 text-3xl" />
