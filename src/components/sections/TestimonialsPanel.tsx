@@ -48,7 +48,7 @@ function Stars() {
 
 export function TestimonialsPanel() {
   return (
-    <section className="mx-auto max-w-[1920px] px-6 pb-section-gap-sm md:px-14">
+    <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <div className="grid grid-cols-1 gap-gutter lg:grid-cols-[11fr_9fr]">
         {/* Patient reviews */}
         <GlassCard radius="2xl" interactive={false} className="flex flex-col p-6 md:p-7">

@@ -21,8 +21,8 @@ export interface ProcedureCardItem {
 
 function ProcedureCard({ item, onSelect }: { item: ProcedureCardItem; onSelect: () => void }) {
   return (
-    <GlassCard as="article" radius="2xl" className="group flex h-full flex-col overflow-hidden text-left">
-      <button onClick={onSelect} className="flex h-full flex-col text-left">
+    <GlassCard as="article" radius="2xl" className="group flex flex-col overflow-hidden text-left">
+      <button onClick={onSelect} className="flex flex-col text-left">
         <div className="relative aspect-[4/3] overflow-hidden">
           <Image
             src={item.image}
@@ -32,9 +32,9 @@ function ProcedureCard({ item, onSelect }: { item: ProcedureCardItem; onSelect: 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
         </div>
-        <div className="flex flex-1 flex-col p-6">
+        <div className="flex flex-col p-6">
           <h3 className="mb-2 text-card-title text-white">{item.title}</h3>
-          <p className="mb-4 flex-1 text-body text-on-surface-variant">{item.shortDescription}</p>
+          <p className="mb-4 text-body text-on-surface-variant">{item.shortDescription}</p>
           {/* Keeps its own invert-on-hover (icon flips to dark once the badge
               hover-fills solid) so color is inherited, not forced by NeonIcon —
               same reasoning as the specialties hex badges. */}
@@ -78,7 +78,7 @@ export function ProcedureCardGrid({ eyebrow, title, subtitle, items, sectionId, 
       id={sectionId}
     >
       <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
-      <Stagger className="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4">
+      <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item) => (
           <StaggerChild key={item.id}>
             <ProcedureCard item={item} onSelect={() => setActiveId(item.id)} />

@@ -37,7 +37,7 @@ export default function ContactPage() {
       />
 
       <section className="relative z-20 -mt-10">
-        <div className="mx-auto max-w-[1920px] px-6 md:px-14">
+        <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
           <GlassCard radius="3xl" interactive={false} className="w-full px-gutter py-10 shadow-glow">
             <Stagger className="grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-4" gap={0.08}>
               {QUICK_INFO.map((item) => (

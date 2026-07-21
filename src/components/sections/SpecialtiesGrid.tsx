@@ -18,10 +18,10 @@ export function SpecialtiesGrid() {
         title="Precision Specialties"
         subtitle="Providing comprehensive neurological interventions using state-of-the-art diagnostic and surgical technology."
       />
-      <Stagger className="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4">
+      <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-4">
         {SPECIALTIES.map((item) => (
           <StaggerChild key={item.title}>
-            <GlassCard radius="2xl" className="group flex h-full flex-col items-center p-7 text-center">
+            <GlassCard radius="2xl" className="group flex flex-col items-center p-7 text-center">
               {/* This hex badge keeps its own signature interaction (icon inverts to
                   dark on a solid-purple hex when hovered) rather than adopting the
                   generic neon-glass container — so color here is inherited from the
@@ -41,7 +41,7 @@ export function SpecialtiesGrid() {
               </div>
               <h3 className="mb-3 text-card-title text-white">{item.title}</h3>
               <p className="mb-6 text-body text-on-surface-variant">{item.desc}</p>
-              <Button variant="outline" size="md" className="mt-auto">
+              <Button variant="outline" size="md">
                 {item.cta}
               </Button>
             </GlassCard>

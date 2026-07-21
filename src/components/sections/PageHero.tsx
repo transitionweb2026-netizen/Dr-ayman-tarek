@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { GlowOrb } from "@/components/decor/GlowOrb";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
+import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 import type { ReactNode } from "react";
 
 interface PageHeroProps {
@@ -23,7 +24,7 @@ interface PageHeroProps {
 const HERO_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw";
 
-/** Shared secondary-page hero used by Services, About, Videos, and Contact. */
+/** Shared secondary-page hero used by Services, About, Videos, Contact, and Dr. Ayman Tarek. */
 export function PageHero({
   eyebrow,
   title,
@@ -39,8 +40,8 @@ export function PageHero({
 
   return (
     <section
-      className={`relative flex overflow-hidden pt-20 ${
-        height === "sm" ? "min-h-[45vh] lg:h-[380px]" : "min-h-[55vh] lg:h-[460px]"
+      className={`relative flex overflow-hidden pt-20 pb-10 ${
+        height === "sm" ? "min-h-[45vh] lg:min-h-[380px]" : "min-h-[55vh] lg:min-h-[460px]"
       } items-center`}
     >
       {image ? (
@@ -80,6 +81,10 @@ export function PageHero({
             <Button icon={<NeonIcon name={ctaIcon} neon={false} className="text-xl text-white" />}>{ctaLabel}</Button>
           )}
           {children}
+
+          <div className={`mt-8 ${isCenter ? "flex justify-center" : ""}`}>
+            <HeroSocialCard />
+          </div>
         </motion.div>
       </div>
     </section>
