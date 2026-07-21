@@ -29,6 +29,10 @@ export function HomeHero() {
         <Image src={HERO_IMAGE} alt="Dr. Ayman Tarek, neurosurgeon" fill priority className="object-cover object-top" />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/10" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+        {/* Below lg this same photo is also the dedicated mobile portrait
+            further down, so the ambient background version needs to read as
+            a faint backdrop, not a second competing face. */}
+        <div className="absolute inset-0 bg-background/70 lg:hidden" />
       </div>
 
       <GlowOrb className="z-[1] -left-52 -top-32 h-[600px] w-[600px]" />

@@ -49,6 +49,10 @@ export function PageHero({
           <Image src={image} alt="" fill priority className="object-cover object-top" />
           <div className="absolute inset-0 bg-background/65" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/60" />
+          {/* Below lg this same photo is also the dedicated mobile portrait
+              further down, so the ambient background version needs to read
+              as a faint backdrop, not a second competing face. */}
+          <div className="absolute inset-0 bg-background/60 lg:hidden" />
         </div>
       ) : (
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-surface-container-lowest via-background to-[#150a24]" />

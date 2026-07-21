@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { NAV_ITEMS, SITE_BRAND } from "@/data/nav";
@@ -70,6 +71,7 @@ export function Header() {
   }, [mobileOpen]);
 
   return (
+    <>
     <header
       className={cn(
         "fixed top-0 z-50 w-full border-b backdrop-blur-2xl transition-colors duration-500",
@@ -84,7 +86,7 @@ export function Header() {
           <span className="text-card-title font-bold text-primary">{SITE_BRAND.name}</span>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-8 xl:flex">
           {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -115,7 +117,7 @@ export function Header() {
 
         <button
           ref={menuTriggerRef}
-          className="icon-neon-trigger flex h-12 w-12 items-center justify-center md:hidden"
+          className="icon-neon-trigger flex h-12 w-12 items-center justify-center xl:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
@@ -123,7 +125,15 @@ export function Header() {
           <NeonIcon name={mobileOpen ? "close" : "menu"} className="text-3xl" />
         </button>
       </nav>
+    </header>
 
+    {/* Portalled to document.body: <header> has backdrop-blur (a CSS
+        `filter`), which per spec makes it the containing block for any
+        position:fixed descendant — so inset-0 would resolve against
+        header's own ~80px auto-height box instead of the viewport,
+        collapsing the drawer to a sliver instead of a fullscreen overlay.
+        Same fix Modal.tsx already uses for this exact class of bug. */}
+    {typeof document !== "undefined" && createPortal(
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -132,7 +142,7 @@ export function Header() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 32 }}
-            className="fixed inset-0 z-40 flex flex-col bg-background/98 backdrop-blur-2xl md:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-background/98 backdrop-blur-2xl xl:hidden"
             style={{
               paddingTop: "max(1.5rem, env(safe-area-inset-top))",
               paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))",
@@ -193,7 +203,9 @@ export function Header() {
             </Button>
           </motion.div>
         )}
-      </AnimatePresence>
-    </header>
+      </AnimatePresence>,
+      document.body,
+    )}
+    </>
   );
 }

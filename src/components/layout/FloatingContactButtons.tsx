@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Phone } from "lucide-react";
-import { useState, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
+import { useEffect, useState, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const PHONE_HREF = "tel:+201000000000";
@@ -92,15 +92,41 @@ function FloatingButton({
  * Two small floating action buttons — WhatsApp + Phone. Always fully inside
  * the viewport; only the entrance animation briefly starts off-screen before
  * settling into its final, fixed position (never revisited on hover/idle).
+ *
+ * Below lg, every Hero already has its own "Connect With Us" card offering
+ * the same WhatsApp/phone actions, and being fixed to the viewport corner
+ * means these buttons land directly on top of the Hero's doctor portrait
+ * for whatever's on screen at first paint. So on mobile/tablet they stay
+ * hidden until the user scrolls a bit past that — desktop is unaffected
+ * and stays always-visible exactly as before.
  */
 export function FloatingContactButtons() {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const onScroll = () => {
+      setVisible(desktop.matches || window.scrollY > window.innerHeight * 0.55);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   return (
-    <div
+    <motion.div
       className="fixed z-40 flex flex-col gap-3"
       style={{
         bottom: "max(2rem, env(safe-area-inset-bottom))",
         right: "max(1rem, env(safe-area-inset-right))",
+        pointerEvents: visible ? "auto" : "none",
       }}
+      animate={{ opacity: visible ? 1 : 0 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
     >
       <FloatingButton
         href={WHATSAPP_HREF}
@@ -118,6 +144,6 @@ export function FloatingContactButtons() {
       >
         <Phone className="h-5 w-5" strokeWidth={2} />
       </FloatingButton>
-    </div>
+    </motion.div>
   );
 }
