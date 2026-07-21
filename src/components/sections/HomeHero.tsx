@@ -100,7 +100,22 @@ export function HomeHero() {
               <p className="text-small text-on-surface-variant">Recovered Patients</p>
             </div>
           </motion.div>
+        </div>
+      </div>
 
+      {/* Floating hero cards — Board Certified + Connect With Us. Normal-flow
+          stack below the content on mobile/tablet; absolutely positioned
+          beside the doctor's image (right side) once there's room at lg. */}
+      <div className="relative z-10 mt-10 flex flex-col items-center gap-5 px-margin-mobile md:px-margin-desktop lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
+        <div className="w-full max-w-xs animate-float-y lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-[14%] lg:w-64">
+          <GlassCard radius="xl" className="p-5 shadow-glow">
+            <NeonIcon name="verified" filled className="mb-2 text-3xl" />
+            <h3 className="mb-1 text-card-title text-white">Board Certified</h3>
+            <p className="text-small text-on-surface-variant">WFNS Distinguished Surgical Fellow</p>
+          </GlassCard>
+        </div>
+
+        <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[8%] lg:right-[5%]">
           <HeroSocialCard />
         </div>
       </div>
@@ -111,15 +126,6 @@ export function HomeHero() {
           <div className="absolute left-[45%] top-[45%] h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow rounded-full border border-primary/30" />
         </MouseParallax>
         <div className="absolute left-[45%] top-[45%] h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow-rev rounded-full border border-tertiary/20" />
-
-        <GlassCard
-          radius="xl"
-          className="absolute bottom-[10%] left-[46%] w-60 -translate-x-1/2 animate-float-y p-5 shadow-glow"
-        >
-          <NeonIcon name="verified" filled className="mb-2 text-3xl" />
-          <h3 className="mb-1 text-card-title text-white">Board Certified</h3>
-          <p className="text-small text-on-surface-variant">WFNS Distinguished Surgical Fellow</p>
-        </GlassCard>
 
         <HolographicBrain className="absolute left-[36%] top-[10%] h-[72%] w-[19%]" />
         <HolographicSpine className="absolute right-[1%] top-[8%] h-[80%] w-[10%]" />

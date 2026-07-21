@@ -81,11 +81,15 @@ export function PageHero({
             <Button icon={<NeonIcon name={ctaIcon} neon={false} className="text-xl text-white" />}>{ctaLabel}</Button>
           )}
           {children}
-
-          <div className={`mt-8 ${isCenter ? "flex justify-center" : ""}`}>
-            <HeroSocialCard />
-          </div>
         </motion.div>
+      </div>
+
+      {/* Connect With Us — normal-flow stack below the content on mobile/
+          tablet; absolutely positioned beside the image (right side) at lg. */}
+      <div className="relative z-10 mt-8 flex justify-center px-margin-mobile md:px-margin-desktop lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
+        <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] lg:right-[5%]">
+          <HeroSocialCard />
+        </div>
       </div>
     </section>
   );
