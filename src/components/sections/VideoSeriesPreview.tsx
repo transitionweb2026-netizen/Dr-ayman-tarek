@@ -11,7 +11,7 @@ export function VideoSeriesPreview() {
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <SectionHeading title="Clinical Video Series" />
-      <Stagger className="grid grid-cols-1 items-start gap-gutter md:grid-cols-3">
+      <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((video) => (
           <StaggerChild key={video.id}>
             <Link href="/videos">

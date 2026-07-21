@@ -40,9 +40,9 @@ export function PageHero({
 
   return (
     <section
-      className={`relative flex overflow-hidden pt-20 pb-10 ${
+      className={`relative flex flex-col overflow-hidden pt-20 pb-10 ${
         height === "sm" ? "min-h-[45vh] lg:min-h-[380px]" : "min-h-[55vh] lg:min-h-[460px]"
-      } items-center`}
+      } items-center justify-center`}
     >
       {image ? (
         <div className="absolute inset-0 z-0">
@@ -78,15 +78,32 @@ export function PageHero({
             {subtitle}
           </p>
           {ctaLabel && (
-            <Button icon={<NeonIcon name={ctaIcon} neon={false} className="text-xl text-white" />}>{ctaLabel}</Button>
+            <Button className="w-full sm:w-auto" icon={<NeonIcon name={ctaIcon} neon={false} className="text-xl text-white" />}>
+              {ctaLabel}
+            </Button>
           )}
           {children}
         </motion.div>
       </div>
 
+      {/* Doctor portrait — mobile only, same reasoning as HomeHero: the photo
+          is a dim full-bleed background at every size, so this gives it real
+          visual presence on narrow screens where there's no side-by-side room. */}
+      {image && (
+        <motion.div
+          initial={{ opacity: 0, y: 24, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 mx-auto mt-8 aspect-[4/5] w-full max-w-[240px] overflow-hidden rounded-[32px] border border-primary/15 shadow-glow-lg lg:hidden"
+        >
+          <Image src={image} alt="" fill sizes="240px" className="object-cover object-top" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+        </motion.div>
+      )}
+
       {/* Connect With Us — normal-flow stack below the content on mobile/
           tablet; absolutely positioned beside the image (right side) at lg. */}
-      <div className="relative z-10 mt-8 flex justify-center px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
+      <div className="relative z-10 mt-8 flex w-full justify-center px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
         <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] lg:right-[5%]">
           <HeroSocialCard />
         </div>

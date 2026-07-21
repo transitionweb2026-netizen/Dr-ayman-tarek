@@ -100,49 +100,70 @@ export function Header() {
 
       <AnimatePresence>
         {mobileOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 z-40 bg-background/70 backdrop-blur-sm md:hidden"
-              onClick={() => setMobileOpen(false)}
-              aria-hidden
-            />
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 32 }}
-              className="fixed inset-y-0 right-0 z-50 flex w-[min(85vw,360px)] flex-col border-l border-primary/15 bg-background/95 pt-24 backdrop-blur-2xl md:hidden"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Mobile navigation"
-            >
-              <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-margin-mobile pb-8">
-                {NAV_ITEMS.map((item) => {
-                  const isActive = pathname === item.href;
-                  return (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 32 }}
+            className="fixed inset-0 z-40 flex flex-col bg-background/98 backdrop-blur-2xl md:hidden"
+            style={{
+              paddingTop: "max(1.5rem, env(safe-area-inset-top))",
+              paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))",
+              paddingLeft: "max(1.25rem, env(safe-area-inset-left))",
+              paddingRight: "max(1.25rem, env(safe-area-inset-right))",
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+          >
+            <div className="flex items-center justify-between">
+              <Link
+                href="/"
+                className="flex items-center gap-3"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Back to homepage"
+              >
+                <NeonIcon name={SITE_BRAND.icon} className="text-3xl" />
+                <span className="text-card-title font-bold text-primary">{SITE_BRAND.name}</span>
+              </Link>
+              <button
+                className="icon-badge-neon flex h-12 w-12 items-center justify-center rounded-full"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+              >
+                <NeonIcon name="close" className="text-2xl" />
+              </button>
+            </div>
+
+            <nav className="mt-10 flex flex-1 flex-col justify-center gap-2 overflow-y-auto">
+              {NAV_ITEMS.map((item, index) => {
+                const isActive = pathname === item.href;
+                return (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.06 + index * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  >
                     <Link
-                      key={item.href}
                       href={item.href}
                       aria-current={isActive ? "page" : undefined}
                       className={cn(
-                        "flex min-h-[48px] items-center rounded-xl px-4 text-body-lg transition-colors",
-                        isActive ? "bg-primary/10 text-primary" : "text-on-surface-variant hover:bg-white/5",
+                        "flex min-h-[56px] items-center rounded-2xl px-5 text-card-title transition-colors",
+                        isActive ? "bg-primary/10 text-primary" : "text-white hover:bg-white/5",
                       )}
                     >
                       {item.label}
                     </Link>
-                  );
-                })}
-                <Button size="md" className="mt-4 w-full">
-                  Book Appointment
-                </Button>
-              </div>
-            </motion.div>
-          </>
+                  </motion.div>
+                );
+              })}
+            </nav>
+
+            <Button size="lg" className="w-full">
+              Book Appointment
+            </Button>
+          </motion.div>
         )}
       </AnimatePresence>
     </header>

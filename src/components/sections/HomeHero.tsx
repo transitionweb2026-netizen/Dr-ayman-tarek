@@ -23,7 +23,7 @@ const AVATARS = [
 
 export function HomeHero() {
   return (
-    <section className="relative flex min-h-[82vh] items-center overflow-hidden pb-10 pt-20 lg:min-h-[700px]">
+    <section className="relative flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 pt-20 lg:min-h-[700px]">
       {/* Full-bleed background artwork */}
       <div className="absolute inset-0 z-0">
         <Image src={HERO_IMAGE} alt="Dr. Ayman Tarek, neurosurgeon" fill priority className="object-cover object-top" />
@@ -72,21 +72,48 @@ export function HomeHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-wrap gap-4"
+            className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
           >
-            <Button icon={<NeonIcon name="calendar_month" neon={false} className="text-xl text-white" />}>
+            <Button
+              className="w-full sm:w-auto"
+              icon={<NeonIcon name="calendar_month" neon={false} className="text-xl text-white" />}
+            >
               Start Patient Journey
             </Button>
-            <Button variant="ghost" icon={<NeonIcon name="play_circle" filled className="text-xl" />}>
+            <Button
+              variant="ghost"
+              className="w-full sm:w-auto"
+              icon={<NeonIcon name="play_circle" filled className="text-xl" />}
+            >
               Watch Procedures
             </Button>
+          </motion.div>
+
+          {/* Doctor portrait — mobile only. On lg+ the same photo already
+              carries the whole section as a full-bleed background, so this
+              dedicated frame exists purely to give it real visual presence
+              on narrow screens instead of staying a dim backdrop. */}
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-[32px] border border-primary/15 shadow-glow-lg lg:hidden"
+          >
+            <Image
+              src={HERO_IMAGE}
+              alt="Dr. Ayman Tarek, neurosurgeon"
+              fill
+              sizes="(max-width: 1024px) 320px"
+              className="object-cover object-top"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex items-center gap-6 pt-4"
+            className="flex items-center justify-center gap-6 pt-4 sm:justify-start"
           >
             <div className="flex -space-x-3">
               {AVATARS.map((src) => (
@@ -106,7 +133,7 @@ export function HomeHero() {
       {/* Floating hero cards — Board Certified + Connect With Us. Normal-flow
           stack below the content on mobile/tablet; absolutely positioned
           beside the doctor's image (right side) once there's room at lg. */}
-      <div className="relative z-10 mt-10 flex flex-col items-center gap-5 px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
+      <div className="relative z-10 mt-10 flex w-full flex-col items-center gap-5 px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
         <div className="w-full max-w-xs animate-float-y lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-[14%] lg:w-64">
           <GlassCard radius="xl" className="p-5 shadow-glow">
             <NeonIcon name="verified" filled className="mb-2 text-3xl" />

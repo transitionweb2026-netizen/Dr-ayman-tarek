@@ -55,7 +55,7 @@ export function TestimonialsPanel() {
           <Reveal>
             <h2 className="mb-6 text-center text-card-title text-white">Patient Testimonials</h2>
           </Reveal>
-          <Stagger className="grid flex-1 auto-rows-fr grid-cols-1 gap-4 md:grid-cols-3" gap={0.1}>
+          <Stagger className="grid flex-1 auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" gap={0.1}>
             {TESTIMONIALS.map((t) => (
               <StaggerChild key={t.name}>
                 <GlassCard radius="xl" className="flex h-full flex-col p-4 text-center">

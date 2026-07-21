@@ -73,7 +73,7 @@ export function VideoLibrary() {
         title="Video Library"
         subtitle="Short, clear explanations of common neurological conditions and treatments — straight from Dr. Ayman Tarek's clinical practice."
       />
-      <Stagger className="grid grid-cols-1 gap-gutter md:grid-cols-3">
+      <Stagger className="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3">
         {VIDEOS.map((video) => (
           <StaggerChild key={video.id}>
             <VideoCard video={video} onSelect={() => setActiveId(video.id)} />

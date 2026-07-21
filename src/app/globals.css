@@ -71,7 +71,7 @@ body {
 
   /* ---- Buttons ---- */
   .btn-base {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full text-button transition-[transform,box-shadow] duration-300 ease-premium active:scale-[0.97];
+    @apply relative inline-flex min-h-[48px] items-center justify-center gap-2 overflow-hidden rounded-full text-button transition-[transform,box-shadow] duration-300 ease-premium active:scale-[0.97];
   }
   .btn-primary {
     @apply btn-base bg-gradient-brand bg-[length:200%_200%] text-white shadow-glow hover:scale-[1.04] hover:shadow-glow-lg hover:animate-gradient-pan;
