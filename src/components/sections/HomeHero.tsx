@@ -10,6 +10,7 @@ import { HolographicSpine } from "@/components/decor/HolographicSpine";
 import { ParticleField } from "@/components/decor/ParticleField";
 import { GlowOrb } from "@/components/decor/GlowOrb";
 import { MouseParallax } from "@/components/motion/Parallax";
+import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 
 const HERO_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw";
@@ -99,6 +100,8 @@ export function HomeHero() {
               <p className="text-small text-on-surface-variant">Recovered Patients</p>
             </div>
           </motion.div>
+
+          <HeroSocialCard />
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SocialRail } from "@/components/layout/SocialRail";
+import { FloatingContactButtons } from "@/components/layout/FloatingContactButtons";
 import { PageTransition } from "@/components/motion/PageTransition";
 
 const manrope = Manrope({
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen font-sans antialiased">
         <div className="app-mesh-bg bg-noise" aria-hidden />
-        <SocialRail />
+        <FloatingContactButtons />
         <Header />
         <PageTransition>
           <main>{children}</main>
