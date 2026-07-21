@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { NAV_ITEMS, SITE_BRAND } from "@/data/nav";
@@ -18,6 +18,8 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -30,17 +32,40 @@ export function Header() {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Same scroll-lock + Escape-to-close pattern as the shared Modal component.
+  // Scroll-lock + Escape-to-close (same pattern as the shared Modal
+  // component) plus a keyboard focus trap: Tab/Shift+Tab cycle within the
+  // drawer instead of escaping into the page underneath, focus moves into
+  // the drawer on open, and returns to the hamburger trigger on close.
   useEffect(() => {
     if (!mobileOpen) return;
     document.body.style.overflow = "hidden";
+    const trigger = menuTriggerRef.current;
+
+    const focusableSelector = 'a[href], button:not([disabled])';
+    const focusable = drawerRef.current?.querySelectorAll<HTMLElement>(focusableSelector);
+    const first = focusable?.[0];
+    const last = focusable?.[focusable.length - 1];
+    first?.focus();
+
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMobileOpen(false);
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+        return;
+      }
+      if (event.key !== "Tab" || !first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", handleKey);
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKey);
+      trigger?.focus();
     };
   }, [mobileOpen]);
 
@@ -89,6 +114,7 @@ export function Header() {
         </div>
 
         <button
+          ref={menuTriggerRef}
           className="icon-neon-trigger flex h-12 w-12 items-center justify-center md:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
@@ -101,6 +127,7 @@ export function Header() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            ref={drawerRef}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}

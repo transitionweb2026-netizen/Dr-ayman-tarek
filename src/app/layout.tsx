@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -35,13 +36,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen font-sans antialiased">
-        <div className="app-mesh-bg bg-noise" aria-hidden />
-        <FloatingContactButtons />
-        <Header />
-        <PageTransition>
-          <main>{children}</main>
-        </PageTransition>
-        <Footer />
+        {/* reducedMotion="user" makes every motion.* component site-wide
+            automatically honor the OS-level prefers-reduced-motion setting
+            (swaps transform/scale animations for instant or opacity-only) —
+            one place instead of gating each animation individually. */}
+        <MotionConfig reducedMotion="user">
+          <div className="app-mesh-bg bg-noise" aria-hidden />
+          <FloatingContactButtons />
+          <Header />
+          <PageTransition>
+            <main>{children}</main>
+          </PageTransition>
+          <Footer />
+        </MotionConfig>
       </body>
     </html>
   );

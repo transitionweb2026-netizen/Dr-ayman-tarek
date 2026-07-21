@@ -14,6 +14,24 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  /* Framer Motion's own animations are handled separately via <MotionConfig
+     reducedMotion="user"> in the root layout — this block only covers the
+     plain-CSS keyframe animations (ambient float/spin/particle/shimmer
+     effects) that motion never touches. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   background-color: #0a0613;
   color: #f3edfb;

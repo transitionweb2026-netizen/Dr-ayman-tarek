@@ -95,7 +95,13 @@ function FloatingButton({
  */
 export function FloatingContactButtons() {
   return (
-    <div className="fixed bottom-8 right-4 z-40 flex flex-col gap-3 sm:right-6">
+    <div
+      className="fixed z-40 flex flex-col gap-3"
+      style={{
+        bottom: "max(2rem, env(safe-area-inset-bottom))",
+        right: "max(1rem, env(safe-area-inset-right))",
+      }}
+    >
       <FloatingButton
         href={WHATSAPP_HREF}
         label="Chat on WhatsApp"

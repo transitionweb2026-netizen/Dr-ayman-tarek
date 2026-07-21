@@ -24,21 +24,21 @@ export function FinalCta({
       <GlassCard
         radius="3xl"
         interactive={false}
-        className="flex flex-col items-center gap-6 overflow-hidden border-primary/15 p-margin-mobile text-center shadow-glow-lg lg:flex-row lg:p-section-gap lg:text-left"
+        className="flex flex-col items-center gap-6 overflow-hidden border-primary/15 p-margin-mobile text-center shadow-glow-lg md:flex-row md:p-10 md:text-left lg:p-section-gap"
       >
-        <Reveal scale className="relative z-10 w-full lg:w-1/3">
+        <Reveal scale className="relative z-10 w-full md:w-1/3">
           <div className="icon-badge-neon mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full">
             <NeonIcon name={icon} className="animate-pulse text-[100px]" />
           </div>
         </Reveal>
-        <div className="relative z-10 w-full space-y-6 lg:w-2/3">
+        <div className="relative z-10 w-full space-y-6 md:w-2/3">
           <Reveal>
             <h2 className="text-section-title font-bold leading-tight text-white">{heading}</h2>
           </Reveal>
           <Reveal delay={0.08}>
             <p className="text-body-lg text-on-surface-variant">{subtitle}</p>
           </Reveal>
-          <Reveal delay={0.16} className="flex w-full flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+          <Reveal delay={0.16} className="flex w-full flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
             <Button size="lg" className="w-full px-6 py-3.5 shadow-2xl sm:w-auto lg:px-12 lg:py-5">
               {primaryLabel}
             </Button>

@@ -88,6 +88,12 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-manrope)", "system-ui", "sans-serif"],
       },
+      // Fluid scale: every size below scales linearly from its mobile floor
+      // (320px viewport) up to its desktop ceiling — which is always the
+      // exact pre-existing fixed value — saturating by ~1280px, the same
+      // point the pre-existing hero/section-title tokens already lock at.
+      // Desktop (1280px+) is therefore pixel-identical to before; only the
+      // 320–1280px range gained proportional scaling instead of a hard jump.
       fontSize: {
         // Hero Title
         hero: [
@@ -105,15 +111,27 @@ const config: Config = {
           { lineHeight: "1.5", letterSpacing: "-0.005em", fontWeight: "500" },
         ],
         // Card / block heading
-        "card-title": ["1.375rem", { lineHeight: "1.3", fontWeight: "600" }],
+        "card-title": [
+          "clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem)",
+          { lineHeight: "1.3", fontWeight: "600" },
+        ],
         // Body
-        body: ["1rem", { lineHeight: "1.7", fontWeight: "400" }],
-        "body-lg": ["1.0625rem", { lineHeight: "1.7", fontWeight: "400" }],
+        body: ["clamp(0.9375rem, 0.9rem + 0.15vw, 1rem)", { lineHeight: "1.7", fontWeight: "400" }],
+        "body-lg": [
+          "clamp(1rem, 0.965rem + 0.15vw, 1.0625rem)",
+          { lineHeight: "1.7", fontWeight: "400" },
+        ],
         // Small text
-        small: ["0.875rem", { lineHeight: "1.5", fontWeight: "500" }],
-        micro: ["0.75rem", { lineHeight: "1.4", fontWeight: "600", letterSpacing: "0.06em" }],
+        small: ["clamp(0.8125rem, 0.79rem + 0.12vw, 0.875rem)", { lineHeight: "1.5", fontWeight: "500" }],
+        micro: [
+          "clamp(0.6875rem, 0.67rem + 0.08vw, 0.75rem)",
+          { lineHeight: "1.4", fontWeight: "600", letterSpacing: "0.06em" },
+        ],
         // Button text
-        button: ["0.9375rem", { lineHeight: "1", letterSpacing: "0.01em", fontWeight: "600" }],
+        button: [
+          "clamp(0.875rem, 0.85rem + 0.12vw, 0.9375rem)",
+          { lineHeight: "1", letterSpacing: "0.01em", fontWeight: "600" },
+        ],
       },
       boxShadow: {
         glow: "0 0 40px rgba(196, 61, 255, 0.25)",
