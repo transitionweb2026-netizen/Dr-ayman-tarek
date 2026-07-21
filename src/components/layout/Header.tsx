@@ -148,6 +148,7 @@ export function Header() {
                     <Link
                       href={item.href}
                       aria-current={isActive ? "page" : undefined}
+                      onClick={() => setMobileOpen(false)}
                       className={cn(
                         "flex min-h-[56px] items-center rounded-2xl px-5 text-card-title transition-colors",
                         isActive ? "bg-primary/10 text-primary" : "text-white hover:bg-white/5",
@@ -160,7 +161,7 @@ export function Header() {
               })}
             </nav>
 
-            <Button size="lg" className="w-full">
+            <Button size="lg" className="w-full" onClick={() => setMobileOpen(false)}>
               Book Appointment
             </Button>
           </motion.div>

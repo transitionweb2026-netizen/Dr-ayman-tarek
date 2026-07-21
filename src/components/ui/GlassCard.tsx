@@ -29,16 +29,22 @@ export function GlassCard({
   className,
   radius = "2xl",
   interactive = true,
+  as = "div",
   ...props
 }: GlassCardProps) {
+  // All three tags (div/article/li) accept the same props we ever pass here
+  // (className, children, standard handlers) — cast keeps the union of
+  // per-element HTMLAttributes (e.g. li's onToggle) from fighting the
+  // HTMLDivElement-typed props this component has always accepted.
+  const MotionTag = motion[as] as typeof motion.div;
   return (
-    <motion.div
+    <MotionTag
       className={cn("glass", radiusClass[radius], interactive && "glass-hover", className)}
       whileHover={interactive ? { y: -6 } : undefined}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
       {...props}
     >
       {children}
-    </motion.div>
+    </MotionTag>
   );
 }

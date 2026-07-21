@@ -97,7 +97,8 @@ export function PageHero({
           className="relative z-10 mx-auto mt-8 aspect-[4/5] w-full max-w-[240px] overflow-hidden rounded-[32px] border border-primary/15 shadow-glow-lg lg:hidden"
         >
           <Image src={image} alt="" fill sizes="240px" className="object-cover object-top" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
+          <p className="absolute inset-x-0 bottom-0 p-4 text-body font-bold text-white">Dr. Ayman Tarek</p>
         </motion.div>
       )}
 

@@ -106,7 +106,16 @@ export function HomeHero() {
               sizes="(max-width: 1024px) 320px"
               className="object-cover object-top"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 flex items-center gap-2 p-5">
+              <span className="icon-badge-neon flex h-9 w-9 shrink-0 items-center justify-center rounded-full">
+                <NeonIcon name="verified" filled className="text-base" />
+              </span>
+              <div>
+                <p className="text-body-lg font-bold text-white">Dr. Ayman Tarek</p>
+                <p className="text-small text-on-surface-variant">Neurosurgeon, WFNS Fellow</p>
+              </div>
+            </div>
           </motion.div>
 
           <motion.div

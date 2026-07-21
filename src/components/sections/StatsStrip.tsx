@@ -37,7 +37,7 @@ export function StatsStrip({ stats = DEFAULT_STATS }: { stats?: Stat[] }) {
           {stats.map((stat) => (
             <StaggerChild key={stat.label} className="flex flex-col items-center gap-3">
               <IconBadge icon={stat.icon} className="h-14 w-14 rounded-2xl" iconClassName="text-3xl" />
-              <p className="text-[36px] font-bold leading-none text-white">
+              <p className="text-[26px] font-bold leading-none text-white sm:text-[32px] lg:text-[36px]">
                 <Counter target={stat.value} suffix={stat.suffix} />
               </p>
               <p className="text-micro uppercase tracking-widest text-on-surface-variant">{stat.label}</p>
