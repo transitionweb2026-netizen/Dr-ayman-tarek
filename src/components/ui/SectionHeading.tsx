@@ -11,7 +11,8 @@ interface SectionHeadingProps {
 
 /** Consistent section header used across every page: eyebrow → title → subtitle. */
 export function SectionHeading({ eyebrow, title, subtitle, align = "center", className }: SectionHeadingProps) {
-  const alignClass = align === "center" ? "text-center mx-auto items-center" : "text-left items-start";
+  const alignClass =
+    align === "center" ? "text-center mx-auto items-center" : "text-left items-start rtl:text-right rtl:items-end";
 
   return (
     <div className={cn("mb-14 flex max-w-2xl flex-col gap-4", alignClass, className)}>

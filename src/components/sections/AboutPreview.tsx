@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { NeonIcon } from "@/components/ui/NeonIcon";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import type { ReactNode } from "react";
 
 const DEFAULT_VIDEO_THUMB =
@@ -21,14 +22,16 @@ interface AboutPreviewProps {
 /** Video-left / bio-right section — used on Home (short) and About (extended). */
 export function AboutPreview({
   title,
-  videoCaption = "Surgical Methodology Overview",
+  videoCaption,
   videoImage = DEFAULT_VIDEO_THUMB,
   children,
   cta,
 }: AboutPreviewProps) {
+  const { t, dir } = useLanguage();
+  const caption = videoCaption ?? t("home.about.videoCaption");
   return (
     <section className="mx-auto grid max-w-container-max grid-cols-1 items-center gap-10 px-margin-mobile pt-section-gap-sm md:px-margin-desktop lg:grid-cols-[1.55fr_1fr] lg:gap-12">
-      <Reveal direction="left" className="group relative">
+      <Reveal direction={dir === "rtl" ? "right" : "left"} className="group relative">
         <div className="absolute -inset-4 rounded-3xl bg-primary/15 blur-3xl transition-all duration-700 group-hover:bg-primary/25" />
         <GlassCard radius="3xl" interactive={false} className="relative flex aspect-video items-center justify-center overflow-hidden">
           <Image src={videoImage} alt="" fill className="object-cover opacity-40 transition-transform duration-700 group-hover:scale-105" />
@@ -39,11 +42,11 @@ export function AboutPreview({
           >
             <NeonIcon name="play_arrow" filled className="text-5xl" />
           </motion.button>
-          <div className="absolute bottom-6 left-6 flex items-center gap-3">
+          <div className="absolute bottom-6 left-6 flex items-center gap-3 rtl:left-auto rtl:right-6">
             <div className="icon-badge-neon flex h-10 w-10 items-center justify-center rounded-full">
               <NeonIcon name="visibility" className="text-sm" />
             </div>
-            <span className="text-small text-white">{videoCaption}</span>
+            <span className="text-small text-white">{caption}</span>
           </div>
         </GlassCard>
       </Reveal>

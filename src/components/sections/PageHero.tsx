@@ -6,6 +6,7 @@ import { GlowOrb } from "@/components/decor/GlowOrb";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import type { ReactNode } from "react";
 
 interface PageHeroProps {
@@ -36,6 +37,7 @@ export function PageHero({
   height = "md",
   children,
 }: PageHeroProps) {
+  const { t } = useLanguage();
   const isCenter = align === "center";
 
   return (
@@ -102,7 +104,7 @@ export function PageHero({
         >
           <Image src={image} alt="" fill sizes="240px" className="object-cover object-top" />
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
-          <p className="absolute inset-x-0 bottom-0 p-4 text-body font-bold text-white">Dr. Ayman Tarek</p>
+          <p className="absolute inset-x-0 bottom-0 p-4 text-body font-bold text-white">{t("meta.brand")}</p>
         </motion.div>
       )}
 
@@ -123,7 +125,7 @@ export function PageHero({
           className={
             isCenter
               ? "w-full max-w-xs"
-              : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] lg:right-[5%]"
+              : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] lg:right-[5%] rtl:lg:right-auto rtl:lg:left-[5%]"
           }
         >
           <HeroSocialCard />

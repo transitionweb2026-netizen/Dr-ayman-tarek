@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "qa:screenshots": "node scripts/visual-qa.mjs"
+    "qa:screenshots": "node scripts/visual-qa.mjs",
+    "check:i18n": "node --experimental-strip-types scripts/check-i18n-parity.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

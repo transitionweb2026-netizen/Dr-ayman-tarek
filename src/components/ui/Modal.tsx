@@ -5,6 +5,7 @@ import { type ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { NeonIcon } from "@/components/ui/NeonIcon";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface ModalProps {
   open: boolean;
@@ -19,6 +20,7 @@ interface ModalProps {
  * body scroll lock, and the fade + scale entrance/exit.
  */
 export function Modal({ open, onClose, children, className }: ModalProps) {
+  const { t } = useLanguage();
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
@@ -60,9 +62,9 @@ export function Modal({ open, onClose, children, className }: ModalProps) {
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
             <button
-              aria-label="Close"
+              aria-label={t("modal.close")}
               onClick={onClose}
-              className="icon-badge-neon absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full"
+              className="icon-badge-neon absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full rtl:right-auto rtl:left-4"
             >
               <NeonIcon name="close" />
             </button>

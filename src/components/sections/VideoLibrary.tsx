@@ -8,12 +8,13 @@ import { Modal } from "@/components/ui/Modal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
-import { VIDEOS, type Video } from "@/data/videos";
+import { getVideos, type Video } from "@/data/videos";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 function VideoCard({ video, onSelect }: { video: Video; onSelect: () => void }) {
   return (
-    <GlassCard as="article" radius="2xl" className="group flex h-full flex-col overflow-hidden text-left">
-      <button onClick={onSelect} className="flex h-full flex-col text-left">
+    <GlassCard as="article" radius="2xl" className="group flex h-full flex-col overflow-hidden text-left rtl:text-right">
+      <button onClick={onSelect} className="flex h-full flex-col text-left rtl:text-right">
         <div className="relative aspect-[9/16] overflow-hidden">
           <Image
             src={video.thumbnail}
@@ -30,10 +31,10 @@ function VideoCard({ video, onSelect }: { video: Video; onSelect: () => void }) 
               <NeonIcon name="play_arrow" filled neon={false} className="text-3xl text-white" />
             </span>
           </div>
-          <span className="glass absolute left-4 top-4 rounded-full border-primary/20 px-3 py-1 text-small text-primary">
+          <span className="glass absolute left-4 top-4 rounded-full border-primary/20 px-3 py-1 text-small text-primary rtl:left-auto rtl:right-4">
             {video.category}
           </span>
-          <span className="absolute bottom-4 right-4 rounded-md bg-background/80 px-2.5 py-1 text-small text-white">
+          <span className="absolute bottom-4 right-4 rounded-md bg-background/80 px-2.5 py-1 text-small text-white rtl:right-auto rtl:left-4">
             {video.duration}
           </span>
         </div>
@@ -47,9 +48,11 @@ function VideoCard({ video, onSelect }: { video: Video; onSelect: () => void }) 
 }
 
 export function VideoLibrary() {
+  const { language, t } = useLanguage();
+  const videos = getVideos(language);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [shareConfirmed, setShareConfirmed] = useState(false);
-  const active = VIDEOS.find((v) => v.id === activeId) ?? null;
+  const active = videos.find((v) => v.id === activeId) ?? null;
 
   async function handleShare() {
     if (!active) return;
@@ -69,12 +72,9 @@ export function VideoLibrary() {
 
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop">
-      <SectionHeading
-        title="Video Library"
-        subtitle="Short, clear explanations of common neurological conditions and treatments — straight from Dr. Ayman Tarek's clinical practice."
-      />
+      <SectionHeading title={t("videos.library.title")} subtitle={t("videos.library.subtitle")} />
       <Stagger className="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3">
-        {VIDEOS.map((video) => (
+        {videos.map((video) => (
           <StaggerChild key={video.id}>
             <VideoCard video={video} onSelect={() => setActiveId(video.id)} />
           </StaggerChild>
@@ -109,16 +109,16 @@ export function VideoLibrary() {
               <h3 className="text-section-title text-white">{active.title}</h3>
               <p className="text-body-lg text-on-surface-variant">{active.description}</p>
               <div className="flex flex-wrap gap-3 pt-2">
-                <Button className="min-w-[180px] flex-1">Book Appointment</Button>
+                <Button className="min-w-[180px] flex-1">{t("common.bookAppointment")}</Button>
                 <Button
                   variant="ghost"
                   onClick={handleShare}
                   icon={<NeonIcon name="share" className="text-xl" />}
                 >
-                  Share
+                  {t("common.share")}
                 </Button>
               </div>
-              {shareConfirmed && <p className="text-center text-small text-primary">Link copied to clipboard.</p>}
+              {shareConfirmed && <p className="text-center text-small text-primary">{t("common.linkCopied")}</p>}
             </div>
           </>
         )}

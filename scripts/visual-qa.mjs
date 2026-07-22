@@ -18,6 +18,12 @@
  * fixture; screenshots are meant to be reviewed then discarded, not
  * committed). Override the target with QA_BASE_URL, e.g. to point at a
  * deployed preview instead of localhost.
+ *
+ * Set QA_LANG=ar to sweep the Arabic/RTL version instead of English
+ * (writes to .qa-screenshots/ar/ instead of .qa-screenshots/en/) — the
+ * site is bilingual with a client-side localStorage language switch, so
+ * this seeds localStorage before each page loads rather than navigating
+ * a different URL.
  */
 import { chromium } from "playwright";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
@@ -25,7 +31,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUT_DIR = path.join(__dirname, "..", ".qa-screenshots");
+const LANG = process.env.QA_LANG === "ar" ? "ar" : "en";
+const OUT_DIR = path.join(__dirname, "..", ".qa-screenshots", LANG);
 const BASE_URL = process.env.QA_BASE_URL || "http://localhost:3000";
 
 const PAGES = [
@@ -51,8 +58,20 @@ const BREAKPOINTS = [
 
 const VIEWPORT_HEIGHT = 1000;
 
+// aria-label/visible text is translated — these are the only two strings
+// the script itself needs to locate by content, so mirror both languages
+// here rather than hardcoding English.
+const TOGGLE_MENU_LABEL = LANG === "ar" ? "فتح القائمة" : "Toggle menu";
+const APPOINTMENT_FORM_TEXT = LANG === "ar" ? "طلب حجز موعد" : "Request an Appointment";
+
 async function withPage(browser, width, height, fn) {
   const context = await browser.newContext({ viewport: { width, height } });
+  if (LANG === "ar") {
+    // Seed localStorage before any app script runs, so the language-init
+    // script in <head> picks it up on first paint (same as a returning
+    // Arabic user) instead of needing a click-through per page.
+    await context.addInitScript(() => window.localStorage.setItem("language", "ar"));
+  }
   const page = await context.newPage();
   try {
     await fn(page);
@@ -104,7 +123,7 @@ async function run() {
   for (const [vname, width] of BREAKPOINTS) {
     await withPage(browser, width, VIEWPORT_HEIGHT, async (page) => {
       await page.goto(BASE_URL + "/contact", { waitUntil: "networkidle" });
-      const form = page.locator("text=Request an Appointment").first();
+      const form = page.locator(`text=${APPOINTMENT_FORM_TEXT}`).first();
       await form.scrollIntoViewIfNeeded().catch(() => {});
       await page.waitForTimeout(300);
       await page.screenshot({ path: path.join(OUT_DIR, `contact-form_${vname}.png`) });
@@ -115,7 +134,7 @@ async function run() {
   for (const [vname, width] of BREAKPOINTS.filter(([, w]) => w < 1280)) {
     await withPage(browser, width, VIEWPORT_HEIGHT, async (page) => {
       await page.goto(BASE_URL + "/", { waitUntil: "networkidle" });
-      await page.click('button[aria-label="Toggle menu"]');
+      await page.click(`button[aria-label="${TOGGLE_MENU_LABEL}"]`);
       await page.waitForTimeout(600);
       await page.screenshot({ path: path.join(OUT_DIR, `menu-open_${vname}.png`) });
     });

@@ -1,3 +1,5 @@
+import type { Language } from "@/i18n/LanguageProvider";
+
 export interface BlogArticle {
   id: string;
   title: string;
@@ -17,7 +19,7 @@ const IMG = {
   diagnostic: "https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk",
 };
 
-export const FEATURED_ARTICLE: BlogArticle = {
+export const FEATURED_ARTICLE_EN: BlogArticle = {
   id: "future-of-neurosurgery",
   title: "The Future of Neurosurgery: Where Robotics Meets Precision",
   category: "Technology",
@@ -28,7 +30,18 @@ export const FEATURED_ARTICLE: BlogArticle = {
   image: IMG.diagnostic,
 };
 
-export const ARTICLES: BlogArticle[] = [
+export const FEATURED_ARTICLE_AR: BlogArticle = {
+  id: "future-of-neurosurgery",
+  title: "مستقبل جراحة الأعصاب: حين تلتقي الروبوتات بالدقة",
+  category: "التقنية",
+  date: "2 ديسمبر 2024",
+  readingTime: "7 دقائق قراءة",
+  excerpt:
+    "من التشخيص بمساعدة الذكاء الاصطناعي إلى الملاحة الروبوتية دون المليمتر، تعيد الأدوات التي تشكّل جراحة الأعصاب الحديثة تعريف الممكن للمرضى حتى في أكثر الحالات تعقيدًا. إليك نظرة على التقنيات التي تنتقل من مختبرات الأبحاث إلى الممارسة اليومية، وما تعنيه لنتائج الجراحة خلال العقد القادم.",
+  image: IMG.diagnostic,
+};
+
+export const ARTICLES_EN: BlogArticle[] = [
   {
     id: "robotic-neurosurgery-explained",
     title: "Robotic Neurosurgery Explained",
@@ -90,3 +103,74 @@ export const ARTICLES: BlogArticle[] = [
     image: IMG.suite,
   },
 ];
+
+export const ARTICLES_AR: BlogArticle[] = [
+  {
+    id: "robotic-neurosurgery-explained",
+    title: "شرح جراحة الأعصاب الروبوتية",
+    category: "جراحة الأعصاب الروبوتية",
+    date: "24 نوفمبر 2024",
+    readingTime: "5 دقائق قراءة",
+    excerpt:
+      "كيف تمنح أنظمة الملاحة الروبوتية الجراحين توجيهًا ثلاثي الأبعاد لحظيًا أثناء عمليات القحف والعمود الفقري المعقدة، بما ينعكس في مضاعفات أقل وأوقات تعافٍ أكثر قابلية للتوقع.",
+    image: IMG.diagnostic,
+  },
+  {
+    id: "spine-surgery-options",
+    title: "فهم خيارات جراحة العمود الفقري المتاحة لك",
+    category: "جراحة العمود الفقري",
+    date: "16 نوفمبر 2024",
+    readingTime: "6 دقائق قراءة",
+    excerpt:
+      "من الدمج طفيف التوغل إلى استبدال القرص الصناعي، شرح واضح للخيارات الجراحية الحديثة المتاحة لآلام الظهر والرقبة المزمنة، وكيف يقرر الجراحون بينها.",
+    image: IMG.spine,
+  },
+  {
+    id: "brain-tumor-diagnosis",
+    title: "ماذا يحدث بعد تشخيص ورم بالمخ",
+    category: "أورام المخ",
+    date: "8 نوفمبر 2024",
+    readingTime: "8 دقائق قراءة",
+    excerpt:
+      "دليل سهل للمريض عن الأسابيع التالية للتشخيص — كيف تحدد الأشعة خطة العلاج، والفرق بين الأورام الحميدة والخبيثة، وما الأسئلة التي يجب طرحها في استشارتك الأولى.",
+    image: IMG.brain,
+  },
+  {
+    id: "epilepsy-surgery-candidates",
+    title: "من هو المرشح لجراحة الصرع؟",
+    category: "جراحة الصرع",
+    date: "30 أكتوبر 2024",
+    readingTime: "5 دقائق قراءة",
+    excerpt:
+      "الصرع المقاوم للأدوية لا يعني بالضرورة نوبات مدى الحياة. إليك كيف تساعد مراقبة الفيديو وتخطيط كهربية المخ والتصوير الوظيفي في تحديد المرشحين للجراحة الاستئصالية أو التحفيز العصبي.",
+    image: IMG.epilepsy,
+  },
+  {
+    id: "ai-in-neurosurgery",
+    title: "كيف يغيّر الذكاء الاصطناعي التخطيط لما قبل الجراحة",
+    category: "الذكاء الاصطناعي في جراحة الأعصاب",
+    date: "21 أكتوبر 2024",
+    readingTime: "6 دقائق قراءة",
+    excerpt:
+      "يساعد تحليل الصور بمساعدة التعلم الآلي الفرق الجراحية على رسم خرائط التراكيب الحيوية بثقة أكبر قبل إجراء أول شق جراحي — إليك كيف يندمج ذلك في الممارسة الحديثة.",
+    image: IMG.disc,
+  },
+  {
+    id: "recovery-after-surgery",
+    title: "كيف يبدو التعافي فعليًا بعد الجراحة",
+    category: "التعافي",
+    date: "13 أكتوبر 2024",
+    readingTime: "5 دقائق قراءة",
+    excerpt:
+      "نظرة واقعية أسبوعًا بأسبوع على التعافي بعد عمليات جراحة الأعصاب — إدارة الألم، ومحطات العلاج الطبيعي، وعلامات التحذير التي تستدعي التواصل مع فريقك الجراحي.",
+    image: IMG.suite,
+  },
+];
+
+export function getFeaturedArticle(lang: Language): BlogArticle {
+  return lang === "ar" ? FEATURED_ARTICLE_AR : FEATURED_ARTICLE_EN;
+}
+
+export function getArticles(lang: Language): BlogArticle[] {
+  return lang === "ar" ? ARTICLES_AR : ARTICLES_EN;
+}

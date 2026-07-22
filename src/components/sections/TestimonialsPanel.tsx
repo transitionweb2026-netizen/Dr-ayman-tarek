@@ -5,34 +5,19 @@ import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
-const TESTIMONIALS = [
-  {
-    quote:
-      "Dr. Tarek performed a complex spinal fusion on me last year. The precision of the surgery and the level of care during recovery was unlike anything I've experienced. Truly elite.",
-    name: "Alexander Henderson",
-    role: "Spinal Fusion Patient",
-  },
-  {
-    quote:
-      "I was terrified about my brain tumor diagnosis. Dr. Ayman explained everything with such calm expertise. The surgery was a complete success. I owe him my life.",
-    name: "Elena Rodriguez",
-    role: "Neuro-Oncology Survivor",
-  },
-  {
-    quote:
-      "Modern, high-tech, and humane. The facility and the medical team led by Dr. Tarek are simply world-class. Best neurological care in the region.",
-    name: "Michael Chen",
-    role: "Neurology Patient",
-  },
-];
+interface PanelTestimonial {
+  quote: string;
+  name: string;
+  role: string;
+}
 
-const MILESTONES = [
-  { year: "2024", title: "Appointed Chief of Neurosurgery", place: "Elite International Medical Center" },
-  { year: "2022", title: "Excellence in Innovation Award", place: "World Federation of Neurosurgical Societies" },
-  { year: "2018", title: "Surgical Fellowship Program", place: "Royal College of Surgeons" },
-  { year: "2014", title: "Specialization PhD Completion", place: "Global Medical University" },
-];
+interface Milestone {
+  year: string;
+  title: string;
+  place: string;
+}
 
 function Stars() {
   return (
@@ -47,43 +32,47 @@ function Stars() {
 }
 
 export function TestimonialsPanel() {
+  const { t, tRaw } = useLanguage();
+  const testimonials = tRaw<PanelTestimonial[]>("home.testimonialsPanel.testimonials");
+  const milestones = tRaw<Milestone[]>("home.testimonialsPanel.milestones");
+
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <div className="grid grid-cols-1 gap-gutter lg:grid-cols-[11fr_9fr]">
         {/* Patient reviews */}
         <GlassCard radius="2xl" interactive={false} className="flex flex-col p-6 md:p-7">
           <Reveal>
-            <h2 className="mb-6 text-center text-card-title text-white">Patient Testimonials</h2>
+            <h2 className="mb-6 text-center text-card-title text-white">{t("home.testimonialsPanel.title")}</h2>
           </Reveal>
           <Stagger className="grid flex-1 auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" gap={0.1}>
-            {TESTIMONIALS.map((t) => (
-              <StaggerChild key={t.name}>
+            {testimonials.map((item) => (
+              <StaggerChild key={item.name}>
                 <GlassCard radius="xl" className="flex h-full flex-col p-4 text-center">
                   <Stars />
                   <p className="line-clamp-4 flex-1 text-sm italic leading-relaxed text-on-surface-variant">
-                    &quot;{t.quote}&quot;
+                    &quot;{item.quote}&quot;
                   </p>
                   <div className="mt-auto border-t border-white/5 pt-3">
-                    <p className="text-small text-white">{t.name}</p>
-                    <p className="text-small text-on-surface-variant">{t.role}</p>
+                    <p className="text-small text-white">{item.name}</p>
+                    <p className="text-small text-on-surface-variant">{item.role}</p>
                   </div>
                 </GlassCard>
               </StaggerChild>
             ))}
           </Stagger>
           <Button variant="outline" size="md" className="mx-auto mt-6">
-            View All Testimonials
+            {t("home.testimonialsPanel.viewAll")}
           </Button>
         </GlassCard>
 
         {/* Career milestones */}
         <GlassCard radius="2xl" interactive={false} className="flex flex-col p-6 shadow-glow md:p-7">
           <Reveal>
-            <h3 className="mb-6 text-center text-card-title text-white">Career Milestones</h3>
+            <h3 className="mb-6 text-center text-card-title text-white">{t("home.testimonialsPanel.milestonesTitle")}</h3>
           </Reveal>
           <div className="flex flex-1 flex-col items-center gap-5 sm:flex-row">
             <Stagger className="w-full flex-1 space-y-4" gap={0.08}>
-              {MILESTONES.map((m, i) => (
+              {milestones.map((m, i) => (
                 <StaggerChild key={m.year} className="flex items-start gap-3">
                   <NeonIcon
                     name="check_circle"

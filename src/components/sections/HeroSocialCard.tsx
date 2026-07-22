@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Phone } from "lucide-react";
 import type { MouseEvent as ReactMouseEvent, ReactNode } from "react";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const PHONE_NUMBER = "+20 100 000 0000";
 const PHONE_HREF = "tel:+201000000000";
@@ -43,10 +44,10 @@ function FacebookGlyph({ className }: { className?: string }) {
   );
 }
 
-const SOCIALS: { label: string; href: string; render: (className: string) => ReactNode }[] = [
-  { label: "WhatsApp", href: WHATSAPP_HREF, render: (c) => <WhatsAppGlyph className={c} /> },
-  { label: "Instagram", href: "#", render: (c) => <InstagramGlyph className={c} /> },
-  { label: "Facebook", href: "#", render: (c) => <FacebookGlyph className={c} /> },
+const SOCIALS: { labelKey: string; href: string; render: (className: string) => ReactNode }[] = [
+  { labelKey: "heroSocialCard.whatsapp", href: WHATSAPP_HREF, render: (c) => <WhatsAppGlyph className={c} /> },
+  { labelKey: "heroSocialCard.instagram", href: "#", render: (c) => <InstagramGlyph className={c} /> },
+  { labelKey: "heroSocialCard.facebook", href: "#", render: (c) => <FacebookGlyph className={c} /> },
 ];
 
 const staggerContainer = {
@@ -99,6 +100,7 @@ function MagneticIcon({ href, label, children }: { href: string; label: string; 
 
 /** Premium glass "Connect With Us" card — social icons + phone, floated inside the Home hero. */
 export function HeroSocialCard() {
+  const { t } = useLanguage();
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
@@ -110,7 +112,7 @@ export function HeroSocialCard() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-transparent" />
 
       <p className="relative mb-5 text-micro font-semibold uppercase tracking-[0.2em] text-primary">
-        Connect With Us
+        {t("heroSocialCard.connectWithUs")}
       </p>
 
       <motion.div
@@ -121,8 +123,8 @@ export function HeroSocialCard() {
         className="relative mb-5 flex items-center gap-4"
       >
         {SOCIALS.map((social) => (
-          <motion.div key={social.label} variants={staggerItem}>
-            <MagneticIcon href={social.href} label={social.label}>
+          <motion.div key={social.labelKey} variants={staggerItem}>
+            <MagneticIcon href={social.href} label={t(social.labelKey)}>
               {social.render("icon-neon h-5 w-5")}
             </MagneticIcon>
           </motion.div>
@@ -136,7 +138,7 @@ export function HeroSocialCard() {
         <span className="icon-badge-neon flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-premium group-hover:scale-110">
           <Phone className="icon-neon h-4 w-4" strokeWidth={2} />
         </span>
-        <span className="text-body font-bold text-white">{PHONE_NUMBER}</span>
+        <span dir="ltr" className="text-body font-bold text-white">{PHONE_NUMBER}</span>
       </a>
     </motion.div>
   );

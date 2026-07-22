@@ -11,6 +11,7 @@ import { ParticleField } from "@/components/decor/ParticleField";
 import { GlowOrb } from "@/components/decor/GlowOrb";
 import { MouseParallax } from "@/components/motion/Parallax";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const HERO_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw";
@@ -22,12 +23,15 @@ const AVATARS = [
 ];
 
 export function HomeHero() {
+  const { t } = useLanguage();
   return (
     <section className="relative flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 pt-20 lg:min-h-[700px]">
-      {/* Full-bleed background artwork */}
+      {/* Full-bleed background artwork. The gradient mirrors in RTL (rtl:bg-gradient-to-l)
+          so the photo stays more visible on the side the floating cards sit
+          beside — text starts at the reading edge either way. */}
       <div className="absolute inset-0 z-0">
-        <Image src={HERO_IMAGE} alt="Dr. Ayman Tarek, neurosurgeon" fill priority className="object-cover object-top" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/10" />
+        <Image src={HERO_IMAGE} alt="" fill priority className="object-cover object-top" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/10 rtl:bg-gradient-to-l" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
         {/* Below lg this same photo is also the dedicated mobile portrait
             further down, so the ambient background version needs to read as
@@ -48,7 +52,7 @@ export function HomeHero() {
             className="eyebrow shadow-glow"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary shadow-[0_0_10px_rgba(196,61,255,0.8)]" />
-            Global Excellence in Neurosurgery
+            {t("home.hero.badge")}
           </motion.div>
 
           <motion.h1
@@ -57,9 +61,9 @@ export function HomeHero() {
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-hero text-white"
           >
-            Precision Surgery.
+            {t("home.hero.headingLine1")}
             <br />
-            <span className="text-gradient-brand">Life Reimagined.</span>
+            <span className="text-gradient-brand">{t("home.hero.headingLine2")}</span>
           </motion.h1>
 
           <motion.p
@@ -68,8 +72,7 @@ export function HomeHero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="max-w-lg text-body-lg text-on-surface-variant"
           >
-            Advanced neurological care combining robotic precision with deep clinical expertise. We specialize in
-            complex spinal disorders and neuro-oncology.
+            {t("home.hero.description")}
           </motion.p>
 
           <motion.div
@@ -82,14 +85,14 @@ export function HomeHero() {
               className="w-full sm:w-auto"
               icon={<NeonIcon name="calendar_month" neon={false} className="text-xl text-white" />}
             >
-              Start Patient Journey
+              {t("home.hero.primaryCta")}
             </Button>
             <Button
               variant="ghost"
               className="w-full sm:w-auto"
               icon={<NeonIcon name="play_circle" filled className="text-xl" />}
             >
-              Watch Procedures
+              {t("home.hero.secondaryCta")}
             </Button>
           </motion.div>
 
@@ -105,7 +108,7 @@ export function HomeHero() {
           >
             <Image
               src={HERO_IMAGE}
-              alt="Dr. Ayman Tarek, neurosurgeon"
+              alt=""
               fill
               sizes="(max-width: 1024px) 320px"
               className="object-cover object-top"
@@ -116,8 +119,8 @@ export function HomeHero() {
                 <NeonIcon name="verified" filled className="text-base" />
               </span>
               <div>
-                <p className="text-body-lg font-bold text-white">Dr. Ayman Tarek</p>
-                <p className="text-small text-on-surface-variant">Neurosurgeon, WFNS Fellow</p>
+                <p className="text-body-lg font-bold text-white">{t("home.hero.doctorName")}</p>
+                <p className="text-small text-on-surface-variant">{t("home.hero.doctorTitle")}</p>
               </div>
             </div>
           </motion.div>
@@ -128,7 +131,7 @@ export function HomeHero() {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="flex items-center justify-center gap-6 pt-4 sm:justify-start"
           >
-            <div className="flex -space-x-3">
+            <div className="flex -space-x-3 rtl:space-x-reverse">
               {AVATARS.map((src) => (
                 <div key={src} className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-background">
                   <Image src={src} alt="" fill className="object-cover" sizes="48px" />
@@ -136,8 +139,8 @@ export function HomeHero() {
               ))}
             </div>
             <div>
-              <p className="text-card-title font-bold text-white">5,000+</p>
-              <p className="text-small text-on-surface-variant">Recovered Patients</p>
+              <p dir="ltr" className="text-card-title font-bold text-white rtl:text-right">{t("home.hero.statValue")}</p>
+              <p className="text-small text-on-surface-variant">{t("home.hero.statLabel")}</p>
             </div>
           </motion.div>
         </div>
@@ -147,15 +150,15 @@ export function HomeHero() {
           stack below the content on mobile/tablet; absolutely positioned
           beside the doctor's image (right side) once there's room at lg. */}
       <div className="relative z-10 mt-10 flex w-full flex-col items-center gap-5 px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
-        <div className="w-full max-w-xs animate-float-y lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-[14%] lg:w-64">
+        <div className="w-full max-w-xs animate-float-y lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-[14%] lg:w-64 rtl:lg:right-auto rtl:lg:left-[5%]">
           <GlassCard radius="xl" className="p-5 shadow-glow">
             <NeonIcon name="verified" filled className="mb-2 text-3xl" />
-            <h3 className="mb-1 text-card-title text-white">Board Certified</h3>
-            <p className="text-small text-on-surface-variant">WFNS Distinguished Surgical Fellow</p>
+            <h3 className="mb-1 text-card-title text-white">{t("home.hero.boardCertifiedTitle")}</h3>
+            <p className="text-small text-on-surface-variant">{t("home.hero.boardCertifiedSubtitle")}</p>
           </GlassCard>
         </div>
 
-        <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[8%] lg:right-[5%]">
+        <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[8%] lg:right-[5%] rtl:lg:right-auto rtl:lg:left-[5%]">
           <HeroSocialCard />
         </div>
       </div>

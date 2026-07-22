@@ -1,6 +1,7 @@
 import type { ProcedureCardItem } from "@/components/sections/ProcedureCardGrid";
+import type { Language } from "@/i18n/LanguageProvider";
 
-export const SPECIALTIES: ProcedureCardItem[] = [
+export const SPECIALTIES_EN: ProcedureCardItem[] = [
   {
     id: "liposuction",
     title: "Liposuction & Body Contouring",
@@ -82,3 +83,90 @@ export const SPECIALTIES: ProcedureCardItem[] = [
     duration: "30 – 90 minutes",
   },
 ];
+
+export const SPECIALTIES_AR: ProcedureCardItem[] = [
+  {
+    id: "liposuction",
+    title: "شفط الدهون ونحت الجسم",
+    shortDescription: "نحت دقيق للجسم مع فترة تعافٍ أسرع.",
+    image: "/illustrations/dr-ayman-tarek/card-liposuction.svg",
+    description:
+      "إزالة دقيقة للدهون ونحت للجسم باستخدام تقنيات متقدمة تستهدف تجمعات الدهون العنيدة مع تحقيق قوام أكثر انسيابية وتناسقًا — وبتعافٍ أسرع من الطرق التقليدية.",
+    recovery: "2 – 4 أسابيع",
+    duration: "2 – 3 ساعات",
+  },
+  {
+    id: "rhinoplasty",
+    title: "تجميل الأنف",
+    shortDescription: "توازن طبيعي بين الشكل ووظيفة التنفس.",
+    image: "/illustrations/dr-ayman-tarek/card-rhinoplasty.svg",
+    description:
+      "أسلوب متوازن بعناية لإعادة تشكيل الأنف يراعي الجمال ووظيفة التنفس معًا، لتحقيق نتائج طبيعية المظهر تتناسب مع ملامح وجه كل مريض.",
+    recovery: "1 – 2 أسابيع",
+    duration: "1.5 – 3 ساعات",
+  },
+  {
+    id: "facelift",
+    title: "شد الوجه والرقبة",
+    shortDescription: "مظهر أكثر شبابًا مع ندبات تكاد لا تُرى.",
+    image: "/illustrations/dr-ayman-tarek/card-facelift.svg",
+    description:
+      "تجديد شامل لملامح الوجه يعيد للوجه والرقبة قوامًا أكثر شدًا وشبابًا، باستخدام تقنيات دقيقة تجعل أثر الندبات غير ملحوظ تقريبًا.",
+    recovery: "2 – 3 أسابيع",
+    duration: "3 – 5 ساعات",
+  },
+  {
+    id: "breast",
+    title: "تكبير وتصغير الثدي",
+    shortDescription: "حلول مخصصة توازن بين التناسق والراحة.",
+    image: "/illustrations/dr-ayman-tarek/card-breast.svg",
+    description:
+      "جراحة ثدي مخصصة — سواء تكبير أو تصغير — تُخطَّط حسب تناسب جسم كل مريضة وأهدافها، بما يوازن بين الجمال الطبيعي والراحة على المدى الطويل.",
+    recovery: "1 – 2 أسابيع",
+    duration: "1.5 – 2.5 ساعات",
+  },
+  {
+    id: "burn-reconstructive",
+    title: "جراحة الحروق والترميم",
+    shortDescription: "إعادة بناء الأنسجة التالفة بدقة جراحية عالية.",
+    image: "/illustrations/dr-ayman-tarek/card-burn-reconstructive.svg",
+    description:
+      "تقنيات ترميمية متقدمة لإعادة بناء الأنسجة التالفة بعد الحروق أو الإصابات أو الجراحات السابقة، تجمع بين الدقة الجراحية والتركيز على استعادة الوظيفة والمظهر معًا.",
+    recovery: "تختلف حسب شدة الحالة",
+    duration: "تختلف حسب نوع العملية",
+  },
+  {
+    id: "botox-fillers",
+    title: "البوتوكس والفيلر",
+    shortDescription: "حلول غير جراحية لنتائج فورية وطبيعية المظهر.",
+    image: "/illustrations/dr-ayman-tarek/card-botox-fillers.svg",
+    description:
+      "علاجات غير جراحية بالحقن تُنعّم الخطوط الدقيقة وتستعيد امتلاء الوجه، مع نتائج فورية وطبيعية المظهر ودون فترة توقف تقريبًا.",
+    recovery: "بدون فترة توقف",
+    duration: "15 – 30 دقيقة",
+  },
+  {
+    id: "tummy-tuck",
+    title: "شد البطن",
+    shortDescription: "قوام بطن أكثر شدًا واستواءً بأسلوب مخصص.",
+    image: "/illustrations/dr-ayman-tarek/card-tummy-tuck.svg",
+    description:
+      "إزالة الجلد الزائد وشد عضلات البطن المرتخية لاستعادة قوام أكثر شدًا واستواءً — وغالبًا ما تُجرى مع شفط الدهون لنتيجة أكثر اكتمالًا بعد الحمل أو فقدان الوزن الكبير.",
+    recovery: "3 – 5 أسابيع",
+    duration: "2 – 3 ساعات",
+  },
+  {
+    id: "scar-revision",
+    title: "إزالة وتحسين الندبات",
+    shortDescription: "تقنيات دقيقة لتقليل ظهور الندبات.",
+    image: "/illustrations/dr-ayman-tarek/card-scar-revision.svg",
+    description:
+      "تقنيات جراحية وغير جراحية متقدمة لتحسين مظهر الندبات الناتجة عن جراحة سابقة أو إصابة أو حروق — لتنعيم الملمس واللون وتحقيق نتيجة أكثر سلاسة وطبيعية.",
+    recovery: "1 – 3 أسابيع",
+    duration: "30 – 90 دقيقة",
+  },
+];
+
+export function getSpecialties(lang: Language): ProcedureCardItem[] {
+  return lang === "ar" ? SPECIALTIES_AR : SPECIALTIES_EN;
+}

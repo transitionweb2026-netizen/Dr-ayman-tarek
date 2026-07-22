@@ -1,3 +1,5 @@
+import type { Language } from "@/i18n/LanguageProvider";
+
 export interface Video {
   id: string;
   title: string;
@@ -9,7 +11,7 @@ export interface Video {
   description: string;
 }
 
-export const VIDEOS: Video[] = [
+export const VIDEOS_EN: Video[] = [
   {
     id: "epilepsy",
     title: "Understanding Epilepsy",
@@ -119,3 +121,109 @@ export const VIDEOS: Video[] = [
       "A practical, reassuring walkthrough of surgery day from start to finish — what happens at admission, how anesthesia is managed, what the surgical team does while you're in the OR, and what the first hours of recovery look like.",
   },
 ];
+
+export const VIDEOS_AR: Video[] = [
+  {
+    id: "epilepsy",
+    title: "فهم مرض الصرع",
+    category: "الصرع",
+    duration: "6:24",
+    date: "8 أكتوبر 2024",
+    thumbnail: VIDEOS_EN[0].thumbnail,
+    shortDescription: "الخيارات الجراحية موضحة — متى لا يكفي الدواء وماذا يمكن أن تقدمه الجراحة.",
+    description:
+      "شرح واضح وسهل عن الصرع المقاوم للأدوية — كيف يتم تشخيصه من خلال مراقبة الفيديو وتخطيط كهربية المخ، ومتى يصبح العلاج الجراحي خيارًا واقعيًا. يشرح د. طارق عملية التقييم، ونطاق التقنيات الجراحية المتاحة، وما يمكن أن يتوقعه المريض من الاستشارة وحتى التعافي.",
+  },
+  {
+    id: "disc-replacement",
+    title: "استبدال القرص الفقري",
+    category: "رعاية العمود الفقري",
+    duration: "5:10",
+    date: "22 سبتمبر 2024",
+    thumbnail: VIDEOS_EN[1].thumbnail,
+    shortDescription: "تقدم طفيف التوغل — كيف يستعيد استبدال القرص الصناعي الحركة.",
+    description:
+      "كيف يُقارن استبدال القرص الصناعي بعملية دمج الفقرات التقليدية — ولماذا يُهم الحفاظ على الحركة الطبيعية للعمود الفقري على المدى الطويل. يغطي هذا الفيديو من هو المرشح المناسب، وما الذي تتضمنه العملية طفيفة التوغل، والجدول الزمني المعتاد للتعافي.",
+  },
+  {
+    id: "robotic-precision",
+    title: "الدقة الروبوتية",
+    category: "التقنية",
+    duration: "7:45",
+    date: "5 سبتمبر 2024",
+    thumbnail: VIDEOS_EN[2].thumbnail,
+    shortDescription: "داخل غرفة العمليات الحديثة — كيف تحسّن الملاحة الروبوتية دقة الجراحة.",
+    description:
+      "نظرة خلف كواليس أنظمة الملاحة الروبوتية المستخدمة في عمليات العمود الفقري والقحف المعقدة، وكيف تترجم الدقة الموجّهة دون المليمتر إلى مضاعفات أقل وعودة أسرع للحياة اليومية للمرضى.",
+  },
+  {
+    id: "brain-tumors",
+    title: "فهم أورام المخ",
+    category: "أورام الجهاز العصبي",
+    duration: "8:12",
+    date: "19 أغسطس 2024",
+    thumbnail: VIDEOS_EN[3].thumbnail,
+    shortDescription: "ما يجب أن يعرفه كل مريض عن التشخيص وخيارات العلاج والتوقعات.",
+    description:
+      "ما يجب أن يعرفه كل مريض بعد تشخيص ورم بالمخ — الفرق بين الأورام الحميدة والخبيثة، وكيف توجّه الأشعة خطة العلاج، والخيارات الجراحية وغير الجراحية المتاحة اليوم.",
+  },
+  {
+    id: "back-pain",
+    title: "التعايش مع آلام الظهر المزمنة",
+    category: "رعاية العمود الفقري",
+    duration: "6:50",
+    date: "2 أغسطس 2024",
+    thumbnail: VIDEOS_EN[4].thumbnail,
+    shortDescription: "متى تفكر في الجراحة، وماذا تجرب قبل ذلك.",
+    description:
+      "دليل عملي لآلام الظهر المزمنة — العلاجات التحفظية التي تستحق التجربة أولًا، وعلامات التحذير التي تشير إلى أمر أكثر خطورة، وكيف تعرف أن الوقت قد حان لمناقشة الجراحة مع أخصائي.",
+  },
+  {
+    id: "surgical-suite",
+    title: "داخل جناحنا الجراحي",
+    category: "المرفق",
+    duration: "4:35",
+    date: "14 يوليو 2024",
+    thumbnail: VIDEOS_EN[5].thumbnail,
+    shortDescription: "جولة داخل التقنيات المتقدمة لجراحة الأعصاب وراء كل عملية.",
+    description:
+      "جولة موجزة داخل غرفة العمليات حيث تُجرى كل عملية — من أجهزة التصوير أثناء العملية إلى وحدة العناية العصبية المركزة التي ترعى المرضى فور انتهاء الجراحة.",
+  },
+  {
+    id: "awake-craniotomy",
+    title: "شرح جراحة القحف الواعية",
+    category: "جراحة المخ",
+    duration: "5:52",
+    date: "30 يونيو 2024",
+    thumbnail: VIDEOS_EN[6].thumbnail,
+    shortDescription: "لماذا يبقى بعض المرضى واعين أثناء استئصال أورام معينة بالمخ — ولماذا هذا آمن.",
+    description:
+      "نظرة أقرب على جراحة القحف الواعية — تقنية تُبقي المريض واعيًا أثناء الجراحة بالقرب من مناطق الكلام والحركة الحساسة بالمخ، مما يتيح مراقبة لحظية تساعد في الحفاظ على الوظيفة مع تحقيق أقصى استئصال آمن للورم.",
+  },
+  {
+    id: "robotic-spine-fusion",
+    title: "دمج الفقرات بمساعدة الروبوت",
+    category: "جراحة الأعصاب الروبوتية",
+    duration: "6:18",
+    date: "12 يونيو 2024",
+    thumbnail: VIDEOS_EN[7].thumbnail,
+    shortDescription: "دقة وضع دون المليمتر بتوجيه ملاحة روبوتية ثلاثية الأبعاد لحظية.",
+    description:
+      "كيف تُحسّن الملاحة الروبوتية الدقة أثناء عمليات دمج الفقرات المعقدة — بتقليل التعرض للإشعاع، وتصغير حجم الشقوق الجراحية، والمساعدة على ضمان وضع كل دعامة بدقة دون المليمتر لتعافٍ أكثر قابلية للتوقع.",
+  },
+  {
+    id: "surgery-day",
+    title: "ماذا تتوقع في يوم الجراحة",
+    category: "توعية المرضى",
+    duration: "4:47",
+    date: "24 مايو 2024",
+    thumbnail: VIDEOS_EN[8].thumbnail,
+    shortDescription: "خطوات عملية من الدخول إلى التخدير والجراحة والتعافي.",
+    description:
+      "دليل عملي ومطمئن ليوم الجراحة من البداية للنهاية — ماذا يحدث عند الدخول، وكيف يُدار التخدير، وماذا يفعل الفريق الجراحي أثناء وجودك في غرفة العمليات، وكيف تبدو الساعات الأولى من التعافي.",
+  },
+];
+
+export function getVideos(lang: Language): Video[] {
+  return lang === "ar" ? VIDEOS_AR : VIDEOS_EN;
+}

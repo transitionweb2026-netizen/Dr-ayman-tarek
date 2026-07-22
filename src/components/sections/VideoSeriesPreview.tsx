@@ -1,16 +1,20 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
-import { VIDEOS } from "@/data/videos";
+import { getVideos } from "@/data/videos";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 export function VideoSeriesPreview() {
-  const featured = VIDEOS.slice(0, 3);
+  const { language, t } = useLanguage();
+  const featured = getVideos(language).slice(0, 3);
 
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
-      <SectionHeading title="Clinical Video Series" />
+      <SectionHeading title={t("home.videoSeries.title")} />
       <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((video) => (
           <StaggerChild key={video.id}>

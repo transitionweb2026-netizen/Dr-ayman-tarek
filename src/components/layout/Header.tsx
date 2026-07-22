@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 import { NAV_ITEMS, SITE_BRAND } from "@/data/nav";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
+import { LanguageSwitch } from "@/components/ui/LanguageSwitch";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 /**
  * Shared header/nav, rendered once from the root layout.
@@ -17,6 +19,7 @@ import { NeonIcon } from "@/components/ui/NeonIcon";
  */
 export function Header() {
   const pathname = usePathname();
+  const { t, dir } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -81,9 +84,9 @@ export function Header() {
       )}
     >
       <nav className="mx-auto flex h-20 w-full max-w-container-max items-center justify-between px-margin-mobile md:px-margin-desktop">
-        <Link href="/" className="flex items-center gap-3" aria-label="Back to homepage">
+        <Link href="/" className="flex items-center gap-3" aria-label={t("nav.backToHomepage")}>
           <NeonIcon name={SITE_BRAND.icon} className="text-3xl" />
-          <span className="text-card-title font-bold text-primary">{SITE_BRAND.name}</span>
+          <span className="text-card-title font-bold text-primary">{t("meta.brand")}</span>
         </Link>
 
         <div className="hidden items-center gap-8 xl:flex">
@@ -99,7 +102,7 @@ export function Header() {
                   isActive ? "text-primary" : "text-on-surface-variant hover:text-primary",
                 )}
               >
-                {item.label}
+                {t(item.labelKey)}
                 {isActive && (
                   <motion.span
                     layoutId="nav-underline"
@@ -110,20 +113,24 @@ export function Header() {
               </Link>
             );
           })}
+          <LanguageSwitch className="ml-2" />
           <Button size="md" className="ml-2">
-            Book Appointment
+            {t("nav.bookAppointment")}
           </Button>
         </div>
 
-        <button
-          ref={menuTriggerRef}
-          className="icon-neon-trigger flex h-12 w-12 items-center justify-center xl:hidden"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label="Toggle menu"
-          aria-expanded={mobileOpen}
-        >
-          <NeonIcon name={mobileOpen ? "close" : "menu"} className="text-3xl" />
-        </button>
+        <div className="flex items-center gap-3 xl:hidden">
+          <LanguageSwitch />
+          <button
+            ref={menuTriggerRef}
+            className="icon-neon-trigger flex h-12 w-12 items-center justify-center"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={t("nav.toggleMenu")}
+            aria-expanded={mobileOpen}
+          >
+            <NeonIcon name={mobileOpen ? "close" : "menu"} className="text-3xl" />
+          </button>
+        </div>
       </nav>
     </header>
 
@@ -138,9 +145,9 @@ export function Header() {
         {mobileOpen && (
           <motion.div
             ref={drawerRef}
-            initial={{ x: "100%" }}
+            initial={{ x: dir === "rtl" ? "-100%" : "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: dir === "rtl" ? "-100%" : "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 32 }}
             className="fixed inset-0 z-40 flex flex-col bg-background/98 backdrop-blur-2xl xl:hidden"
             style={{
@@ -151,25 +158,28 @@ export function Header() {
             }}
             role="dialog"
             aria-modal="true"
-            aria-label="Mobile navigation"
+            aria-label={t("nav.toggleMenu")}
           >
             <div className="flex items-center justify-between">
               <Link
                 href="/"
                 className="flex items-center gap-3"
                 onClick={() => setMobileOpen(false)}
-                aria-label="Back to homepage"
+                aria-label={t("nav.backToHomepage")}
               >
                 <NeonIcon name={SITE_BRAND.icon} className="text-3xl" />
-                <span className="text-card-title font-bold text-primary">{SITE_BRAND.name}</span>
+                <span className="text-card-title font-bold text-primary">{t("meta.brand")}</span>
               </Link>
-              <button
-                className="icon-badge-neon flex h-12 w-12 items-center justify-center rounded-full"
-                onClick={() => setMobileOpen(false)}
-                aria-label="Close menu"
-              >
-                <NeonIcon name="close" className="text-2xl" />
-              </button>
+              <div className="flex items-center gap-3">
+                <LanguageSwitch />
+                <button
+                  className="icon-badge-neon flex h-12 w-12 items-center justify-center rounded-full"
+                  onClick={() => setMobileOpen(false)}
+                  aria-label={t("nav.closeMenu")}
+                >
+                  <NeonIcon name="close" className="text-2xl" />
+                </button>
+              </div>
             </div>
 
             <nav className="mt-10 flex flex-1 flex-col justify-center gap-2 overflow-y-auto">
@@ -191,7 +201,7 @@ export function Header() {
                         isActive ? "bg-primary/10 text-primary" : "text-white hover:bg-white/5",
                       )}
                     >
-                      {item.label}
+                      {t(item.labelKey)}
                     </Link>
                   </motion.div>
                 );
@@ -199,7 +209,7 @@ export function Header() {
             </nav>
 
             <Button size="lg" className="w-full" onClick={() => setMobileOpen(false)}>
-              Book Appointment
+              {t("nav.bookAppointment")}
             </Button>
           </motion.div>
         )}

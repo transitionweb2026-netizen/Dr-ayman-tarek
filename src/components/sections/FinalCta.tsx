@@ -1,7 +1,10 @@
+"use client";
+
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface FinalCtaProps {
   icon?: string;
@@ -16,15 +19,16 @@ export function FinalCta({
   icon = "psychology",
   heading,
   subtitle,
-  primaryLabel = "Book Appointment",
+  primaryLabel,
   showWhatsapp = true,
 }: FinalCtaProps) {
+  const { t } = useLanguage();
   return (
     <section className="mx-auto mb-20 max-w-container-max px-margin-mobile md:px-margin-desktop">
       <GlassCard
         radius="3xl"
         interactive={false}
-        className="flex flex-col items-center gap-6 overflow-hidden border-primary/15 p-margin-mobile text-center shadow-glow-lg md:flex-row md:p-10 md:text-left lg:p-section-gap"
+        className="flex flex-col items-center gap-6 overflow-hidden border-primary/15 p-margin-mobile text-center shadow-glow-lg md:flex-row md:p-10 md:text-left lg:p-section-gap rtl:md:text-right"
       >
         <Reveal scale className="relative z-10 w-full md:w-1/3">
           <div className="icon-badge-neon mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full">
@@ -40,7 +44,7 @@ export function FinalCta({
           </Reveal>
           <Reveal delay={0.16} className="flex w-full flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
             <Button size="lg" className="w-full px-6 py-3.5 shadow-2xl sm:w-auto lg:px-12 lg:py-5">
-              {primaryLabel}
+              {primaryLabel ?? t("common.bookAppointment")}
             </Button>
             {showWhatsapp && (
               <Button
@@ -53,7 +57,7 @@ export function FinalCta({
                   </svg>
                 }
               >
-                Consult Virtual Assistant
+                {t("common.consultVirtualAssistant")}
               </Button>
             )}
           </Reveal>

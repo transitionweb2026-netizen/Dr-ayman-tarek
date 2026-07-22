@@ -1,13 +1,18 @@
+"use client";
+
 import { ProcedureCardGrid } from "@/components/sections/ProcedureCardGrid";
-import { SERVICES } from "@/data/services";
+import { getServices } from "@/data/services";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 export function ServicesGrid() {
+  const { language, t } = useLanguage();
+
   return (
     <ProcedureCardGrid
-      eyebrow="What We Offer"
-      title="Our Services"
-      subtitle="Comprehensive neurosurgical and neurological care, delivered with precision, safety, and a patient-first approach. Select a service to learn more."
-      items={SERVICES}
+      eyebrow={t("services.grid.eyebrow")}
+      title={t("services.grid.title")}
+      subtitle={t("services.grid.subtitle")}
+      items={getServices(language)}
       sectionId="services"
       topPadding
     />

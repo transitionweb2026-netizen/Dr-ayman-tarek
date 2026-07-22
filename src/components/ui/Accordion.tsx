@@ -20,7 +20,7 @@ export function Accordion({ items, className }: { items: AccordionItem[]; classN
         return (
           <div key={item.question} className="glass overflow-hidden rounded-2xl">
             <button
-              className="flex w-full items-center justify-between gap-4 p-6 text-left"
+              className="flex w-full items-center justify-between gap-4 p-6 text-left rtl:text-right"
               onClick={() => setOpenIndex(isOpen ? null : index)}
               aria-expanded={isOpen}
             >

@@ -1,29 +1,31 @@
+"use client";
+
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { NeonIcon } from "@/components/ui/NeonIcon";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
-const expertiseLinks = ["Neurosurgery", "Neurology", "Spine Care", "Neuro-Oncology"];
+const expertiseKeys = ["neurosurgery", "neurology", "spineCare", "neuroOncology"] as const;
 const journeyLinks = [
-  { label: "First Visit Guide", href: "#" },
-  { label: "Clinical Research", href: "#" },
-  { label: "Recovery Resources", href: "#" },
-  { label: "Insurance & Billing", href: "#" },
-];
+  { key: "firstVisit", href: "#" },
+  { key: "research", href: "#" },
+  { key: "recovery", href: "#" },
+  { key: "insurance", href: "#" },
+] as const;
 
 /** Shared footer, identical across every page. */
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="w-full border-t border-outline-variant/30 bg-surface-container-lowest pb-10 pt-section-gap">
       <div className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile md:grid-cols-4 md:px-margin-desktop">
         <Reveal className="space-y-6">
           <div className="flex items-center gap-3">
             <NeonIcon name="neurology" className="text-2xl" />
-            <span className="text-card-title font-bold text-primary">Dr. Ayman Tarek</span>
+            <span className="text-card-title font-bold text-primary">{t("meta.brand")}</span>
           </div>
-          <p className="text-body text-on-surface-variant">
-            Setting the global standard in neurological surgery and clinical diagnostics through precision,
-            passion, and technological innovation.
-          </p>
+          <p className="text-body text-on-surface-variant">{t("footer.description")}</p>
           <div className="flex gap-4">
             {["face_nod", "camera", "group"].map((icon) => (
               <a key={icon} href="#" className="icon-badge-neon flex h-12 w-12 items-center justify-center rounded-full">
@@ -34,15 +36,15 @@ export function Footer() {
         </Reveal>
 
         <Reveal delay={0.05}>
-          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">Expertise</h4>
+          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.expertise.title")}</h4>
           <ul className="space-y-3">
-            {expertiseLinks.map((label) => (
-              <li key={label}>
+            {expertiseKeys.map((key) => (
+              <li key={key}>
                 <a
                   href="#"
-                  className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary"
+                  className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary rtl:hover:-translate-x-1"
                 >
-                  {label}
+                  {t(`footer.expertise.${key}`)}
                 </a>
               </li>
             ))}
@@ -50,15 +52,15 @@ export function Footer() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">Patient Journey</h4>
+          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.patientJourney.title")}</h4>
           <ul className="space-y-3">
             {journeyLinks.map((link) => (
-              <li key={link.label}>
+              <li key={link.key}>
                 <a
                   href={link.href}
-                  className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary"
+                  className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary rtl:hover:-translate-x-1"
                 >
-                  {link.label}
+                  {t(`footer.patientJourney.${link.key}`)}
                 </a>
               </li>
             ))}
@@ -66,34 +68,32 @@ export function Footer() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">Newsletter</h4>
-          <p className="mb-4 text-body text-on-surface-variant">
-            Get the latest medical breakthroughs delivered to your inbox.
-          </p>
+          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.newsletter.title")}</h4>
+          <p className="mb-4 text-body text-on-surface-variant">{t("footer.newsletter.subtitle")}</p>
           <div className="relative">
             <input
               type="email"
-              placeholder="Your email address"
+              placeholder={t("footer.newsletter.placeholder")}
               className="w-full rounded-full border border-outline-variant/30 bg-surface-container px-6 py-4 text-white placeholder-on-surface-variant/40 outline-none transition-shadow focus:border-primary focus:shadow-glow"
             />
             <button
-              aria-label="Subscribe"
-              className="absolute right-1 top-1 flex h-12 w-12 items-center justify-center rounded-full btn-primary"
+              aria-label={t("footer.newsletter.subscribeAria")}
+              className="absolute right-1 top-1 flex h-12 w-12 items-center justify-center rounded-full btn-primary rtl:right-auto rtl:left-1"
             >
-              <span className="material-symbols-outlined text-sm text-white">send</span>
+              <span className="material-symbols-outlined text-sm text-white rtl:-scale-x-100">send</span>
             </button>
           </div>
         </Reveal>
       </div>
 
       <div className="mx-auto mt-14 flex max-w-container-max flex-col items-center justify-between gap-6 border-t border-outline-variant/10 px-margin-mobile pt-8 md:flex-row md:px-margin-desktop">
-        <p className="text-body text-on-surface-variant">© 2024 Dr. Ayman Tarek. Global Excellence in Neurosurgery.</p>
+        <p className="text-body text-on-surface-variant">{t("footer.copyright")}</p>
         <div className="flex gap-8">
           <Link href="#" className="text-small text-on-surface-variant hover:text-primary">
-            Privacy Policy
+            {t("footer.privacyPolicy")}
           </Link>
           <Link href="#" className="text-small text-on-surface-variant hover:text-primary">
-            Terms of Service
+            {t("footer.termsOfService")}
           </Link>
         </div>
       </div>

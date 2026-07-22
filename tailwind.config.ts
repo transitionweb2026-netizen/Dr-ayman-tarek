@@ -84,9 +84,11 @@ const config: Config = {
       maxWidth: {
         "container-max": "1440px",
       },
-      // ---- Unified typography system (single family: Manrope) ----
+      // ---- Unified typography system: Manrope for English, Cairo for
+      // Arabic (applied via the `rtl:font-arabic` utility on <body>) ----
       fontFamily: {
         sans: ["var(--font-manrope)", "system-ui", "sans-serif"],
+        arabic: ["var(--font-cairo)", "var(--font-manrope)", "system-ui", "sans-serif"],
       },
       // Fluid scale: every size below scales linearly from its mobile floor
       // (320px viewport) up to its desktop ceiling — which is always the

@@ -1,12 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import type { BlogArticle } from "@/data/blog";
 
 /** Large hero-style card for the blog's single Featured Article. */
 export function FeaturedArticle({ article }: { article: BlogArticle }) {
+  const { t } = useLanguage();
   return (
     <Reveal>
       <GlassCard radius="3xl" className="group grid grid-cols-1 overflow-hidden lg:grid-cols-2 lg:min-h-[440px]">
@@ -33,10 +37,10 @@ export function FeaturedArticle({ article }: { article: BlogArticle }) {
             <p className="mb-6 text-body-lg text-on-surface-variant">{article.excerpt}</p>
             <Button
               className="self-start"
-              icon={<NeonIcon name="arrow_forward" neon={false} className="text-xl text-white" />}
+              icon={<NeonIcon name="arrow_forward" neon={false} className="text-xl text-white rtl:-scale-x-100" />}
               iconPosition="end"
             >
-              Read More
+              {t("common.readMore")}
             </Button>
           </div>
         </div>

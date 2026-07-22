@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Phone } from "lucide-react";
 import { useEffect, useState, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const PHONE_HREF = "tel:+201000000000";
 const WHATSAPP_HREF = "https://wa.me/201000000000";
@@ -37,6 +38,7 @@ function FloatingButton({
   entranceDelay: number;
   children: ReactNode;
 }) {
+  const { dir } = useLanguage();
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const isExternal = href.startsWith("http");
 
@@ -62,7 +64,7 @@ function FloatingButton({
       onClick={handleClick}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
-      initial={{ opacity: 0, x: 40 }}
+      initial={{ opacity: 0, x: dir === "rtl" ? -40 : 40 }}
       animate={{ opacity: 1, x: 0, y: [0, -6, 0] }}
       transition={{
         opacity: { duration: 0.5, delay: entranceDelay, ease: [0.16, 1, 0.3, 1] },
@@ -107,6 +109,7 @@ function FloatingButton({
  * — confirmed via screenshot QA overlapping the "Terms of Service" link.
  */
 export function FloatingContactButtons() {
+  const { t, dir } = useLanguage();
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -134,7 +137,9 @@ export function FloatingContactButtons() {
       className="fixed z-40 flex flex-col gap-3"
       style={{
         bottom: "max(2rem, env(safe-area-inset-bottom))",
-        right: "max(1rem, env(safe-area-inset-right))",
+        ...(dir === "rtl"
+          ? { left: "max(1rem, env(safe-area-inset-left))" }
+          : { right: "max(1rem, env(safe-area-inset-right))" }),
         pointerEvents: visible ? "auto" : "none",
       }}
       animate={{ opacity: visible ? 1 : 0 }}
@@ -142,7 +147,7 @@ export function FloatingContactButtons() {
     >
       <FloatingButton
         href={WHATSAPP_HREF}
-        label="Chat on WhatsApp"
+        label={t("floatingButtons.chatWhatsapp")}
         glowClassName="bg-[linear-gradient(135deg,#25D366_0%,#128C7E_100%)] shadow-[0_0_18px_rgba(37,211,102,0.45)] hover:shadow-[0_0_30px_rgba(37,211,102,0.65)]"
         entranceDelay={0.4}
       >
@@ -150,7 +155,7 @@ export function FloatingContactButtons() {
       </FloatingButton>
       <FloatingButton
         href={PHONE_HREF}
-        label="Call now"
+        label={t("floatingButtons.callNow")}
         glowClassName="bg-gradient-brand shadow-glow hover:shadow-glow-lg"
         entranceDelay={0.55}
       >
