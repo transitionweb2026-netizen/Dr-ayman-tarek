@@ -99,6 +99,12 @@ function FloatingButton({
  * for whatever's on screen at first paint. So on mobile/tablet they stay
  * hidden until the user scrolls a bit past that — desktop is unaffected
  * and stays always-visible exactly as before.
+ *
+ * They also hide near the very bottom of any page, at every breakpoint:
+ * the shared Footer's copyright/legal row is the last thing on every page,
+ * and a viewport-corner-fixed element scrolling to the true bottom of the
+ * document will always end up sitting on top of whatever's in that corner
+ * — confirmed via screenshot QA overlapping the "Terms of Service" link.
  */
 export function FloatingContactButtons() {
   const [visible, setVisible] = useState(true);
@@ -106,6 +112,12 @@ export function FloatingContactButtons() {
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 1024px)");
     const onScroll = () => {
+      const nearBottom =
+        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 220;
+      if (nearBottom) {
+        setVisible(false);
+        return;
+      }
       setVisible(desktop.matches || window.scrollY > window.innerHeight * 0.55);
     };
     onScroll();

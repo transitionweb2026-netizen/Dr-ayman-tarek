@@ -107,9 +107,25 @@ export function PageHero({
       )}
 
       {/* Connect With Us — normal-flow stack below the content on mobile/
-          tablet; absolutely positioned beside the image (right side) at lg. */}
-      <div className="relative z-10 mt-8 flex w-full justify-center px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
-        <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] lg:right-[5%]">
+          tablet; absolutely positioned beside the image (right side) at lg.
+          Centered heroes (Contact only) keep it in normal flow at every
+          size instead: centered text plus a right-anchored absolute card
+          collide at 1024-1280px, confirmed via screenshot QA — a centered
+          layout doesn't have a "beside the image" side to pin it to. */}
+      <div
+        className={
+          isCenter
+            ? "relative z-10 mt-8 flex w-full justify-center px-margin-mobile md:px-8"
+            : "relative z-10 mt-8 flex w-full justify-center px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0"
+        }
+      >
+        <div
+          className={
+            isCenter
+              ? "w-full max-w-xs"
+              : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] lg:right-[5%]"
+          }
+        >
           <HeroSocialCard />
         </div>
       </div>
