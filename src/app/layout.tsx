@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import { Manrope, Cairo } from "next/font/google";
 import { MotionConfig } from "framer-motion";
+import { Toaster } from "sonner";
+import { getSiteSettings } from "@/server/repositories/settings";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingContactButtons } from "@/components/layout/FloatingContactButtons";
-import { PageTransition } from "@/components/motion/PageTransition";
-import { LanguageProvider } from "@/i18n/LanguageProvider";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -28,9 +25,15 @@ const cairo = Cairo({
 // right lang/dir before first paint — same FOUC-prevention pattern as a
 // dark-mode blocking script. LanguageProvider's own effect keeps React
 // state in sync with whatever this already set.
+//
+// Skips /admin: the dashboard is English/LTR-only by design (see
+// AdminShell's own dir="ltr" reset), and without this guard a client-side
+// navigation from an Arabic-flipped public page into /admin would carry
+// the stale dir="rtl" attribute over since nothing else would reset it.
 const languageInitScript = `
 (function () {
   try {
+    if (location.pathname.startsWith("/admin")) return;
     if (window.localStorage.getItem("language") === "ar") {
       document.documentElement.lang = "ar";
       document.documentElement.dir = "rtl";
@@ -39,14 +42,20 @@ const languageInitScript = `
 })();
 `;
 
-export const metadata: Metadata = {
-  title: {
-    default: "Dr. Ayman Tarek | Elite Neurosurgery & Neurology",
-    template: "%s | Dr. Ayman Tarek",
-  },
-  description:
-    "Dr. Ayman Tarek — global excellence in neurosurgery, spine care, and neuro-oncology. Precision surgery, life reimagined.",
-};
+// Favicon is CMS-managed (Site Settings → General) — falls back to Next's
+// default app icon handling when no favicon has been uploaded yet.
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: {
+      default: `${settings.doctorNameEn} | Elite Neurosurgery & Neurology`,
+      template: `%s | ${settings.doctorNameEn}`,
+    },
+    description:
+      "Dr. Ayman Tarek — global excellence in neurosurgery, spine care, and neuro-oncology. Precision surgery, life reimagined.",
+    icons: settings.faviconUrl ? { icon: settings.faviconUrl } : undefined,
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -69,15 +78,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             (swaps transform/scale animations for instant or opacity-only) —
             one place instead of gating each animation individually. */}
         <MotionConfig reducedMotion="user">
-          <LanguageProvider>
-            <div className="app-mesh-bg bg-noise" aria-hidden />
-            <FloatingContactButtons />
-            <Header />
-            <PageTransition>
-              <main>{children}</main>
-            </PageTransition>
-            <Footer />
-          </LanguageProvider>
+          {children}
+          <Toaster theme="dark" position="top-center" richColors />
         </MotionConfig>
       </body>
     </html>

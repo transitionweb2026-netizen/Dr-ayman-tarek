@@ -5,16 +5,27 @@ import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
-import { getVideos } from "@/data/videos";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import type { BilingualVideo } from "@/server/repositories/content";
 
-export function VideoSeriesPreview() {
+interface VideoSeriesPreviewProps {
+  videos: BilingualVideo[];
+  titleOverride?: string;
+}
+
+export function VideoSeriesPreview({ videos, titleOverride }: VideoSeriesPreviewProps) {
   const { language, t } = useLanguage();
-  const featured = getVideos(language).slice(0, 3);
+  const featured = videos
+    .filter((v) => v.featured)
+    .slice(0, 3)
+    .map((v) => {
+      const copy = language === "ar" ? v.ar : v.en;
+      return { id: v.slug, title: copy.title, shortDescription: copy.shortDescription, thumbnail: v.thumbnail };
+    });
 
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
-      <SectionHeading title={t("home.videoSeries.title")} />
+      <SectionHeading title={titleOverride ?? t("home.videoSeries.title")} />
       <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((video) => (
           <StaggerChild key={video.id}>

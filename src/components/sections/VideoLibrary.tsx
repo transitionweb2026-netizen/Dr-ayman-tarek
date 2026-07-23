@@ -8,8 +8,13 @@ import { Modal } from "@/components/ui/Modal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
-import { getVideos, type Video } from "@/data/videos";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import type { BilingualVideo } from "@/server/repositories/content";
+
+interface Video {
+  id: string; title: string; category: string; duration: string; date: string;
+  thumbnail: string; shortDescription: string; description: string;
+}
 
 function VideoCard({ video, onSelect }: { video: Video; onSelect: () => void }) {
   return (
@@ -47,9 +52,21 @@ function VideoCard({ video, onSelect }: { video: Video; onSelect: () => void }) 
   );
 }
 
-export function VideoLibrary() {
+interface VideoLibraryProps {
+  videos: BilingualVideo[];
+  titleOverride?: string;
+  subtitleOverride?: string;
+}
+
+export function VideoLibrary({ videos: bilingualVideos, titleOverride, subtitleOverride }: VideoLibraryProps) {
   const { language, t } = useLanguage();
-  const videos = getVideos(language);
+  const videos: Video[] = bilingualVideos.map((v) => {
+    const copy = language === "ar" ? v.ar : v.en;
+    return {
+      id: v.slug, title: copy.title, category: copy.category || "", duration: v.duration || "", date: copy.date,
+      thumbnail: v.thumbnail, shortDescription: copy.shortDescription, description: copy.description,
+    };
+  });
   const [activeId, setActiveId] = useState<string | null>(null);
   const [shareConfirmed, setShareConfirmed] = useState(false);
   const active = videos.find((v) => v.id === activeId) ?? null;
@@ -72,7 +89,7 @@ export function VideoLibrary() {
 
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop">
-      <SectionHeading title={t("videos.library.title")} subtitle={t("videos.library.subtitle")} />
+      <SectionHeading title={titleOverride ?? t("videos.library.title")} subtitle={subtitleOverride ?? t("videos.library.subtitle")} />
       <Stagger className="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3">
         {videos.map((video) => (
           <StaggerChild key={video.id}>

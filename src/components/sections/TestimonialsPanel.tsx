@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
-import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface PanelTestimonial {
   quote: string;
@@ -17,6 +16,12 @@ interface Milestone {
   year: string;
   title: string;
   place: string;
+}
+
+export interface TestimonialsPanelContent {
+  title: string;
+  viewAll: string;
+  milestonesTitle: string;
 }
 
 function Stars() {
@@ -31,18 +36,20 @@ function Stars() {
   );
 }
 
-export function TestimonialsPanel() {
-  const { t, tRaw } = useLanguage();
-  const testimonials = tRaw<PanelTestimonial[]>("home.testimonialsPanel.testimonials");
-  const milestones = tRaw<Milestone[]>("home.testimonialsPanel.milestones");
+interface TestimonialsPanelProps {
+  content: Partial<TestimonialsPanelContent>;
+  testimonials: PanelTestimonial[];
+  milestones: Milestone[];
+}
 
+export function TestimonialsPanel({ content, testimonials, milestones }: TestimonialsPanelProps) {
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <div className="grid grid-cols-1 gap-gutter lg:grid-cols-[11fr_9fr]">
         {/* Patient reviews */}
         <GlassCard radius="2xl" interactive={false} className="flex flex-col p-6 md:p-7">
           <Reveal>
-            <h2 className="mb-6 text-center text-card-title text-white">{t("home.testimonialsPanel.title")}</h2>
+            <h2 className="mb-6 text-center text-card-title text-white">{content.title || ""}</h2>
           </Reveal>
           <Stagger className="grid flex-1 auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" gap={0.1}>
             {testimonials.map((item) => (
@@ -61,14 +68,14 @@ export function TestimonialsPanel() {
             ))}
           </Stagger>
           <Button variant="outline" size="md" className="mx-auto mt-6">
-            {t("home.testimonialsPanel.viewAll")}
+            {content.viewAll || ""}
           </Button>
         </GlassCard>
 
         {/* Career milestones */}
         <GlassCard radius="2xl" interactive={false} className="flex flex-col p-6 shadow-glow md:p-7">
           <Reveal>
-            <h3 className="mb-6 text-center text-card-title text-white">{t("home.testimonialsPanel.milestonesTitle")}</h3>
+            <h3 className="mb-6 text-center text-card-title text-white">{content.milestonesTitle || ""}</h3>
           </Reveal>
           <div className="flex flex-1 flex-col items-center gap-5 sm:flex-row">
             <Stagger className="w-full flex-1 space-y-4" gap={0.08}>

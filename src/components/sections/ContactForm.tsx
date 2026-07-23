@@ -5,20 +5,54 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { submitContactMessage } from "@/server/actions/contact";
 
 const fieldClass =
   "w-full rounded-xl border border-outline-variant/40 bg-surface-container px-5 py-3.5 text-white outline-none transition-shadow placeholder-on-surface-variant/40 focus:border-primary focus:shadow-glow";
 
-/** Client-side only for now — no backend is wired up yet; submit shows a local confirmation. */
-export function ContactForm() {
-  const { t, tRaw } = useLanguage();
-  const serviceOptions = tRaw<string[]>("contact.form.serviceOptions");
-  const [submitted, setSubmitted] = useState(false);
+export interface ContactFormContent {
+  title: string; subtitle: string;
+  fullName: string; fullNamePlaceholder: string;
+  phone: string; phonePlaceholder: string;
+  email: string; emailPlaceholder: string;
+  service: string;
+  message: string; messagePlaceholder: string;
+  submit: string; successMessage: string;
+}
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+interface ContactFormProps {
+  content?: Partial<ContactFormContent>;
+  serviceOptions?: string[];
+}
+
+export function ContactForm({ content = {}, serviceOptions: serviceOptionsOverride }: ContactFormProps) {
+  const { t, tRaw } = useLanguage();
+  const serviceOptions = serviceOptionsOverride ?? tRaw<string[]>("contact.form.serviceOptions");
+  const c = (key: keyof ContactFormContent) => content[key] ?? t(`contact.form.${key}`);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
-    event.currentTarget.reset();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setSubmitting(true);
+    setError(null);
+    const result = await submitContactMessage({
+      fullName: String(data.get("fullName") || ""),
+      phone: String(data.get("phone") || ""),
+      email: String(data.get("email") || ""),
+      service: String(data.get("service") || ""),
+      message: String(data.get("message") || ""),
+    });
+    setSubmitting(false);
+    if (result.ok) {
+      setSubmitted(true);
+      form.reset();
+    } else {
+      setError(result.error || "Something went wrong.");
+    }
   }
 
   // Browsers show native "required"/"invalid" validation messages in the
@@ -35,18 +69,19 @@ export function ContactForm() {
 
   return (
     <GlassCard radius="2xl" interactive={false} className="p-7 md:p-10">
-      <h2 className="mb-2 text-section-title text-white">{t("contact.form.title")}</h2>
-      <p className="mb-8 text-body text-on-surface-variant">{t("contact.form.subtitle")}</p>
+      <h2 className="mb-2 text-section-title text-white">{c("title")}</h2>
+      <p className="mb-8 text-body text-on-surface-variant">{c("subtitle")}</p>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div>
             <label htmlFor="fullName" className="mb-2 block text-small text-on-surface-variant">
-              {t("contact.form.fullName")}
+              {c("fullName")}
             </label>
             <input
               id="fullName"
+              name="fullName"
               required
-              placeholder={t("contact.form.fullNamePlaceholder")}
+              placeholder={c("fullNamePlaceholder")}
               className={fieldClass}
               onInvalid={handleInvalid}
               onInput={clearValidity}
@@ -54,13 +89,14 @@ export function ContactForm() {
           </div>
           <div>
             <label htmlFor="phone" className="mb-2 block text-small text-on-surface-variant">
-              {t("contact.form.phone")}
+              {c("phone")}
             </label>
             <input
               id="phone"
+              name="phone"
               type="tel"
               required
-              placeholder={t("contact.form.phonePlaceholder")}
+              placeholder={c("phonePlaceholder")}
               dir="ltr"
               className={fieldClass}
               onInvalid={handleInvalid}
@@ -70,13 +106,14 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="email" className="mb-2 block text-small text-on-surface-variant">
-            {t("contact.form.email")}
+            {c("email")}
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             required
-            placeholder={t("contact.form.emailPlaceholder")}
+            placeholder={c("emailPlaceholder")}
             dir="ltr"
             className={fieldClass}
             onInvalid={handleInvalid}
@@ -85,9 +122,9 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="service" className="mb-2 block text-small text-on-surface-variant">
-            {t("contact.form.service")}
+            {c("service")}
           </label>
-          <select id="service" className={fieldClass}>
+          <select id="service" name="service" className={fieldClass}>
             {serviceOptions.map((option) => (
               <option key={option}>{option}</option>
             ))}
@@ -95,21 +132,37 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="message" className="mb-2 block text-small text-on-surface-variant">
-            {t("contact.form.message")}
+            {c("message")}
           </label>
           <textarea
             id="message"
+            name="message"
             rows={5}
-            placeholder={t("contact.form.messagePlaceholder")}
+            placeholder={c("messagePlaceholder")}
             className={`${fieldClass} resize-none`}
             onInvalid={handleInvalid}
             onInput={clearValidity}
           />
         </div>
-        <Button type="submit" className="w-full" icon={<span className="material-symbols-outlined text-xl">send</span>}>
-          {t("contact.form.submit")}
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={submitting}
+          icon={<span className="material-symbols-outlined text-xl">send</span>}
+        >
+          {submitting ? "..." : c("submit")}
         </Button>
         <AnimatePresence>
+          {error && (
+            <motion.p
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="text-center text-small text-error"
+            >
+              {error}
+            </motion.p>
+          )}
           {submitted && (
             <motion.p
               initial={{ opacity: 0, height: 0 }}
@@ -117,7 +170,7 @@ export function ContactForm() {
               exit={{ opacity: 0, height: 0 }}
               className="text-center text-small text-primary"
             >
-              {t("contact.form.successMessage")}
+              {c("successMessage")}
             </motion.p>
           )}
         </AnimatePresence>

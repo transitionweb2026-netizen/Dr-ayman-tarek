@@ -7,32 +7,32 @@ import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
-const ARTICLE_IMAGES = [
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCj_BLuiyILw1YhqAC3tRIDF2988vEFMbdp2CShPuVIiDUoHM1kMzpKG_4i0s5CUQUmeVMDWsJnumLQFXXrf0m-Mjl34wizujbVZdXvUYuolvYMi8YyTkj8UyYy6owS1CMhwr6GhKZvbQVx4zQYVu5JL4WeKrZ9IM5Qa-npZXsG-RmAevHAwlFxJCgUchdKulNiNaTwgXXFMihF3Ca3g_TTGj18eVkdNijbGyFBcA_Ydb9qTxI01BtA",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBTn3cyqUNe0ocnTjAZNiU5K9DqBl7NhprA_LEZLFZdsfYHOSUvWgG4z5ly_9fRYrWBfOch68eVi6fVDiJRcEZ9QKfi5Hj6oqaqOVKEMusztlkmYqVhxRwvogyhNcuiel8bNSOj3TtidYMdw9NdHd_55yE7p3rVGC-iaOvAyZV5tB3ohCj8Zkhed11RQnRdpdNgf5A1NfHSeO6erTwhaMrdCajgAonxI05DC1TiGTJj3Yd5T0EZsOmC",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDGP6klrdOkaqLvlrfoMX7AfD2Ic6H8jgwmKRZypU2FjhK07NPZMQ2pij14DYs6TqVdsQ22uvX0yGm-3_Mz9rDK-ZvQOTzYvMUCqWdenca9F4lD5Ocq8LJiVMMuxbuzeH-nT1oHMiyczcIdSqFeExP1eGrfiAs7NB-VsTV1HlmTpETg9JIRyWRIiFQg5F79aCEvZkhTKDZBF-NMypOxuu7ASYLJexGp_rWY6OSjF8d8G_LLu6Ze9dc1",
-];
-
 interface InsightArticle {
   tag: string;
   date: string;
   title: string;
   excerpt: string;
+  image: string;
+}
+
+export interface InsightsFaqContent {
+  insightsHeading: string;
+  viewAll: string;
+  faqHeading: string;
 }
 
 function ArticleCard({
   article,
-  image,
   insightsHeading,
   viewAllLabel,
   readStoryLabel,
 }: {
   article: InsightArticle;
-  image: string;
   insightsHeading: string;
   viewAllLabel: string;
   readStoryLabel: string;
 }) {
+  const image = article.image;
   return (
     <GlassCard radius="2xl" className="flex h-full flex-col p-6">
       <div className="mb-5 flex items-center justify-between">
@@ -59,12 +59,16 @@ function ArticleCard({
   );
 }
 
-export function InsightsFaq() {
-  const { t, tRaw } = useLanguage();
-  const articles = tRaw<InsightArticle[]>("home.insightsFaq.articles");
-  const faqItems = tRaw<AccordionItem[]>("home.insightsFaq.faqItems");
-  const insightsHeading = t("home.insightsFaq.insightsHeading");
-  const viewAllLabel = t("home.insightsFaq.viewAll");
+interface InsightsFaqProps {
+  content: Partial<InsightsFaqContent>;
+  articles: InsightArticle[];
+  faqItems: AccordionItem[];
+}
+
+export function InsightsFaq({ content, articles, faqItems }: InsightsFaqProps) {
+  const { t } = useLanguage();
+  const insightsHeading = content.insightsHeading || "";
+  const viewAllLabel = content.viewAll || "";
 
   return (
     <section className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile pb-section-gap-sm md:px-margin-desktop lg:grid-cols-[3.2fr_1.3fr] lg:items-stretch">
@@ -73,7 +77,6 @@ export function InsightsFaq() {
           <Reveal key={article.title} delay={index * 0.1}>
             <ArticleCard
               article={article}
-              image={ARTICLE_IMAGES[index] ?? ARTICLE_IMAGES[0]}
               insightsHeading={insightsHeading}
               viewAllLabel={viewAllLabel}
               readStoryLabel={t("common.readStory")}
@@ -84,7 +87,7 @@ export function InsightsFaq() {
       <Reveal delay={articles.length * 0.1}>
         <GlassCard radius="2xl" className="flex flex-col p-6">
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-card-title text-white">{t("home.insightsFaq.faqHeading")}</h2>
+            <h2 className="text-card-title text-white">{content.faqHeading || ""}</h2>
             <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">{viewAllLabel}</button>
           </div>
           <Accordion items={faqItems.slice(0, 6)} />

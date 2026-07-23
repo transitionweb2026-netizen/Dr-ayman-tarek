@@ -6,9 +6,6 @@ import { useEffect, useState, type MouseEvent as ReactMouseEvent, type ReactNode
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
-const PHONE_HREF = "tel:+201000000000";
-const WHATSAPP_HREF = "https://wa.me/201000000000";
-
 /** Same brand glyph used for every other WhatsApp touchpoint on the site. */
 function WhatsAppGlyph({ className }: { className?: string }) {
   return (
@@ -108,9 +105,11 @@ function FloatingButton({
  * document will always end up sitting on top of whatever's in that corner
  * — confirmed via screenshot QA overlapping the "Terms of Service" link.
  */
-export function FloatingContactButtons() {
+export function FloatingContactButtons({ phone, whatsapp }: { phone: string; whatsapp: string }) {
   const { t, dir } = useLanguage();
   const [visible, setVisible] = useState(true);
+  const phoneHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
+  const whatsappHref = `https://wa.me/${whatsapp}`;
 
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 1024px)");
@@ -146,7 +145,7 @@ export function FloatingContactButtons() {
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
     >
       <FloatingButton
-        href={WHATSAPP_HREF}
+        href={whatsappHref}
         label={t("floatingButtons.chatWhatsapp")}
         glowClassName="bg-[linear-gradient(135deg,#25D366_0%,#128C7E_100%)] shadow-[0_0_18px_rgba(37,211,102,0.45)] hover:shadow-[0_0_30px_rgba(37,211,102,0.65)]"
         entranceDelay={0.4}
@@ -154,7 +153,7 @@ export function FloatingContactButtons() {
         <WhatsAppGlyph className="h-5 w-5" />
       </FloatingButton>
       <FloatingButton
-        href={PHONE_HREF}
+        href={phoneHref}
         label={t("floatingButtons.callNow")}
         glowClassName="bg-gradient-brand shadow-glow hover:shadow-glow-lg"
         entranceDelay={0.55}

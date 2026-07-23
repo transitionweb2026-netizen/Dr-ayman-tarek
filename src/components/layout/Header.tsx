@@ -1,29 +1,34 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { NAV_ITEMS, SITE_BRAND } from "@/data/nav";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { LanguageSwitch } from "@/components/ui/LanguageSwitch";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import type { SiteSettingsData, NavLinkData } from "@/server/repositories/settings";
 
 /**
- * Shared header/nav, rendered once from the root layout.
- * Active-link detection uses the real Next.js pathname instead of the old
- * nav.js's window.location.pathname string match.
+ * Shared header/nav, rendered once from the (site) route group layout.
+ * Brand name and nav items are CMS-managed (Site Settings + Navigation) —
+ * passed down as props from that Server Component parent rather than
+ * fetched here, since Header itself must stay a Client Component (motion,
+ * scroll listeners, mobile drawer state).
  */
-export function Header() {
+export function Header({ settings, navLinks }: { settings: SiteSettingsData; navLinks: NavLinkData[] }) {
   const pathname = usePathname();
-  const { t, dir } = useLanguage();
+  const { t, dir, language } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
+
+  const brandName = language === "ar" ? settings.doctorNameAr : settings.doctorNameEn;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -85,12 +90,16 @@ export function Header() {
     >
       <nav className="mx-auto flex h-20 w-full max-w-container-max items-center justify-between px-margin-mobile md:px-margin-desktop">
         <Link href="/" className="flex items-center gap-3" aria-label={t("nav.backToHomepage")}>
-          <NeonIcon name={SITE_BRAND.icon} className="text-3xl" />
-          <span className="text-card-title font-bold text-primary">{t("meta.brand")}</span>
+          {settings.logoUrl ? (
+            <Image src={settings.logoUrl} alt={brandName} width={36} height={36} className="h-9 w-9 rounded-lg object-contain" />
+          ) : (
+            <NeonIcon name="neurology" className="text-3xl" />
+          )}
+          <span className="text-card-title font-bold text-primary">{brandName}</span>
         </Link>
 
         <div className="hidden items-center gap-8 xl:flex">
-          {NAV_ITEMS.map((item) => {
+          {navLinks.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
@@ -102,7 +111,7 @@ export function Header() {
                   isActive ? "text-primary" : "text-on-surface-variant hover:text-primary",
                 )}
               >
-                {t(item.labelKey)}
+                {language === "ar" ? item.labelAr : item.labelEn}
                 {isActive && (
                   <motion.span
                     layoutId="nav-underline"
@@ -167,8 +176,12 @@ export function Header() {
                 onClick={() => setMobileOpen(false)}
                 aria-label={t("nav.backToHomepage")}
               >
-                <NeonIcon name={SITE_BRAND.icon} className="text-3xl" />
-                <span className="text-card-title font-bold text-primary">{t("meta.brand")}</span>
+                {settings.logoUrl ? (
+                  <Image src={settings.logoUrl} alt={brandName} width={36} height={36} className="h-9 w-9 rounded-lg object-contain" />
+                ) : (
+                  <NeonIcon name="neurology" className="text-3xl" />
+                )}
+                <span className="text-card-title font-bold text-primary">{brandName}</span>
               </Link>
               <div className="flex items-center gap-3">
                 <LanguageSwitch />
@@ -183,7 +196,7 @@ export function Header() {
             </div>
 
             <nav className="mt-10 flex flex-1 flex-col justify-center gap-2 overflow-y-auto">
-              {NAV_ITEMS.map((item, index) => {
+              {navLinks.map((item, index) => {
                 const isActive = pathname === item.href;
                 return (
                   <motion.div
@@ -201,7 +214,7 @@ export function Header() {
                         isActive ? "bg-primary/10 text-primary" : "text-white hover:bg-white/5",
                       )}
                     >
-                      {t(item.labelKey)}
+                      {language === "ar" ? item.labelAr : item.labelEn}
                     </Link>
                   </motion.div>
                 );

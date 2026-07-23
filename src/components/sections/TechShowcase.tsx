@@ -10,16 +10,28 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 const SHOWCASE_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk";
 
-export function TechShowcase() {
+interface TechShowcaseProps {
+  heading?: string;
+  technologies?: string[];
+  subheading?: string;
+  description?: string;
+  cta?: string;
+}
+
+export function TechShowcase(props: TechShowcaseProps = {}) {
   const { t, tRaw } = useLanguage();
-  const technologies = tRaw<string[]>("services.techShowcase.technologies");
+  const technologies = props.technologies ?? tRaw<string[]>("services.techShowcase.technologies");
+  const heading = props.heading ?? t("services.techShowcase.heading");
+  const subheading = props.subheading ?? t("services.techShowcase.subheading");
+  const description = props.description ?? t("services.techShowcase.description");
+  const cta = props.cta ?? t("services.techShowcase.cta");
 
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <div className="overflow-hidden rounded-[32px] glass shadow-glow-lg">
         <Reveal direction="down" duration={0.5}>
           <div className="border-b border-primary/[0.14] px-6 py-4 text-center md:px-10">
-            <h2 className="text-body-lg font-semibold text-white">{t("services.techShowcase.heading")}</h2>
+            <h2 className="text-body-lg font-semibold text-white">{heading}</h2>
           </div>
         </Reveal>
 
@@ -42,17 +54,17 @@ export function TechShowcase() {
 
           <div className="order-3 space-y-4 text-center lg:text-left rtl:lg:text-right">
             <Reveal>
-              <h3 className="text-card-title text-white">{t("services.techShowcase.subheading")}</h3>
+              <h3 className="text-card-title text-white">{subheading}</h3>
             </Reveal>
             <Reveal delay={0.08}>
-              <p className="text-body text-on-surface-variant">{t("services.techShowcase.description")}</p>
+              <p className="text-body text-on-surface-variant">{description}</p>
             </Reveal>
             <Reveal delay={0.16}>
               <Button
                 icon={<span className="material-symbols-outlined text-lg rtl:-scale-x-100">arrow_forward</span>}
                 iconPosition="end"
               >
-                {t("services.techShowcase.cta")}
+                {cta}
               </Button>
             </Reveal>
           </div>

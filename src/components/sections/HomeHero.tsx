@@ -11,7 +11,6 @@ import { ParticleField } from "@/components/decor/ParticleField";
 import { GlowOrb } from "@/components/decor/GlowOrb";
 import { MouseParallax } from "@/components/motion/Parallax";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
-import { useLanguage } from "@/i18n/LanguageProvider";
 
 const HERO_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw";
@@ -22,8 +21,23 @@ const AVATARS = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCFmLdF0PeA-Hu7BCZev7CfkgSh21k-pdy7TTyM33p0pkURQBllrCRkyADxLMdkJ6vvuRRIzw6ncPy45pXooC0PBgyC4A_SLfRZKC5508vFwEcspjTQo27u-FmNWeWqIwe1LugRDjSj72CFLPB7Ip-HQs8C3uDvSQixZlnHR3TO_yAAtdq2YuZbIwB2moMCL8Fy3E-qxMjxZklKcAqumfvLfYHmwixicxsxHmJkQQHsSz6qtZQNtutD",
 ];
 
-export function HomeHero() {
-  const { t } = useLanguage();
+export interface HomeHeroContent {
+  badge: string;
+  headingLine1: string;
+  headingLine2: string;
+  description: string;
+  primaryCta: string;
+  secondaryCta: string;
+  doctorName: string;
+  doctorTitle: string;
+  statValue: string;
+  statLabel: string;
+  boardCertifiedTitle: string;
+  boardCertifiedSubtitle: string;
+}
+
+export function HomeHero({ content }: { content: Partial<HomeHeroContent> }) {
+  const t = (key: keyof HomeHeroContent) => content[key] || "";
   return (
     <section className="relative flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 pt-20 lg:min-h-[700px]">
       {/* Full-bleed background artwork. The gradient mirrors in RTL (rtl:bg-gradient-to-l)
@@ -52,7 +66,7 @@ export function HomeHero() {
             className="eyebrow shadow-glow"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary shadow-[0_0_10px_rgba(196,61,255,0.8)]" />
-            {t("home.hero.badge")}
+            {t("badge")}
           </motion.div>
 
           <motion.h1
@@ -61,9 +75,9 @@ export function HomeHero() {
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-hero text-white"
           >
-            {t("home.hero.headingLine1")}
+            {t("headingLine1")}
             <br />
-            <span className="text-gradient-brand">{t("home.hero.headingLine2")}</span>
+            <span className="text-gradient-brand">{t("headingLine2")}</span>
           </motion.h1>
 
           <motion.p
@@ -72,7 +86,7 @@ export function HomeHero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="max-w-lg text-body-lg text-on-surface-variant"
           >
-            {t("home.hero.description")}
+            {t("description")}
           </motion.p>
 
           <motion.div
@@ -85,14 +99,14 @@ export function HomeHero() {
               className="w-full sm:w-auto"
               icon={<NeonIcon name="calendar_month" neon={false} className="text-xl text-white" />}
             >
-              {t("home.hero.primaryCta")}
+              {t("primaryCta")}
             </Button>
             <Button
               variant="ghost"
               className="w-full sm:w-auto"
               icon={<NeonIcon name="play_circle" filled className="text-xl" />}
             >
-              {t("home.hero.secondaryCta")}
+              {t("secondaryCta")}
             </Button>
           </motion.div>
 
@@ -119,8 +133,8 @@ export function HomeHero() {
                 <NeonIcon name="verified" filled className="text-base" />
               </span>
               <div>
-                <p className="text-body-lg font-bold text-white">{t("home.hero.doctorName")}</p>
-                <p className="text-small text-on-surface-variant">{t("home.hero.doctorTitle")}</p>
+                <p className="text-body-lg font-bold text-white">{t("doctorName")}</p>
+                <p className="text-small text-on-surface-variant">{t("doctorTitle")}</p>
               </div>
             </div>
           </motion.div>
@@ -139,8 +153,8 @@ export function HomeHero() {
               ))}
             </div>
             <div>
-              <p dir="ltr" className="text-card-title font-bold text-white rtl:text-right">{t("home.hero.statValue")}</p>
-              <p className="text-small text-on-surface-variant">{t("home.hero.statLabel")}</p>
+              <p dir="ltr" className="text-card-title font-bold text-white rtl:text-right">{t("statValue")}</p>
+              <p className="text-small text-on-surface-variant">{t("statLabel")}</p>
             </div>
           </motion.div>
         </div>
@@ -153,8 +167,8 @@ export function HomeHero() {
         <div className="w-full max-w-xs animate-float-y lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-[14%] lg:w-64 rtl:lg:right-auto rtl:lg:left-[5%]">
           <GlassCard radius="xl" className="p-5 shadow-glow">
             <NeonIcon name="verified" filled className="mb-2 text-3xl" />
-            <h3 className="mb-1 text-card-title text-white">{t("home.hero.boardCertifiedTitle")}</h3>
-            <p className="text-small text-on-surface-variant">{t("home.hero.boardCertifiedSubtitle")}</p>
+            <h3 className="mb-1 text-card-title text-white">{t("boardCertifiedTitle")}</h3>
+            <p className="text-small text-on-surface-variant">{t("boardCertifiedSubtitle")}</p>
           </GlassCard>
         </div>
 
