@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit -p .",
     "qa:screenshots": "node scripts/visual-qa.mjs",
     "check:i18n": "node --experimental-strip-types scripts/check-i18n-parity.mjs"
   },
