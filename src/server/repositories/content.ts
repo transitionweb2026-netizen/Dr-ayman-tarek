@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { mediaPublicUrl } from "./media";
 import type { Tables } from "@/lib/supabase/database.types";
@@ -7,7 +8,9 @@ export type PageSlug = Tables<"pages">["slug"];
 
 /** {en: {...}, ar: {...}} for one page's sections, keyed by section_key —
  * the shape every page Server wrapper hands to its Client content component. */
-export async function getPageSections(slug: PageSlug): Promise<Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>> {
+export const getPageSections = cache(async function getPageSections(
+  slug: PageSlug,
+): Promise<Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>> {
   const supabase = await createClient();
   const { data: page } = await supabase.from("pages").select("id").eq("slug", slug).maybeSingle();
   if (!page) return {};
@@ -24,7 +27,7 @@ export async function getPageSections(slug: PageSlug): Promise<Record<string, { 
     map[row.section_key] = { en: content?.en || {}, ar: content?.ar || {} };
   }
   return map;
-}
+});
 
 export interface PageSeoData {
   seoTitleEn: string | null;
@@ -52,7 +55,7 @@ export interface PageSeoData {
   schemaEnabled: boolean;
 }
 
-export async function getPageSeo(slug: PageSlug): Promise<PageSeoData | null> {
+export const getPageSeo = cache(async function getPageSeo(slug: PageSlug): Promise<PageSeoData | null> {
   const supabase = await createClient();
   const { data: page } = await supabase.from("pages").select("id").eq("slug", slug).maybeSingle();
   if (!page) return null;
@@ -92,7 +95,7 @@ export async function getPageSeo(slug: PageSlug): Promise<PageSeoData | null> {
     robotsFollow: row.robots_follow as boolean,
     schemaEnabled: row.schema_enabled as boolean,
   };
-}
+});
 
 function resolveImage(mediaPath: string | null | undefined, fallbackUrl: string | null): string {
   if (mediaPath) return mediaPublicUrl(mediaPath);
@@ -105,7 +108,7 @@ export interface BilingualService {
   ar: { title: string; shortDescription: string; description: string; recovery: string | null; duration: string | null; benefits: string[]; process: string[] };
 }
 
-export async function getServices(): Promise<BilingualService[]> {
+export const getServices = cache(async function getServices(): Promise<BilingualService[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("services")
@@ -136,7 +139,7 @@ export async function getServices(): Promise<BilingualService[]> {
       },
     };
   });
-}
+});
 
 export interface BilingualSpecialty {
   id: string; slug: string; image: string;
@@ -144,7 +147,7 @@ export interface BilingualSpecialty {
   ar: { title: string; shortDescription: string; description: string; recovery: string | null; duration: string | null };
 }
 
-export async function getSpecialties(): Promise<BilingualSpecialty[]> {
+export const getSpecialties = cache(async function getSpecialties(): Promise<BilingualSpecialty[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("specialties").select("*, media_assets(storage_path)").eq("status", "published").order("display_order");
   if (error) throw error;
@@ -158,7 +161,7 @@ export async function getSpecialties(): Promise<BilingualSpecialty[]> {
       ar: { title: row.title_ar as string, shortDescription: row.short_description_ar as string, description: row.description_ar as string, recovery: row.recovery_ar as string | null, duration: row.duration_ar as string | null },
     };
   });
-}
+});
 
 export interface BilingualVideo {
   id: string; slug: string; thumbnail: string; youtubeUrl: string; duration: string | null; featured: boolean;
@@ -167,7 +170,7 @@ export interface BilingualVideo {
   ar: { title: string; shortDescription: string; description: string; category: string | null; date: string };
 }
 
-export async function getVideos(): Promise<BilingualVideo[]> {
+export const getVideos = cache(async function getVideos(): Promise<BilingualVideo[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("videos").select("*, media_assets(storage_path)").eq("status", "published").order("display_order");
   if (error) throw error;
@@ -186,7 +189,7 @@ export async function getVideos(): Promise<BilingualVideo[]> {
       ar: { title: row.title_ar as string, shortDescription: row.short_description_ar as string, description: row.description_ar as string, category: row.category_ar as string | null, date },
     };
   });
-}
+});
 
 export interface BilingualArticle {
   id: string; slug: string; image: string; featured: boolean; readingTime: number | null;
@@ -194,7 +197,7 @@ export interface BilingualArticle {
   ar: { title: string; excerpt: string; category: string | null; date: string };
 }
 
-export async function getArticles(): Promise<BilingualArticle[]> {
+export const getArticles = cache(async function getArticles(): Promise<BilingualArticle[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("blog_posts")
@@ -215,7 +218,7 @@ export async function getArticles(): Promise<BilingualArticle[]> {
       ar: { title: row.title_ar as string, excerpt: row.excerpt_ar as string, category: row.category_ar as string | null, date },
     };
   });
-}
+});
 
 export interface BlogPostSeo {
   seoTitleEn: string | null; seoTitleAr: string | null;
@@ -244,7 +247,7 @@ export interface BlogPostDetail {
 /** Full single-post payload for the blog detail route — separate from
  * getArticles()'s lighter BilingualArticle (grid cards don't need rich-text
  * body or the full SEO field set). */
-export async function getArticleBySlug(slug: string): Promise<BlogPostDetail | null> {
+export const getArticleBySlug = cache(async function getArticleBySlug(slug: string): Promise<BlogPostDetail | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("blog_posts")
@@ -287,7 +290,7 @@ export async function getArticleBySlug(slug: string): Promise<BlogPostDetail | n
       robotsIndex: row.robots_index as boolean, robotsFollow: row.robots_follow as boolean, schemaEnabled: row.schema_enabled as boolean,
     },
   };
-}
+});
 
 export interface BilingualFaqItem {
   id: string;
@@ -295,7 +298,7 @@ export interface BilingualFaqItem {
   ar: { question: string; answer: string };
 }
 
-export async function getFaqItems(category: "general" | "contact"): Promise<BilingualFaqItem[]> {
+export const getFaqItems = cache(async function getFaqItems(category: "general" | "contact"): Promise<BilingualFaqItem[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("faq_items").select("*").eq("status", "published").eq("category", category).order("display_order");
   if (error) throw error;
@@ -304,7 +307,7 @@ export async function getFaqItems(category: "general" | "contact"): Promise<Bili
     en: { question: row.question_en, answer: row.answer_en },
     ar: { question: row.question_ar, answer: row.answer_ar },
   }));
-}
+});
 
 export interface BilingualTestimonial {
   id: string; patientName: string; country: string | null; rating: number; photo: string | null;
@@ -312,7 +315,7 @@ export interface BilingualTestimonial {
   ar: { role: string | null; quote: string };
 }
 
-export async function getTestimonials(placement: string): Promise<BilingualTestimonial[]> {
+export const getTestimonials = cache(async function getTestimonials(placement: string): Promise<BilingualTestimonial[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("testimonials")
@@ -333,4 +336,4 @@ export async function getTestimonials(placement: string): Promise<BilingualTesti
       ar: { role: row.role_ar as string | null, quote: row.review_ar as string },
     };
   });
-}
+});

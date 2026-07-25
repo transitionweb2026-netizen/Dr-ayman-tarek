@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { mediaPublicUrl } from "./media";
 
@@ -37,7 +38,7 @@ export interface SiteSettingsData {
   supabaseAssetHost: string | null;
 }
 
-export async function getSiteSettings(): Promise<SiteSettingsData> {
+export const getSiteSettings = cache(async function getSiteSettings(): Promise<SiteSettingsData> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("site_settings")
@@ -92,16 +93,16 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
     defaultKeywordsEn: (row.default_keywords_en as string[]) || [], defaultKeywordsAr: (row.default_keywords_ar as string[]) || [],
     supabaseAssetHost,
   };
-}
+});
 
 export interface NavLinkData {
   labelEn: string; labelAr: string; href: string;
 }
 
-export async function getNavLinks(): Promise<{ header: NavLinkData[]; footerExpertise: NavLinkData[]; footerJourney: NavLinkData[] }> {
+export const getNavLinks = cache(async function getNavLinks(): Promise<{ header: NavLinkData[]; footerExpertise: NavLinkData[]; footerJourney: NavLinkData[] }> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("nav_links").select("*").eq("is_visible", true).order("display_order");
   if (error) throw error;
   const map = (location: string) => data.filter((l) => l.location === location).map((l) => ({ labelEn: l.label_en, labelAr: l.label_ar, href: l.href }));
   return { header: map("header"), footerExpertise: map("footer_expertise"), footerJourney: map("footer_journey") };
-}
+});

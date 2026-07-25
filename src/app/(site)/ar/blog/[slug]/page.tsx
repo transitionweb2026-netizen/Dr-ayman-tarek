@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { BlogPostDetail } from "../../../blog/[slug]/BlogPostDetail";
+import { BlogPostDetail, toBlogPostView } from "../../../blog/[slug]/BlogPostDetail";
 import { getArticleBySlug, getPageSections } from "@/server/repositories/content";
 import { getSiteSettings } from "@/server/repositories/settings";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { buildWebPageSchema, buildBreadcrumbSchema, buildBlogPostingSchema } from "@/lib/seo/schema";
 import { breadcrumbItems } from "@/lib/seo/pageRegistry";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { renderRichTextHtml } from "@/lib/richText";
 
 const LANG = "ar" as const;
 
@@ -80,7 +81,7 @@ export default async function BlogPostPageArabic({ params }: { params: Promise<{
           />
         </>
       )}
-      <BlogPostDetail post={post} sections={sections} />
+      <BlogPostDetail post={toBlogPostView(post, LANG, renderRichTextHtml(post.ar.contentJson))} sections={sections} />
     </>
   );
 }

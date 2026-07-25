@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { BlogPostDetail } from "./BlogPostDetail";
+import { BlogPostDetail, toBlogPostView } from "./BlogPostDetail";
 import { getArticleBySlug, getPageSections } from "@/server/repositories/content";
 import { getSiteSettings } from "@/server/repositories/settings";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { buildWebPageSchema, buildBreadcrumbSchema, buildBlogPostingSchema } from "@/lib/seo/schema";
 import { breadcrumbItems } from "@/lib/seo/pageRegistry";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { renderRichTextHtml } from "@/lib/richText";
 
 const LANG = "en" as const;
 
@@ -80,7 +81,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           />
         </>
       )}
-      <BlogPostDetail post={post} sections={sections} />
+      <BlogPostDetail post={toBlogPostView(post, LANG, renderRichTextHtml(post.en.contentJson))} sections={sections} />
     </>
   );
 }
