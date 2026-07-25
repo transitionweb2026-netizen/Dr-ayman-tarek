@@ -7,51 +7,13 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { useLanguage, type Language } from "@/i18n/LanguageProvider";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { localizedHref } from "@/lib/localizedHref";
 import { pickSection } from "@/lib/pickLang";
-import type { BlogPostDetail as BlogPostDetailData } from "@/server/repositories/content";
+import type { BlogPostView } from "./blogPostView";
 
 interface CtaContent { heading: string; subtitle: string }
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
-
-/** Everything this component needs, already resolved to one language and
- * with the rich-text body pre-rendered to an HTML string — see
- * toBlogPostView() below. Deliberately excludes the raw Tiptap JSON: each
- * blog route already commits to one language server-side (see the `LANG`
- * constant in page.tsx), so there's no reason to ship the whole
- * @tiptap/core rendering pipeline — or the other language's copy — into
- * this public page's client bundle just to pick one side of it. */
-export interface BlogPostView {
-  slug: string;
-  image: string;
-  readingTime: number | null;
-  authorName: string | null;
-  authorAvatarUrl: string | null;
-  publishedAt: string | null;
-  title: string;
-  excerpt: string;
-  category: string | null;
-  contentHtml: string;
-}
-
-/** Server-side only (imports @tiptap/core's generateHTML) — call this in
- * page.tsx, never inside this client component. */
-export function toBlogPostView(post: BlogPostDetailData, lang: Language, contentHtml: string): BlogPostView {
-  const copy = lang === "ar" ? post.ar : post.en;
-  return {
-    slug: post.slug,
-    image: post.image,
-    readingTime: post.readingTime,
-    authorName: post.authorName,
-    authorAvatarUrl: post.authorAvatarUrl,
-    publishedAt: post.publishedAt,
-    title: copy.title,
-    excerpt: copy.excerpt,
-    category: copy.category,
-    contentHtml,
-  };
-}
 
 /** Article-reading layout for a single blog post — new page, so it composes
  * existing primitives (GlowOrb/GlassCard/Reveal/FinalCta) in a fresh

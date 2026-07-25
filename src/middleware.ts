@@ -12,18 +12,26 @@ import type { Database } from "@/lib/supabase/database.types";
  * deeper admin check (does this session belong to an actual admin_profiles
  * row, not just any authenticated user) happens in `/admin/layout.tsx`,
  * which can afford a real DB query; middleware stays cheap.
+ *
+ * x-pathname is set on the *request* (via the `request: { headers }` form),
+ * not the response — it's internal plumbing for headers() in Server
+ * Components, not something that should leak into the actual HTTP response
+ * a browser or crawler receives.
  */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  const requestHeaders = () => {
+    const headers = new Headers(request.headers);
+    headers.set("x-pathname", pathname);
+    return headers;
+  };
+
   if (!pathname.startsWith("/admin")) {
-    const response = NextResponse.next({ request });
-    response.headers.set("x-pathname", pathname);
-    return response;
+    return NextResponse.next({ request: { headers: requestHeaders() } });
   }
 
-  let response = NextResponse.next({ request });
-  response.headers.set("x-pathname", pathname);
+  let response = NextResponse.next({ request: { headers: requestHeaders() } });
 
   const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -37,8 +45,7 @@ export async function middleware(request: NextRequest) {
           for (const { name, value } of cookiesToSet) {
             request.cookies.set(name, value);
           }
-          response = NextResponse.next({ request });
-          response.headers.set("x-pathname", pathname);
+          response = NextResponse.next({ request: { headers: requestHeaders() } });
           for (const { name, value, options } of cookiesToSet) {
             response.cookies.set(name, value, options);
           }

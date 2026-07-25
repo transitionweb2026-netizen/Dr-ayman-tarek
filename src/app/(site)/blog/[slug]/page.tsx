@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { BlogPostDetail, toBlogPostView } from "./BlogPostDetail";
+import { BlogPostDetail } from "./BlogPostDetail";
+import { toBlogPostView } from "./blogPostView";
 import { getArticleBySlug, getPageSections } from "@/server/repositories/content";
 import { getSiteSettings } from "@/server/repositories/settings";
 import { buildPageMetadata } from "@/lib/seo/metadata";
