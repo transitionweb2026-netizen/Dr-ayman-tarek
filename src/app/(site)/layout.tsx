@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingContactButtons } from "@/components/layout/FloatingContactButtons";
@@ -13,7 +14,8 @@ import { getSiteSettings, getNavLinks } from "@/server/repositories/settings";
  * props, so Header/Footer/FloatingContactButtons never fetch on their own.
  */
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const [settings, navLinks] = await Promise.all([getSiteSettings(), getNavLinks()]);
+  const [settings, navLinks, requestHeaders] = await Promise.all([getSiteSettings(), getNavLinks(), headers()]);
+  const nonce = requestHeaders.get("x-nonce") ?? undefined;
 
   return (
     <LanguageProvider>
@@ -23,6 +25,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         googleAdsId={settings.googleAdsId}
         gtmContainerId={settings.gtmContainerId}
         metaPixelId={settings.metaPixelId}
+        nonce={nonce}
       />
       <div className="app-mesh-bg bg-noise" aria-hidden />
       <FloatingContactButtons phone={settings.phone} whatsapp={settings.whatsapp} />

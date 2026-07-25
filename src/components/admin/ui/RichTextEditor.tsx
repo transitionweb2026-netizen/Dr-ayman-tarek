@@ -93,7 +93,10 @@ function EditorInstance({ value, onChange, dir, placeholder }: { value: JSONCont
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      // StarterKit bundles its own Link extension as of Tiptap v3 — disable
+      // it so the explicit LinkExtension below doesn't collide with it (was
+      // logging "Duplicate extension names found: ['link']").
+      StarterKit.configure({ link: false }),
       LinkExtension.configure({ openOnClick: false, autolink: true }),
       ImageExtension,
       TextAlign.configure({ types: ["heading", "paragraph"] }),

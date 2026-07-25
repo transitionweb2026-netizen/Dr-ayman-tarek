@@ -5,7 +5,11 @@ import ImageExtension from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
 
 const EXTENSIONS = [
-  StarterKit,
+  // StarterKit bundles its own Link extension as of Tiptap v3 — disable it
+  // here so the explicit LinkExtension.configure() below (with our own
+  // openOnClick/autolink options) doesn't collide with it (was logging
+  // "Duplicate extension names found: ['link']" on every render).
+  StarterKit.configure({ link: false }),
   LinkExtension.configure({ openOnClick: false, autolink: true }),
   ImageExtension,
   TextAlign.configure({ types: ["heading", "paragraph"] }),

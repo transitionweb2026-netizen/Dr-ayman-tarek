@@ -35,12 +35,11 @@ const nextConfig = {
     ];
   },
   async headers() {
-    // Deliberately just the standard, low-risk headers — no CSP here. A
-    // real Content-Security-Policy would need to enumerate every third
-    // party this site actually loads (Google Fonts, GA/GTM, Meta Pixel,
-    // YouTube embeds, Google Maps embed) and is easy to get subtly wrong in
-    // a way that silently breaks one of them; better done as a deliberate,
-    // separately-tested follow-up than bundled into an SEO/audit pass.
+    // CSP itself is NOT set here — it needs a fresh nonce per request, so
+    // it's generated in middleware.ts (see src/lib/csp.ts) and shipped as
+    // Content-Security-Policy-Report-Only rather than enforced; these are
+    // the static headers that don't need per-request data. Vercel does not
+    // add HSTS automatically — it's the app's responsibility to set it.
     return [
       {
         source: "/:path*",
@@ -48,6 +47,8 @@ const nextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "Permissions-Policy", value: "geolocation=(), microphone=(), camera=()" },
         ],
       },
     ];

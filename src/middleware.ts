@@ -1,37 +1,47 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/lib/supabase/database.types";
+import { buildCspHeader } from "@/lib/csp";
 
 /**
- * Two unrelated jobs share this file because Next.js only allows one
+ * Three unrelated jobs share this file because Next.js only allows one
  * middleware: (1) stamp every request with an `x-pathname` header so the
  * root layout can derive `<html lang/dir>` from the URL server-side (see
- * layout.tsx) — cheap, unconditional, runs for every route; (2) refresh the
- * Supabase session cookie and gate `/admin/*` — real DB-adjacent work, kept
- * behind the existing `/admin` check so public pages don't pay for it. The
- * deeper admin check (does this session belong to an actual admin_profiles
- * row, not just any authenticated user) happens in `/admin/layout.tsx`,
- * which can afford a real DB query; middleware stays cheap.
+ * layout.tsx); (2) generate a per-request CSP nonce and report-only CSP
+ * header (see csp.ts for why report-only); (3) refresh the Supabase session
+ * cookie and gate `/admin/*` — real DB-adjacent work, kept behind the
+ * existing `/admin` check so public pages don't pay for it. The deeper
+ * admin check (does this session belong to an actual admin_profiles row,
+ * not just any authenticated user) happens in `/admin/layout.tsx`, which
+ * can afford a real DB query; middleware stays cheap.
  *
- * x-pathname is set on the *request* (via the `request: { headers }` form),
- * not the response — it's internal plumbing for headers() in Server
+ * x-pathname/x-nonce are set on the *request* (via the `request: { headers
+ * }` form), not the response — internal plumbing for headers() in Server
  * Components, not something that should leak into the actual HTTP response
- * a browser or crawler receives.
+ * a browser or crawler receives. The CSP itself IS a response header (that's
+ * the only way a browser ever sees it) — report-only mode means it still
+ * has zero effect on what actually loads.
  */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const nonce = crypto.randomUUID().replace(/-/g, "");
+  const csp = buildCspHeader(nonce);
 
   const requestHeaders = () => {
     const headers = new Headers(request.headers);
     headers.set("x-pathname", pathname);
+    headers.set("x-nonce", nonce);
     return headers;
   };
 
   if (!pathname.startsWith("/admin")) {
-    return NextResponse.next({ request: { headers: requestHeaders() } });
+    const response = NextResponse.next({ request: { headers: requestHeaders() } });
+    response.headers.set("Content-Security-Policy-Report-Only", csp);
+    return response;
   }
 
   let response = NextResponse.next({ request: { headers: requestHeaders() } });
+  response.headers.set("Content-Security-Policy-Report-Only", csp);
 
   const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -46,6 +56,7 @@ export async function middleware(request: NextRequest) {
             request.cookies.set(name, value);
           }
           response = NextResponse.next({ request: { headers: requestHeaders() } });
+          response.headers.set("Content-Security-Policy-Report-Only", csp);
           for (const { name, value, options } of cookiesToSet) {
             response.cookies.set(name, value, options);
           }
