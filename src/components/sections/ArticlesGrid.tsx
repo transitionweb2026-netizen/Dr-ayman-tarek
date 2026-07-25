@@ -3,12 +3,15 @@
 import Image from "next/image";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { NeonIcon } from "@/components/ui/NeonIcon";
+import Link from "next/link";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { localizedHref } from "@/lib/localizedHref";
 import type { BlogArticle } from "@/data/blog";
 
 function BlogArticleCard({ article }: { article: BlogArticle }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const href = localizedHref(`/blog/${article.id}`, language);
   return (
     <GlassCard radius="2xl" className="group flex flex-col overflow-hidden">
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -31,9 +34,9 @@ function BlogArticleCard({ article }: { article: BlogArticle }) {
         </div>
         <h3 className="mb-2 text-card-title text-white">{article.title}</h3>
         <p className="line-clamp-3 text-body text-on-surface-variant">{article.excerpt}</p>
-        <a href="#" className="mt-4 flex items-center gap-2 text-small text-primary">
+        <Link href={href} className="mt-4 flex items-center gap-2 text-small text-primary">
           {t("common.readMore")} <NeonIcon name="arrow_forward" className="text-sm rtl:-scale-x-100" />
-        </a>
+        </Link>
       </div>
     </GlassCard>
   );

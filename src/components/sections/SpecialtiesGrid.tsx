@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
@@ -49,10 +50,9 @@ export function SpecialtiesGrid({ content }: { content: Partial<SpecialtiesGridC
                     NeonIcon component, which would hard-code a color and break the
                     inversion. The neon glow bloom is still applied, just via a
                     drop-shadow that doesn't touch color. */}
-                <div className="hex-icon mb-5 flex h-[92px] w-[92px] items-center justify-center border border-neon-border bg-neon-container text-neon shadow-neon-rest transition-all duration-300 ease-premium group-hover:scale-[1.08] group-hover:bg-neon group-hover:text-background group-hover:shadow-neon-hover">
+                <div className="hex-icon relative mb-5 flex h-[92px] w-[92px] items-center justify-center border border-neon-border bg-neon-container text-neon shadow-neon-rest transition-all duration-300 ease-premium group-hover:scale-[1.08] group-hover:bg-neon group-hover:text-background group-hover:shadow-neon-hover">
                   {image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={image} alt={item.title} className="h-full w-full object-cover" />
+                    <Image src={image} alt={item.title} fill sizes="92px" className="object-cover" />
                   ) : (
                     <span className="material-symbols-outlined text-4xl [filter:drop-shadow(0_0_4px_rgba(192,38,255,.55))_drop-shadow(0_0_10px_rgba(168,85,247,.35))] group-hover:![filter:none]">
                       {item.icon}

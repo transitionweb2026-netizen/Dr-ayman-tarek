@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { LanguageSwitch } from "@/components/ui/LanguageSwitch";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { localizedHref } from "@/lib/localizedHref";
 import type { SiteSettingsData, NavLinkData } from "@/server/repositories/settings";
 
 /**
@@ -89,7 +90,7 @@ export function Header({ settings, navLinks }: { settings: SiteSettingsData; nav
       )}
     >
       <nav className="mx-auto flex h-20 w-full max-w-container-max items-center justify-between px-margin-mobile md:px-margin-desktop">
-        <Link href="/" className="flex items-center gap-3" aria-label={t("nav.backToHomepage")}>
+        <Link href={localizedHref("/", language)} className="flex items-center gap-3" aria-label={t("nav.backToHomepage")}>
           {settings.logoUrl ? (
             <Image src={settings.logoUrl} alt={brandName} width={36} height={36} className="h-9 w-9 rounded-lg object-contain" />
           ) : (
@@ -100,11 +101,12 @@ export function Header({ settings, navLinks }: { settings: SiteSettingsData; nav
 
         <div className="hidden items-center gap-8 xl:flex">
           {navLinks.map((item) => {
-            const isActive = pathname === item.href;
+            const href = localizedHref(item.href, language);
+            const isActive = pathname === href;
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "relative text-small transition-colors duration-200",
@@ -171,7 +173,7 @@ export function Header({ settings, navLinks }: { settings: SiteSettingsData; nav
           >
             <div className="flex items-center justify-between">
               <Link
-                href="/"
+                href={localizedHref("/", language)}
                 className="flex items-center gap-3"
                 onClick={() => setMobileOpen(false)}
                 aria-label={t("nav.backToHomepage")}
@@ -197,7 +199,8 @@ export function Header({ settings, navLinks }: { settings: SiteSettingsData; nav
 
             <nav className="mt-10 flex flex-1 flex-col justify-center gap-2 overflow-y-auto">
               {navLinks.map((item, index) => {
-                const isActive = pathname === item.href;
+                const href = localizedHref(item.href, language);
+                const isActive = pathname === href;
                 return (
                   <motion.div
                     key={item.href}
@@ -206,7 +209,7 @@ export function Header({ settings, navLinks }: { settings: SiteSettingsData; nav
                     transition={{ delay: 0.06 + index * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <Link
-                      href={item.href}
+                      href={href}
                       aria-current={isActive ? "page" : undefined}
                       onClick={() => setMobileOpen(false)}
                       className={cn(

@@ -1,8 +1,10 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { en } from "./dictionaries/en";
 import { ar } from "./dictionaries/ar";
+import { localizedHref, languageFromPathname } from "@/lib/localizedHref";
 
 export type Language = "en" | "ar";
 /** Widens every literal string leaf to `string` so the ar dictionary (whose
@@ -48,26 +50,32 @@ function applyDomDirection(lang: Language) {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Matches the inline blocking script in layout.tsx's <head>, which already
-  // set document.documentElement.lang/dir synchronously before hydration —
-  // this just brings React's own state in sync with what's already on the DOM.
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window === "undefined") return "en";
-    return window.localStorage.getItem(STORAGE_KEY) === "ar" ? "ar" : "en";
-  });
+  const pathname = usePathname();
+  const router = useRouter();
+  // The URL is now the single source of truth for language (real /ar/*
+  // routes exist — see localizedHref.ts), which is what makes the hreflang
+  // tags in <head> and the actually-rendered content agree. The root
+  // layout's <html lang/dir> is already server-rendered to match (via the
+  // x-pathname header middleware sets), so there's nothing to patch after
+  // hydration the way the old localStorage-guess version needed.
+  const language: Language = languageFromPathname(pathname);
 
   useEffect(() => {
     applyDomDirection(language);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, language);
+    } catch {
+      /* localStorage unavailable (private mode, etc.) — preference just won't persist */
+    }
   }, [language]);
 
-  const setLanguage = useCallback((lang: Language) => {
-    setLanguageState(lang);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, lang);
-    } catch {
-      /* localStorage unavailable (private mode, etc.) — language just won't persist */
-    }
-  }, []);
+  const setLanguage = useCallback(
+    (lang: Language) => {
+      if (lang === language) return;
+      router.push(localizedHref(pathname, lang));
+    },
+    [language, pathname, router],
+  );
 
   const t = useCallback(
     (path: string) => {

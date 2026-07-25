@@ -8,6 +8,13 @@ const nextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      // CMS-uploaded media (Supabase Storage public bucket) — without this,
+      // next/image fails to optimize/serve any admin-uploaded image.
+      {
+        protocol: "https",
+        hostname: "qsxtivgcxikyamkmegwo.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
   async redirects() {

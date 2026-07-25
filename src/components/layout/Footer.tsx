@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { localizedHref } from "@/lib/localizedHref";
 import type { SiteSettingsData, NavLinkData } from "@/server/repositories/settings";
 
 const SOCIAL_ICONS: Record<string, string> = {
@@ -57,7 +58,7 @@ export function Footer({
             {expertiseLinks.map((link) => (
               <li key={link.href + link.labelEn}>
                 <a
-                  href={link.href}
+                  href={localizedHref(link.href, language)}
                   className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary rtl:hover:-translate-x-1"
                 >
                   {language === "ar" ? link.labelAr : link.labelEn}
@@ -73,7 +74,7 @@ export function Footer({
             {journeyLinks.map((link) => (
               <li key={link.href + link.labelEn}>
                 <a
-                  href={link.href}
+                  href={localizedHref(link.href, language)}
                   className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary rtl:hover:-translate-x-1"
                 >
                   {language === "ar" ? link.labelAr : link.labelEn}

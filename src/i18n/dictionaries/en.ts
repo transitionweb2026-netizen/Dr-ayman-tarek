@@ -52,6 +52,7 @@ export const en = {
     linkCopied: "Link copied to clipboard.",
     mapPreviewNote: "Map preview — interactive map loads on the live site.",
     directions: "Directions",
+    backToBlog: "Back to Blog",
   },
 
   home: {

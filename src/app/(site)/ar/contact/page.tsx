@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContactContent } from "./ContactContent";
+import { ContactContent } from "../../contact/ContactContent";
 import { getPageSections, getFaqItems, getServices } from "@/server/repositories/content";
 import { getSiteSettings } from "@/server/repositories/settings";
 import { buildStaticPageMetadata, getPageSeoSchemaFlags } from "@/lib/seo/pageMetadata";
@@ -7,20 +7,20 @@ import { buildWebPageSchema, buildBreadcrumbSchema, buildFaqSchema, buildContact
 import { breadcrumbItems } from "@/lib/seo/pageRegistry";
 import { JsonLd } from "@/components/seo/JsonLd";
 
-const LANG = "en" as const;
-const PATH = "/contact";
+const LANG = "ar" as const;
+const PATH = "/ar/contact";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildStaticPageMetadata({
     slug: "contact",
     lang: LANG,
     path: PATH,
-    fallbackTitle: "Contact Us",
-    fallbackDescription: "We're here to help you take the first step toward better neurological health.",
+    fallbackTitle: "تواصل معنا",
+    fallbackDescription: "نحن هنا لمساعدتك على اتخاذ الخطوة الأولى نحو صحة عصبية أفضل.",
   });
 }
 
-export default async function ContactPage() {
+export default async function ContactPageArabic() {
   const [sections, settings, faqItems, services, schemaFlags] = await Promise.all([
     getPageSections("contact"),
     getSiteSettings(),
@@ -36,13 +36,13 @@ export default async function ContactPage() {
           <JsonLd
             data={
               schemaFlags.schemaJsonld ||
-              buildWebPageSchema({ path: PATH, lang: LANG, name: "Contact Us", description: "We're here to help you take the first step toward better neurological health." })
+              buildWebPageSchema({ path: PATH, lang: LANG, name: "تواصل معنا", description: "نحن هنا لمساعدتك على اتخاذ الخطوة الأولى نحو صحة عصبية أفضل." })
             }
           />
           <JsonLd data={buildBreadcrumbSchema(breadcrumbItems("contact", LANG))} />
           <JsonLd data={buildContactPageSchema(settings, LANG, PATH)} />
           {(() => {
-            const faqSchema = buildFaqSchema(faqItems.map((f) => ({ question: f.en.question, answer: f.en.answer })));
+            const faqSchema = buildFaqSchema(faqItems.map((f) => ({ question: f.ar.question, answer: f.ar.answer })));
             return faqSchema ? <JsonLd data={faqSchema} /> : null;
           })()}
         </>

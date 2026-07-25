@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { AdminButton } from "@/components/admin/ui/Button";
 import { AdminCard, PageHeader } from "@/components/admin/ui/Card";
 import { BilingualField, FieldGroup, TextField } from "@/components/admin/ui/Field";
+import { SeoCharField } from "@/components/admin/ui/SeoCharField";
 import { MediaPickerField } from "@/components/admin/ui/MediaPicker";
 import { Repeater } from "@/components/admin/ui/Repeater";
 import { Tabs } from "@/components/admin/ui/Tabs";
@@ -38,6 +39,7 @@ const TABS = [
   { key: "general", label: "General" },
   { key: "contact", label: "Contact" },
   { key: "hours", label: "Hours & Social" },
+  { key: "seo", label: "Global SEO" },
   { key: "analytics", label: "Analytics" },
   { key: "footer", label: "Footer" },
   { key: "navigation", label: "Navigation" },
@@ -55,16 +57,31 @@ export function SettingsForm() {
     google_maps_embed_url: "", google_maps_address_en: "", google_maps_address_ar: "",
     ga_measurement_id: "", google_ads_id: "", gtm_container_id: "", meta_pixel_id: "",
     footer_description_en: "", footer_description_ar: "", footer_copyright_en: "", footer_copyright_ar: "",
+    default_title_en: "", default_title_ar: "", title_template_en: "", title_template_ar: "",
+    default_description_en: "", default_description_ar: "",
+    google_site_verification: "", bing_site_verification: "", yandex_site_verification: "", ms_clarity_id: "",
+    twitter_handle: "", default_og_image_media_id: null as string | null, default_twitter_image_media_id: null as string | null,
+    address_street_en: "", address_street_ar: "", address_city_en: "", address_city_ar: "",
+    address_region_en: "", address_region_ar: "", address_postal_code: "", address_country_en: "", address_country_ar: "",
+    geo_latitude: "", geo_longitude: "",
   });
   const [hours, setHours] = useState<HourRow[]>([]);
   const [social, setSocial] = useState<SocialRow[]>([]);
+  const [keywordsEn, setKeywordsEn] = useState("");
+  const [keywordsAr, setKeywordsAr] = useState("");
   const [logo, setLogo] = useState<MediaAsset | null>(null);
   const [favicon, setFavicon] = useState<MediaAsset | null>(null);
+  const [defaultOgImage, setDefaultOgImage] = useState<MediaAsset | null>(null);
+  const [defaultTwitterImage, setDefaultTwitterImage] = useState<MediaAsset | null>(null);
 
   const { data: existingLogo } = useMediaAssetById(settings?.logo_media_id ?? null);
   const { data: existingFavicon } = useMediaAssetById(settings?.favicon_media_id ?? null);
+  const { data: existingDefaultOg } = useMediaAssetById(settings?.default_og_image_media_id ?? null);
+  const { data: existingDefaultTwitter } = useMediaAssetById(settings?.default_twitter_image_media_id ?? null);
   useEffect(() => { if (existingLogo) setLogo(existingLogo); }, [existingLogo]);
   useEffect(() => { if (existingFavicon) setFavicon(existingFavicon); }, [existingFavicon]);
+  useEffect(() => { if (existingDefaultOg) setDefaultOgImage(existingDefaultOg); }, [existingDefaultOg]);
+  useEffect(() => { if (existingDefaultTwitter) setDefaultTwitterImage(existingDefaultTwitter); }, [existingDefaultTwitter]);
 
   useEffect(() => {
     if (!settings) return;
@@ -81,7 +98,22 @@ export function SettingsForm() {
       gtm_container_id: settings.gtm_container_id || "", meta_pixel_id: settings.meta_pixel_id || "",
       footer_description_en: settings.footer_description_en, footer_description_ar: settings.footer_description_ar,
       footer_copyright_en: settings.footer_copyright_en, footer_copyright_ar: settings.footer_copyright_ar,
+      default_title_en: settings.default_title_en || "", default_title_ar: settings.default_title_ar || "",
+      title_template_en: settings.title_template_en || "", title_template_ar: settings.title_template_ar || "",
+      default_description_en: settings.default_description_en || "", default_description_ar: settings.default_description_ar || "",
+      google_site_verification: settings.google_site_verification || "", bing_site_verification: settings.bing_site_verification || "",
+      yandex_site_verification: settings.yandex_site_verification || "", ms_clarity_id: settings.ms_clarity_id || "",
+      twitter_handle: settings.twitter_handle || "",
+      default_og_image_media_id: settings.default_og_image_media_id, default_twitter_image_media_id: settings.default_twitter_image_media_id,
+      address_street_en: settings.address_street_en || "", address_street_ar: settings.address_street_ar || "",
+      address_city_en: settings.address_city_en || "", address_city_ar: settings.address_city_ar || "",
+      address_region_en: settings.address_region_en || "", address_region_ar: settings.address_region_ar || "",
+      address_postal_code: settings.address_postal_code || "",
+      address_country_en: settings.address_country_en || "", address_country_ar: settings.address_country_ar || "",
+      geo_latitude: settings.geo_latitude?.toString() || "", geo_longitude: settings.geo_longitude?.toString() || "",
     });
+    setKeywordsEn((settings.default_keywords_en || []).join(", "));
+    setKeywordsAr((settings.default_keywords_ar || []).join(", "));
     const hoursData = (settings.business_hours as unknown as Omit<HourRow, "key">[]) || [];
     setHours(hoursData.map((h) => ({ ...h, key: nextKey() })));
     const socialData = (settings.social_links as unknown as Omit<SocialRow, "key">[]) || [];
@@ -90,8 +122,13 @@ export function SettingsForm() {
 
   async function handleSave() {
     try {
+      const { geo_latitude, geo_longitude, ...rest } = form;
       await update.mutateAsync({
-        ...form,
+        ...rest,
+        geo_latitude: geo_latitude ? Number(geo_latitude) : null,
+        geo_longitude: geo_longitude ? Number(geo_longitude) : null,
+        default_keywords_en: keywordsEn.split(",").map((k) => k.trim()).filter(Boolean),
+        default_keywords_ar: keywordsAr.split(",").map((k) => k.trim()).filter(Boolean),
         business_hours: hours.map((h) => ({ label_en: h.label_en, label_ar: h.label_ar, value_en: h.value_en, value_ar: h.value_ar })) as unknown as Json,
         social_links: social.map((s) => ({ platform: s.platform, url: s.url })) as unknown as Json,
       });
@@ -213,6 +250,89 @@ export function SettingsForm() {
                 </div>
               )}
             />
+          </AdminCard>
+        </div>
+      )}
+
+      {tab === "seo" && (
+        <div className="space-y-6">
+          <AdminCard>
+            <p className="mb-4 text-sm font-semibold text-white">Sitewide Defaults</p>
+            <div className="space-y-4">
+              <SeoCharField label="Default Title" min={50} max={60} valueEn={form.default_title_en} valueAr={form.default_title_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, default_title_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, default_title_ar: v }))} />
+              <BilingualField label="Title Template" hint='Use %s for the page title, e.g. "%s | Dr. Ayman Tarek"' valueEn={form.title_template_en} valueAr={form.title_template_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, title_template_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, title_template_ar: v }))} />
+              <SeoCharField label="Default Description" min={140} max={160} multiline valueEn={form.default_description_en} valueAr={form.default_description_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, default_description_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, default_description_ar: v }))} />
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <FieldGroup label="Default Keywords (English)" hint="Comma-separated">
+                  <TextField value={keywordsEn} onChange={(e) => setKeywordsEn(e.target.value)} dir="ltr" placeholder="neurosurgery, spine surgery, ..." />
+                </FieldGroup>
+                <FieldGroup label="Default Keywords (Arabic)" hint="Comma-separated">
+                  <TextField value={keywordsAr} onChange={(e) => setKeywordsAr(e.target.value)} dir="rtl" placeholder="جراحة الأعصاب، جراحة العمود الفقري، ..." />
+                </FieldGroup>
+              </div>
+            </div>
+          </AdminCard>
+
+          <AdminCard>
+            <p className="mb-4 text-sm font-semibold text-white">Default Social Images</p>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <MediaPickerField label="Default OG Image" valueMediaId={form.default_og_image_media_id} valueUrl={defaultOgImage ? getPublicMediaUrl(defaultOgImage.storage_path) : null}
+                onChange={(asset) => { setDefaultOgImage(asset); setForm((f) => ({ ...f, default_og_image_media_id: asset?.id ?? null })); }} />
+              <MediaPickerField label="Default Twitter Image" valueMediaId={form.default_twitter_image_media_id} valueUrl={defaultTwitterImage ? getPublicMediaUrl(defaultTwitterImage.storage_path) : null}
+                onChange={(asset) => { setDefaultTwitterImage(asset); setForm((f) => ({ ...f, default_twitter_image_media_id: asset?.id ?? null })); }} />
+            </div>
+            <div className="mt-4">
+              <FieldGroup label="Twitter Handle" hint="e.g. @draymantarek">
+                <TextField value={form.twitter_handle} onChange={(e) => setForm((f) => ({ ...f, twitter_handle: e.target.value }))} dir="ltr" />
+              </FieldGroup>
+            </div>
+          </AdminCard>
+
+          <AdminCard>
+            <p className="mb-4 text-sm font-semibold text-white">Search Engine Verification</p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <FieldGroup label="Google Search Console" hint="Verification token only, not the full meta tag">
+                <TextField value={form.google_site_verification} onChange={(e) => setForm((f) => ({ ...f, google_site_verification: e.target.value }))} dir="ltr" />
+              </FieldGroup>
+              <FieldGroup label="Bing Webmaster Tools">
+                <TextField value={form.bing_site_verification} onChange={(e) => setForm((f) => ({ ...f, bing_site_verification: e.target.value }))} dir="ltr" />
+              </FieldGroup>
+              <FieldGroup label="Yandex Webmaster">
+                <TextField value={form.yandex_site_verification} onChange={(e) => setForm((f) => ({ ...f, yandex_site_verification: e.target.value }))} dir="ltr" />
+              </FieldGroup>
+              <FieldGroup label="Microsoft Clarity ID">
+                <TextField value={form.ms_clarity_id} onChange={(e) => setForm((f) => ({ ...f, ms_clarity_id: e.target.value }))} dir="ltr" />
+              </FieldGroup>
+            </div>
+          </AdminCard>
+
+          <AdminCard>
+            <p className="mb-4 text-sm font-semibold text-white">Structured Business Address</p>
+            <p className="mb-4 text-xs text-on-surface-variant">Used for LocalBusiness structured data (Google&apos;s rich business panel) — separate from the display address in the Contact tab.</p>
+            <div className="space-y-4">
+              <BilingualField label="Street" valueEn={form.address_street_en} valueAr={form.address_street_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, address_street_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, address_street_ar: v }))} />
+              <BilingualField label="City" valueEn={form.address_city_en} valueAr={form.address_city_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, address_city_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, address_city_ar: v }))} />
+              <BilingualField label="Region / Governorate" valueEn={form.address_region_en} valueAr={form.address_region_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, address_region_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, address_region_ar: v }))} />
+              <BilingualField label="Country" valueEn={form.address_country_en} valueAr={form.address_country_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, address_country_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, address_country_ar: v }))} />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <FieldGroup label="Postal Code">
+                  <TextField value={form.address_postal_code} onChange={(e) => setForm((f) => ({ ...f, address_postal_code: e.target.value }))} dir="ltr" />
+                </FieldGroup>
+                <FieldGroup label="Latitude">
+                  <TextField value={form.geo_latitude} onChange={(e) => setForm((f) => ({ ...f, geo_latitude: e.target.value }))} dir="ltr" placeholder="30.0444" />
+                </FieldGroup>
+                <FieldGroup label="Longitude">
+                  <TextField value={form.geo_longitude} onChange={(e) => setForm((f) => ({ ...f, geo_longitude: e.target.value }))} dir="ltr" placeholder="31.2357" />
+                </FieldGroup>
+              </div>
+            </div>
           </AdminCard>
         </div>
       )}

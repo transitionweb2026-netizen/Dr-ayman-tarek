@@ -9,6 +9,8 @@ import { X, Plus, ImageOff } from "lucide-react";
 import { AdminButton } from "@/components/admin/ui/Button";
 import { AdminCard, PageHeader } from "@/components/admin/ui/Card";
 import { BilingualField, FieldGroup, TextField, ToggleField } from "@/components/admin/ui/Field";
+import { SeoCharField } from "@/components/admin/ui/SeoCharField";
+import { SearchPreview } from "@/components/admin/ui/SearchPreview";
 import { MediaPickerField, MediaPickerDialog } from "@/components/admin/ui/MediaPicker";
 import { BilingualRichText } from "@/components/admin/ui/RichTextEditor";
 import { createClient } from "@/lib/supabase/client";
@@ -51,6 +53,14 @@ const emptyForm = {
   seo_title_ar: "",
   seo_description_en: "",
   seo_description_ar: "",
+  focus_keyword_en: "",
+  focus_keyword_ar: "",
+  canonical_url: "",
+  og_title_en: "", og_title_ar: "", og_description_en: "", og_description_ar: "",
+  og_image_media_id: null as string | null,
+  twitter_title_en: "", twitter_title_ar: "", twitter_description_en: "", twitter_description_ar: "",
+  twitter_image_media_id: null as string | null,
+  robots_index: true, robots_follow: true, schema_enabled: true,
 };
 
 export function BlogPostForm({ post }: { post: BlogPost | null }) {
@@ -60,6 +70,10 @@ export function BlogPostForm({ post }: { post: BlogPost | null }) {
   const [contentEn, setContentEn] = useState<JSONContent>(emptyContent);
   const [contentAr, setContentAr] = useState<JSONContent>(emptyContent);
   const [featuredImage, setFeaturedImage] = useState<MediaAsset | null>(null);
+  const [ogImage, setOgImage] = useState<MediaAsset | null>(null);
+  const [twitterImage, setTwitterImage] = useState<MediaAsset | null>(null);
+  const [keywordsEn, setKeywordsEn] = useState("");
+  const [keywordsAr, setKeywordsAr] = useState("");
   const [tagNames, setTagNames] = useState<{ name_en: string; name_ar: string }[]>([]);
   const [tagInput, setTagInput] = useState("");
   const [gallery, setGallery] = useState<MediaAsset[]>([]);
@@ -75,10 +89,18 @@ export function BlogPostForm({ post }: { post: BlogPost | null }) {
   const { data: existingTags } = usePostTags(post?.id);
   const { data: existingGallery } = usePostGallery(post?.id);
   const { data: existingFeaturedImage } = useMediaAssetById(post?.featured_image_media_id ?? null);
+  const { data: existingOgImage } = useMediaAssetById(post?.og_image_media_id ?? null);
+  const { data: existingTwitterImage } = useMediaAssetById(post?.twitter_image_media_id ?? null);
 
   useEffect(() => {
     if (existingFeaturedImage) setFeaturedImage(existingFeaturedImage);
   }, [existingFeaturedImage]);
+  useEffect(() => {
+    if (existingOgImage) setOgImage(existingOgImage);
+  }, [existingOgImage]);
+  useEffect(() => {
+    if (existingTwitterImage) setTwitterImage(existingTwitterImage);
+  }, [existingTwitterImage]);
 
   useEffect(() => {
     if (existingTags) setTagNames(existingTags.map((t) => ({ name_en: t.name_en, name_ar: t.name_ar })));
@@ -109,7 +131,19 @@ export function BlogPostForm({ post }: { post: BlogPost | null }) {
         seo_title_ar: post.seo_title_ar || "",
         seo_description_en: post.seo_description_en || "",
         seo_description_ar: post.seo_description_ar || "",
+        focus_keyword_en: post.focus_keyword_en || "",
+        focus_keyword_ar: post.focus_keyword_ar || "",
+        canonical_url: post.canonical_url || "",
+        og_title_en: post.og_title_en || "", og_title_ar: post.og_title_ar || "",
+        og_description_en: post.og_description_en || "", og_description_ar: post.og_description_ar || "",
+        og_image_media_id: post.og_image_media_id,
+        twitter_title_en: post.twitter_title_en || "", twitter_title_ar: post.twitter_title_ar || "",
+        twitter_description_en: post.twitter_description_en || "", twitter_description_ar: post.twitter_description_ar || "",
+        twitter_image_media_id: post.twitter_image_media_id,
+        robots_index: post.robots_index, robots_follow: post.robots_follow, schema_enabled: post.schema_enabled,
       });
+      setKeywordsEn((post.keywords_en || []).join(", "));
+      setKeywordsAr((post.keywords_ar || []).join(", "));
       setContentEn((post.content_en as JSONContent) || emptyContent);
       setContentAr((post.content_ar as JSONContent) || emptyContent);
     }
@@ -151,6 +185,24 @@ export function BlogPostForm({ post }: { post: BlogPost | null }) {
       seo_title_ar: form.seo_title_ar || null,
       seo_description_en: form.seo_description_en || null,
       seo_description_ar: form.seo_description_ar || null,
+      focus_keyword_en: form.focus_keyword_en || null,
+      focus_keyword_ar: form.focus_keyword_ar || null,
+      keywords_en: keywordsEn.split(",").map((k) => k.trim()).filter(Boolean),
+      keywords_ar: keywordsAr.split(",").map((k) => k.trim()).filter(Boolean),
+      canonical_url: form.canonical_url || null,
+      og_title_en: form.og_title_en || null,
+      og_title_ar: form.og_title_ar || null,
+      og_description_en: form.og_description_en || null,
+      og_description_ar: form.og_description_ar || null,
+      og_image_media_id: form.og_image_media_id,
+      twitter_title_en: form.twitter_title_en || null,
+      twitter_title_ar: form.twitter_title_ar || null,
+      twitter_description_en: form.twitter_description_en || null,
+      twitter_description_ar: form.twitter_description_ar || null,
+      twitter_image_media_id: form.twitter_image_media_id,
+      robots_index: form.robots_index,
+      robots_follow: form.robots_follow,
+      schema_enabled: form.schema_enabled,
     };
     try {
       let postId: string;
@@ -230,20 +282,84 @@ export function BlogPostForm({ post }: { post: BlogPost | null }) {
             <p className="mb-4 text-sm font-semibold text-white">SEO</p>
             <div className="space-y-4">
               <BilingualField
-                label="SEO title"
+                label="Focus Keyword"
+                valueEn={form.focus_keyword_en}
+                valueAr={form.focus_keyword_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, focus_keyword_en: v }))}
+                onChangeAr={(v) => setForm((f) => ({ ...f, focus_keyword_ar: v }))}
+              />
+              <SeoCharField
+                label="SEO Title"
+                min={50}
+                max={60}
                 valueEn={form.seo_title_en}
                 valueAr={form.seo_title_ar}
                 onChangeEn={(v) => setForm((f) => ({ ...f, seo_title_en: v }))}
                 onChangeAr={(v) => setForm((f) => ({ ...f, seo_title_ar: v }))}
               />
-              <BilingualField
-                label="SEO description"
+              <SeoCharField
+                label="Meta Description"
+                min={140}
+                max={160}
                 multiline
                 valueEn={form.seo_description_en}
                 valueAr={form.seo_description_ar}
                 onChangeEn={(v) => setForm((f) => ({ ...f, seo_description_en: v }))}
                 onChangeAr={(v) => setForm((f) => ({ ...f, seo_description_ar: v }))}
               />
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <FieldGroup label="Keywords (English)" hint="Comma-separated">
+                  <TextField value={keywordsEn} onChange={(e) => setKeywordsEn(e.target.value)} dir="ltr" />
+                </FieldGroup>
+                <FieldGroup label="Keywords (Arabic)" hint="Comma-separated">
+                  <TextField value={keywordsAr} onChange={(e) => setKeywordsAr(e.target.value)} dir="rtl" />
+                </FieldGroup>
+              </div>
+              <FieldGroup label="Canonical URL" hint="Optional — defaults to /blog/[slug]">
+                <TextField value={form.canonical_url} onChange={(e) => setForm((f) => ({ ...f, canonical_url: e.target.value }))} dir="ltr" placeholder="https://..." />
+              </FieldGroup>
+            </div>
+          </AdminCard>
+
+          <AdminCard>
+            <p className="mb-4 text-sm font-semibold text-white">Open Graph (Facebook, LinkedIn, WhatsApp)</p>
+            <div className="space-y-4">
+              <BilingualField label="OG Title" hint="Falls back to SEO Title" valueEn={form.og_title_en} valueAr={form.og_title_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, og_title_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, og_title_ar: v }))} />
+              <BilingualField label="OG Description" hint="Falls back to Meta Description" multiline valueEn={form.og_description_en} valueAr={form.og_description_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, og_description_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, og_description_ar: v }))} />
+              <MediaPickerField label="OG Image (falls back to Featured Image)" valueMediaId={form.og_image_media_id} valueUrl={ogImage ? getPublicMediaUrl(ogImage.storage_path) : null}
+                onChange={(asset) => { setOgImage(asset); setForm((f) => ({ ...f, og_image_media_id: asset?.id ?? null })); }} />
+            </div>
+          </AdminCard>
+
+          <AdminCard>
+            <p className="mb-4 text-sm font-semibold text-white">Twitter / X Card</p>
+            <div className="space-y-4">
+              <BilingualField label="Twitter Title" hint="Falls back to OG Title" valueEn={form.twitter_title_en} valueAr={form.twitter_title_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, twitter_title_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, twitter_title_ar: v }))} />
+              <BilingualField label="Twitter Description" hint="Falls back to OG Description" multiline valueEn={form.twitter_description_en} valueAr={form.twitter_description_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, twitter_description_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, twitter_description_ar: v }))} />
+              <MediaPickerField label="Twitter Image (falls back to OG Image)" valueMediaId={form.twitter_image_media_id} valueUrl={twitterImage ? getPublicMediaUrl(twitterImage.storage_path) : null}
+                onChange={(asset) => { setTwitterImage(asset); setForm((f) => ({ ...f, twitter_image_media_id: asset?.id ?? null })); }} />
+            </div>
+          </AdminCard>
+
+          <AdminCard>
+            <p className="mb-4 text-sm font-semibold text-white">Search &amp; Social Preview</p>
+            <SearchPreview
+              title={form.seo_title_en || form.title_en}
+              description={form.seo_description_en || form.excerpt_en}
+              url={form.canonical_url || `https://your-site.com/blog/${form.slug}`}
+              imageUrl={ogImage ? getPublicMediaUrl(ogImage.storage_path) : featuredImage ? getPublicMediaUrl(featuredImage.storage_path) : null}
+            />
+          </AdminCard>
+
+          <AdminCard>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <ToggleField label="Index" checked={form.robots_index} onChange={(v) => setForm((f) => ({ ...f, robots_index: v }))} />
+              <ToggleField label="Follow" checked={form.robots_follow} onChange={(v) => setForm((f) => ({ ...f, robots_follow: v }))} />
+              <ToggleField label="Structured data" checked={form.schema_enabled} onChange={(v) => setForm((f) => ({ ...f, schema_enabled: v }))} />
             </div>
           </AdminCard>
         </div>

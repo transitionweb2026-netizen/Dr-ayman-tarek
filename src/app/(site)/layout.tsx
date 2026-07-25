@@ -4,6 +4,7 @@ import { FloatingContactButtons } from "@/components/layout/FloatingContactButto
 import { AnalyticsScripts } from "@/components/layout/AnalyticsScripts";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { RememberedLanguageRedirect } from "@/i18n/RememberedLanguageRedirect";
 import { getSiteSettings, getNavLinks } from "@/server/repositories/settings";
 
 /**
@@ -16,6 +17,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
   return (
     <LanguageProvider>
+      <RememberedLanguageRedirect />
       <AnalyticsScripts
         gaMeasurementId={settings.gaMeasurementId}
         googleAdsId={settings.googleAdsId}

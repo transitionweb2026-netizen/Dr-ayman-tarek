@@ -40,7 +40,7 @@ function ArticleCard({
         <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">{viewAllLabel}</button>
       </div>
       <div className="relative h-40 w-full shrink-0 overflow-hidden rounded-2xl">
-        <Image src={image} alt="" fill className="object-cover transition-transform duration-700 hover:scale-110" />
+        <Image src={image} alt={article.title} fill className="object-cover transition-transform duration-700 hover:scale-110" />
       </div>
       <div className="mt-4 flex-1 space-y-2">
         <div className="flex items-center gap-3">

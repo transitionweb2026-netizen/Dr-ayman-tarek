@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DrAymanTarekContent } from "./DrAymanTarekContent";
+import { DrAymanTarekContent } from "../../dr-ayman-tarek/DrAymanTarekContent";
 import { getPageSections, getSpecialties, getTestimonials } from "@/server/repositories/content";
 import { getSiteSettings } from "@/server/repositories/settings";
 import { buildStaticPageMetadata, getPageSeoSchemaFlags } from "@/lib/seo/pageMetadata";
@@ -7,21 +7,20 @@ import { buildWebPageSchema, buildBreadcrumbSchema, buildPhysicianSchema } from 
 import { breadcrumbItems } from "@/lib/seo/pageRegistry";
 import { JsonLd } from "@/components/seo/JsonLd";
 
-const LANG = "en" as const;
-const PATH = "/dr-ayman-tarek";
+const LANG = "ar" as const;
+const PATH = "/ar/dr-ayman-tarek";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildStaticPageMetadata({
     slug: "dr-ayman-tarek",
     lang: LANG,
     path: PATH,
-    fallbackTitle: "Cosmetic Surgery",
-    fallbackDescription:
-      "Dr. Ayman Tarek, Consultant Plastic, Cosmetic & Reconstructive Surgeon, blends surgical precision with an artistic eye to deliver safe, natural results built entirely around you.",
+    fallbackTitle: "جراحة تجميلية",
+    fallbackDescription: "د. أيمن طارق، استشاري جراحة التجميل والتقويم والترميم، يجمع بين الدقة الجراحية والعين الفنية لتقديم نتائج آمنة وطبيعية مصممة خصيصًا لك.",
   });
 }
 
-export default async function DrAymanTarekPage() {
+export default async function DrAymanTarekPageArabic() {
   const [sections, specialties, testimonials, settings, schemaFlags] = await Promise.all([
     getPageSections("dr-ayman-tarek"),
     getSpecialties(),
@@ -43,7 +42,7 @@ export default async function DrAymanTarekPage() {
           <JsonLd
             data={
               schemaFlags.schemaJsonld ||
-              buildWebPageSchema({ path: PATH, lang: LANG, name: settings.doctorNameEn, description: "Consultant Plastic, Cosmetic & Reconstructive Surgeon" })
+              buildWebPageSchema({ path: PATH, lang: LANG, name: settings.doctorNameAr, description: "استشاري جراحة التجميل والتقويم والترميم" })
             }
           />
           <JsonLd data={buildBreadcrumbSchema(breadcrumbItems("dr-ayman-tarek", LANG))} />

@@ -31,8 +31,25 @@ export interface PageSeoData {
   seoTitleAr: string | null;
   seoDescriptionEn: string | null;
   seoDescriptionAr: string | null;
+  keywordsEn: string[];
+  keywordsAr: string[];
   canonicalUrl: string | null;
   ogImageUrl: string | null;
+  twitterImageUrl: string | null;
+  schemaJsonld: Record<string, unknown> | null;
+  focusKeywordEn: string | null;
+  focusKeywordAr: string | null;
+  ogTitleEn: string | null;
+  ogTitleAr: string | null;
+  ogDescriptionEn: string | null;
+  ogDescriptionAr: string | null;
+  twitterTitleEn: string | null;
+  twitterTitleAr: string | null;
+  twitterDescriptionEn: string | null;
+  twitterDescriptionAr: string | null;
+  robotsIndex: boolean;
+  robotsFollow: boolean;
+  schemaEnabled: boolean;
 }
 
 export async function getPageSeo(slug: PageSlug): Promise<PageSeoData | null> {
@@ -41,18 +58,39 @@ export async function getPageSeo(slug: PageSlug): Promise<PageSeoData | null> {
   if (!page) return null;
   const { data: seo } = await supabase
     .from("page_seo")
-    .select("*, media_assets!page_seo_og_image_media_id_fkey(storage_path)")
+    .select(
+      "*, og_image:media_assets!page_seo_og_image_media_id_fkey(storage_path), twitter_image:media_assets!page_seo_twitter_image_media_id_fkey(storage_path)",
+    )
     .eq("page_id", page.id)
     .maybeSingle();
   if (!seo) return null;
-  const ogAsset = (seo as unknown as { media_assets?: { storage_path: string } | null }).media_assets;
+  const row = seo as unknown as Record<string, unknown>;
+  const ogAsset = row.og_image as { storage_path: string } | null;
+  const twitterAsset = row.twitter_image as { storage_path: string } | null;
   return {
-    seoTitleEn: seo.seo_title_en,
-    seoTitleAr: seo.seo_title_ar,
-    seoDescriptionEn: seo.seo_description_en,
-    seoDescriptionAr: seo.seo_description_ar,
-    canonicalUrl: seo.canonical_url,
+    seoTitleEn: row.seo_title_en as string | null,
+    seoTitleAr: row.seo_title_ar as string | null,
+    seoDescriptionEn: row.seo_description_en as string | null,
+    seoDescriptionAr: row.seo_description_ar as string | null,
+    keywordsEn: (row.keywords_en as string[]) || [],
+    keywordsAr: (row.keywords_ar as string[]) || [],
+    canonicalUrl: row.canonical_url as string | null,
     ogImageUrl: ogAsset ? mediaPublicUrl(ogAsset.storage_path) : null,
+    twitterImageUrl: twitterAsset ? mediaPublicUrl(twitterAsset.storage_path) : null,
+    schemaJsonld: (row.schema_jsonld as Record<string, unknown> | null) || null,
+    focusKeywordEn: row.focus_keyword_en as string | null,
+    focusKeywordAr: row.focus_keyword_ar as string | null,
+    ogTitleEn: row.og_title_en as string | null,
+    ogTitleAr: row.og_title_ar as string | null,
+    ogDescriptionEn: row.og_description_en as string | null,
+    ogDescriptionAr: row.og_description_ar as string | null,
+    twitterTitleEn: row.twitter_title_en as string | null,
+    twitterTitleAr: row.twitter_title_ar as string | null,
+    twitterDescriptionEn: row.twitter_description_en as string | null,
+    twitterDescriptionAr: row.twitter_description_ar as string | null,
+    robotsIndex: row.robots_index as boolean,
+    robotsFollow: row.robots_follow as boolean,
+    schemaEnabled: row.schema_enabled as boolean,
   };
 }
 
@@ -124,6 +162,7 @@ export async function getSpecialties(): Promise<BilingualSpecialty[]> {
 
 export interface BilingualVideo {
   id: string; slug: string; thumbnail: string; youtubeUrl: string; duration: string | null; featured: boolean;
+  publishedAtIso: string | null;
   en: { title: string; shortDescription: string; description: string; category: string | null; date: string };
   ar: { title: string; shortDescription: string; description: string; category: string | null; date: string };
 }
@@ -142,6 +181,7 @@ export async function getVideos(): Promise<BilingualVideo[]> {
       youtubeUrl: row.youtube_url as string,
       duration: row.duration as string | null,
       featured: row.is_featured as boolean,
+      publishedAtIso: row.published_at as string | null,
       en: { title: row.title_en as string, shortDescription: row.short_description_en as string, description: row.description_en as string, category: row.category_en as string | null, date },
       ar: { title: row.title_ar as string, shortDescription: row.short_description_ar as string, description: row.description_ar as string, category: row.category_ar as string | null, date },
     };
@@ -175,6 +215,78 @@ export async function getArticles(): Promise<BilingualArticle[]> {
       ar: { title: row.title_ar as string, excerpt: row.excerpt_ar as string, category: row.category_ar as string | null, date },
     };
   });
+}
+
+export interface BlogPostSeo {
+  seoTitleEn: string | null; seoTitleAr: string | null;
+  seoDescriptionEn: string | null; seoDescriptionAr: string | null;
+  focusKeywordEn: string | null; focusKeywordAr: string | null;
+  keywordsEn: string[]; keywordsAr: string[];
+  canonicalUrl: string | null;
+  ogTitleEn: string | null; ogTitleAr: string | null;
+  ogDescriptionEn: string | null; ogDescriptionAr: string | null;
+  ogImageUrl: string | null;
+  twitterTitleEn: string | null; twitterTitleAr: string | null;
+  twitterDescriptionEn: string | null; twitterDescriptionAr: string | null;
+  twitterImageUrl: string | null;
+  robotsIndex: boolean; robotsFollow: boolean; schemaEnabled: boolean;
+}
+
+export interface BlogPostDetail {
+  id: string; slug: string; image: string; readingTime: number | null;
+  authorName: string | null; authorAvatarUrl: string | null;
+  publishedAt: string | null; updatedAt: string;
+  en: { title: string; excerpt: string; category: string | null; contentJson: unknown };
+  ar: { title: string; excerpt: string; category: string | null; contentJson: unknown };
+  seo: BlogPostSeo;
+}
+
+/** Full single-post payload for the blog detail route — separate from
+ * getArticles()'s lighter BilingualArticle (grid cards don't need rich-text
+ * body or the full SEO field set). */
+export async function getArticleBySlug(slug: string): Promise<BlogPostDetail | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select(
+      "*, featured_image:media_assets!blog_posts_featured_image_media_id_fkey(storage_path), author_avatar:media_assets!blog_posts_author_avatar_media_id_fkey(storage_path), og_image:media_assets!blog_posts_og_image_media_id_fkey(storage_path), twitter_image:media_assets!blog_posts_twitter_image_media_id_fkey(storage_path)",
+    )
+    .eq("slug", slug)
+    .eq("status", "published")
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+  const row = data as unknown as Record<string, unknown>;
+  const featuredImage = row.featured_image as { storage_path: string } | null;
+  const authorAvatar = row.author_avatar as { storage_path: string } | null;
+  const ogAsset = row.og_image as { storage_path: string } | null;
+  const twitterAsset = row.twitter_image as { storage_path: string } | null;
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    image: resolveImage(featuredImage?.storage_path, row.featured_image_url as string | null),
+    readingTime: row.reading_time_minutes as number | null,
+    authorName: row.author_name as string | null,
+    authorAvatarUrl: authorAvatar ? mediaPublicUrl(authorAvatar.storage_path) : null,
+    publishedAt: row.published_at as string | null,
+    updatedAt: row.updated_at as string,
+    en: { title: row.title_en as string, excerpt: row.excerpt_en as string, category: row.category_en as string | null, contentJson: row.content_en },
+    ar: { title: row.title_ar as string, excerpt: row.excerpt_ar as string, category: row.category_ar as string | null, contentJson: row.content_ar },
+    seo: {
+      seoTitleEn: row.seo_title_en as string | null, seoTitleAr: row.seo_title_ar as string | null,
+      seoDescriptionEn: row.seo_description_en as string | null, seoDescriptionAr: row.seo_description_ar as string | null,
+      focusKeywordEn: row.focus_keyword_en as string | null, focusKeywordAr: row.focus_keyword_ar as string | null,
+      keywordsEn: (row.keywords_en as string[]) || [], keywordsAr: (row.keywords_ar as string[]) || [],
+      canonicalUrl: row.canonical_url as string | null,
+      ogTitleEn: row.og_title_en as string | null, ogTitleAr: row.og_title_ar as string | null,
+      ogDescriptionEn: row.og_description_en as string | null, ogDescriptionAr: row.og_description_ar as string | null,
+      ogImageUrl: ogAsset ? mediaPublicUrl(ogAsset.storage_path) : null,
+      twitterTitleEn: row.twitter_title_en as string | null, twitterTitleAr: row.twitter_title_ar as string | null,
+      twitterDescriptionEn: row.twitter_description_en as string | null, twitterDescriptionAr: row.twitter_description_ar as string | null,
+      twitterImageUrl: twitterAsset ? mediaPublicUrl(twitterAsset.storage_path) : null,
+      robotsIndex: row.robots_index as boolean, robotsFollow: row.robots_follow as boolean, schemaEnabled: row.schema_enabled as boolean,
+    },
+  };
 }
 
 export interface BilingualFaqItem {

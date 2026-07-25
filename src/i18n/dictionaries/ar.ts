@@ -52,6 +52,7 @@ export const ar = {
     linkCopied: "تم نسخ الرابط.",
     mapPreviewNote: "معاينة الخريطة — تُحمَّل الخريطة التفاعلية على الموقع الفعلي.",
     directions: "اتجاهات الوصول",
+    backToBlog: "العودة إلى المدونة",
   },
 
   home: {

@@ -1,16 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { localizedHref } from "@/lib/localizedHref";
 import type { BlogArticle } from "@/data/blog";
 
 /** Large hero-style card for the blog's single Featured Article. */
 export function FeaturedArticle({ article }: { article: BlogArticle }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const href = localizedHref(`/blog/${article.id}`, language);
   return (
     <Reveal>
       <GlassCard radius="3xl" className="group grid grid-cols-1 overflow-hidden lg:grid-cols-2 lg:min-h-[440px]">
@@ -35,13 +37,12 @@ export function FeaturedArticle({ article }: { article: BlogArticle }) {
             </div>
             <h2 className="mb-4 text-section-title text-white">{article.title}</h2>
             <p className="mb-6 text-body-lg text-on-surface-variant">{article.excerpt}</p>
-            <Button
-              className="self-start"
-              icon={<NeonIcon name="arrow_forward" neon={false} className="text-xl text-white rtl:-scale-x-100" />}
-              iconPosition="end"
-            >
-              {t("common.readMore")}
-            </Button>
+            <Link href={href} className="btn-primary self-start px-9 py-4">
+              <span className="relative">{t("common.readMore")}</span>
+              <span className="shrink-0">
+                <NeonIcon name="arrow_forward" neon={false} className="text-xl text-white rtl:-scale-x-100" />
+              </span>
+            </Link>
           </div>
         </div>
       </GlassCard>

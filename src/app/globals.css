@@ -179,10 +179,9 @@ body {
   }
 }
 
-/* Admin rich text editor (Tiptap) output — no @tailwindcss/typography
-   dependency added just for this, so the raw HTML elements Tiptap renders
-   are styled directly here instead. Scoped to .rich-text-content so it
-   never leaks into the public site. */
+/* Tiptap output styling (raw HTML elements, no @tailwindcss/typography
+   dependency) — used both by the admin rich text editor and, read-only via
+   generateHTML(), by the public blog post detail page. */
 .rich-text-content {
   color: #f3edfb;
   font-size: 0.9375rem;
