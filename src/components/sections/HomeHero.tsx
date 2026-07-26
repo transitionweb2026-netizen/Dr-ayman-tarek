@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
@@ -12,6 +13,7 @@ import { MouseParallax } from "@/components/motion/Parallax";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
 import type { HeroImageConfig } from "@/server/repositories/content";
+import { computeHeroLayout, heroGradientToClass, mirrorSide } from "@/lib/heroLayout";
 
 const AVATARS = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCm5F_KClouvmKWx93nUbO6JYr4zCLdMn0h3bcl7xULyL7yjuq094yBSRl10k38bGrsF1T4CujvU4gXocmx37Ni-K7byWs0j8lbhIQqs7LwDi2ObwUG81F5LMA_rQfpiqZNXK-v4Ne4dcmgUmPb5HEl7DNkIrK5gEFViyOia2cDf0grk4bu0Qx8DJh79V_gbH7YMkYa2SP5aqzW0YeacUq_dgiY4oGjtqT52wvR0eTz-J8UtHMYDoaP",
@@ -34,18 +36,41 @@ export interface HomeHeroContent {
 
 export function HomeHero({ content, images }: { content: Partial<HomeHeroContent>; images: HeroImageConfig }) {
   const t = (key: keyof HomeHeroContent) => content[key] || "";
+
+  // Smart Hero: in "auto" strategy the layout (which side the text sits on,
+  // how wide it's allowed to be, which way the gradient darkens) is derived
+  // from the photo's marked subject position, not fixed in code — any
+  // uploaded portrait works without special prep. "manual" strategy keeps
+  // the original fixed-left, fixed-width composition untouched.
+  const auto = images.imageStrategy === "auto";
+  const layout = auto ? computeHeroLayout(images) : null;
+  const contentSide = layout?.contentSide ?? "left";
+  const flip = contentSide === "right";
+  const gradientClass = heroGradientToClass(layout?.gradientDirection ?? "left") ?? "bg-gradient-to-r";
+  // #0a0613 is this theme's `background` color (tailwind.config.ts) — Tailwind v3 doesn't
+  // expose theme colors as CSS variables, so the radial variant spells it out directly
+  // rather than fighting the class-based gradient utilities for the same property.
+  const gradientStyle: CSSProperties | undefined =
+    layout?.gradientDirection === "radial"
+      ? { background: "radial-gradient(ellipse at center, rgba(10,6,19,0.85) 0%, rgba(10,6,19,0.35) 45%, transparent 75%)" }
+      : undefined;
+  const showGradient = !layout || layout.gradientDirection !== "none";
+
   return (
     <section className="relative flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 pt-20 lg:min-h-[700px]">
       {/* Full-bleed background artwork — one photo per breakpoint (art
           directed, not just resized), CMS-configurable via HeroImageConfig.
-          The gradient mirrors in RTL (rtl:bg-gradient-to-l) so the photo
-          stays more visible on the side the floating card sits beside —
-          text starts at the reading edge either way. This same treatment
-          now carries the doctor's photo at every breakpoint, mobile
-          included — there is no separate mobile-only portrait anymore. */}
+          This same treatment carries the doctor's photo at every
+          breakpoint, mobile included — there is no separate mobile-only
+          portrait. */}
       <div className="absolute inset-0 z-0">
         <HeroBackgroundImage images={images}>
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/10 rtl:bg-gradient-to-l" />
+          {showGradient && (
+            <div
+              className={`absolute inset-0 ${gradientStyle ? "" : `${gradientClass} from-background via-background/70 to-background/10`} ${!auto ? "rtl:bg-gradient-to-l" : ""}`}
+              style={gradientStyle}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
         </HeroBackgroundImage>
       </div>
@@ -59,7 +84,14 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
       )}
 
       <div className="relative z-10 mx-auto w-full max-w-container-max px-margin-mobile md:px-8 lg:px-12">
-        <div className="max-w-xl space-y-7">
+        <div
+          className={
+            auto
+              ? `space-y-7 lg:max-w-[var(--hero-safe-width)] ${flip ? "lg:ml-auto" : "lg:mr-auto"}`
+              : "max-w-xl space-y-7"
+          }
+          style={auto ? ({ "--hero-safe-width": `${layout!.safeTextWidthPct}%` } as CSSProperties) : undefined}
+        >
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -133,32 +165,52 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
       </div>
 
       {/* Connect With Us — normal-flow stack below the content on mobile/
-          tablet; vertically centered beside the doctor image at lg, sharing
-          the same max-w-container-max frame as the content column above so
-          both rows stay aligned to the same centered composition. */}
+          tablet; vertically centered beside the doctor image at lg, on
+          whichever side the text isn't (opposite of contentSide in auto
+          mode; the language-mirrored far side in manual mode), sharing the
+          same max-w-container-max frame as the content column above. */}
       <div className="relative z-10 mx-auto mt-10 flex w-full max-w-container-max flex-col items-center gap-5 px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-12">
-        <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-1/2 lg:w-64 lg:-translate-y-1/2 rtl:lg:right-auto rtl:lg:left-[5%]">
+        <div
+          className={
+            auto
+              ? `w-full max-w-xs lg:pointer-events-auto lg:absolute lg:top-1/2 lg:w-64 lg:-translate-y-1/2 ${flip ? "lg:left-[5%]" : "lg:right-[5%]"}`
+              : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-1/2 lg:w-64 lg:-translate-y-1/2 rtl:lg:right-auto rtl:lg:left-[5%]"
+          }
+        >
           <HeroSocialCard />
         </div>
       </div>
 
-      {/* Holographic overlay layer — brain, spine, rings, particles, HUD */}
+      {/* Holographic overlay layer — brain, spine, rings, particles, HUD.
+          Hand-positioned assuming content-left/image-right; mirrorSide()
+          flips every anchor across center when Smart Hero puts content on
+          the right instead, so the decorations always complement whichever
+          side the photo actually occupies. */}
       {images.showDecorations && (
         <div className="pointer-events-none absolute inset-0 z-[5] hidden lg:block">
           <MouseParallax strength={10}>
-            <div className="absolute left-[45%] top-[45%] h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow rounded-full border border-primary/30" />
+            <div
+              className="absolute h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow rounded-full border border-primary/30"
+              style={{ top: "45%", ...mirrorSide(45, "left", flip) }}
+            />
           </MouseParallax>
-          <div className="absolute left-[45%] top-[45%] h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow-rev rounded-full border border-tertiary/20" />
+          <div
+            className="absolute h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow-rev rounded-full border border-tertiary/20"
+            style={{ top: "45%", ...mirrorSide(45, "left", flip) }}
+          />
 
-          <HolographicBrain className="absolute left-[36%] top-[10%] h-[72%] w-[19%]" />
-          <HolographicSpine className="absolute right-[1%] top-[8%] h-[80%] w-[10%]" />
+          <HolographicBrain className="absolute h-[72%] w-[19%]" style={{ top: "10%", ...mirrorSide(36, "left", flip) }} />
+          <HolographicSpine className="absolute h-[80%] w-[10%]" style={{ top: "8%", ...mirrorSide(1, "right", flip) }} />
 
-          <div className="icon-badge-neon absolute left-[63%] top-[6%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full">
+          <div
+            className="icon-badge-neon absolute flex h-14 w-14 animate-float-y items-center justify-center rounded-full"
+            style={{ top: "6%", ...mirrorSide(63, "left", flip) }}
+          >
             <NeonIcon name="monitor_heart" className="text-2xl" />
           </div>
           <div
-            className="icon-badge-neon absolute bottom-[18%] left-[68%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full"
-            style={{ animationDelay: "1.6s" }}
+            className="icon-badge-neon absolute flex h-14 w-14 animate-float-y items-center justify-center rounded-full"
+            style={{ bottom: "18%", animationDelay: "1.6s", ...mirrorSide(68, "left", flip) }}
           >
             <NeonIcon name="graphic_eq" className="text-3xl" />
           </div>

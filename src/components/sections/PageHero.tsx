@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { HeroImageConfig } from "@/server/repositories/content";
+import { computeHeroLayout, heroGradientToClass } from "@/lib/heroLayout";
 
 interface PageHeroProps {
   eyebrow: string;
@@ -27,8 +28,10 @@ interface PageHeroProps {
 
 /** Shared secondary-page hero used by Services, Dr. Ayman Tarek, Videos,
  * Blog, and Contact — same visual system as HomeHero (full-bleed CMS photo,
- * gradient, glow/dot-grid decorations), scaled down for a shorter, more
- * text-forward hero. */
+ * gradient, glow/dot-grid decorations, Smart Hero auto layout), scaled down
+ * for a shorter, more text-forward hero. Centered heroes (Contact) opt out
+ * of the content-side/flip logic below — a centered layout has no "which
+ * side" for a subject to be protected from. */
 export function PageHero({
   eyebrow,
   title,
@@ -49,6 +52,12 @@ export function PageHero({
       ? { ...images, desktopImageUrl: image, tabletImageUrl: image, mobileImageUrl: image }
       : images;
 
+  const auto = !isCenter && images.imageStrategy === "auto";
+  const layout = auto ? computeHeroLayout(images) : null;
+  const contentSide = layout?.contentSide ?? "left";
+  const flip = contentSide === "right";
+  const gradientClass = heroGradientToClass(layout?.gradientDirection ?? "left") ?? "bg-background/65";
+
   return (
     <section
       className={`relative flex flex-col overflow-hidden pt-20 pb-10 ${
@@ -58,7 +67,21 @@ export function PageHero({
       {effectiveImages ? (
         <div className="absolute inset-0 z-0">
           <HeroBackgroundImage images={effectiveImages}>
-            <div className="absolute inset-0 bg-background/65" />
+            {!auto && <div className="absolute inset-0 bg-background/65" />}
+            {auto && layout && layout.gradientDirection !== "none" && (
+              <div
+                className={
+                  layout.gradientDirection === "radial"
+                    ? "absolute inset-0"
+                    : `absolute inset-0 ${gradientClass} from-background/75 via-background/45 to-background/10`
+                }
+                style={
+                  layout.gradientDirection === "radial"
+                    ? { background: "radial-gradient(ellipse at center, rgba(10,6,19,0.8) 0%, rgba(10,6,19,0.3) 45%, transparent 75%)" }
+                    : undefined
+                }
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/60" />
           </HeroBackgroundImage>
         </div>
@@ -83,7 +106,14 @@ export function PageHero({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className={isCenter ? "mx-auto max-w-xl" : "max-w-xl"}
+          className={
+            isCenter
+              ? "mx-auto max-w-xl"
+              : auto
+                ? `lg:max-w-[var(--hero-safe-width)] ${flip ? "lg:ml-auto" : "lg:mr-auto"}`
+                : "max-w-xl"
+          }
+          style={auto && layout ? ({ "--hero-safe-width": `${layout.safeTextWidthPct}%` } as CSSProperties) : undefined}
         >
           <span className="eyebrow mb-6 shadow-glow">
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary shadow-[0_0_10px_rgba(196,61,255,0.8)]" />
@@ -103,12 +133,13 @@ export function PageHero({
       </div>
 
       {/* Connect With Us — normal-flow stack below the content on mobile/
-          tablet; absolutely positioned beside the image (right side) at lg,
-          sharing the same max-w-container-max frame as the content column
-          above. Centered heroes (Contact only) keep it in normal flow at
-          every size instead: centered text plus a right-anchored absolute
-          card collide at 1024-1280px, confirmed via screenshot QA — a
-          centered layout doesn't have a "beside the image" side to pin it to. */}
+          tablet; absolutely positioned beside the image at lg (opposite the
+          text column), sharing the same max-w-container-max frame as the
+          content column above. Centered heroes (Contact only) keep it in
+          normal flow at every size instead: centered text plus a
+          right-anchored absolute card collide at 1024-1280px, confirmed via
+          screenshot QA — a centered layout doesn't have a "beside the
+          image" side to pin it to. */}
       <div
         className={
           isCenter
@@ -120,7 +151,9 @@ export function PageHero({
           className={
             isCenter
               ? "w-full max-w-xs"
-              : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] lg:right-[5%] rtl:lg:right-auto rtl:lg:left-[5%]"
+              : auto
+                ? `w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] ${flip ? "lg:left-[5%]" : "lg:right-[5%]"}`
+                : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[12%] lg:right-[5%] rtl:lg:right-auto rtl:lg:left-[5%]"
           }
         >
           <HeroSocialCard />

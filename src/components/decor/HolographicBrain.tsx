@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { motion } from "framer-motion";
 
 const NODES = [
@@ -14,9 +15,9 @@ const NODES = [
 ];
 
 /** The wireframe holographic brain used in the hero — same path data as the original static build. */
-export function HolographicBrain({ className }: { className?: string }) {
+export function HolographicBrain({ className, style }: { className?: string; style?: CSSProperties }) {
   return (
-    <div className={className}>
+    <div className={className} style={style}>
       <div className="absolute inset-0 rounded-full bg-tertiary/30 blur-3xl" />
       <svg className="relative h-full w-full overflow-visible" viewBox="0 0 240 200">
         <defs>

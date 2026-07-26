@@ -36,6 +36,11 @@ export const getPageSections = cache(async function getPageSections(
 const DEFAULT_HERO_IMAGE_URL =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw";
 
+export type HeroImageStrategy = "auto" | "manual";
+export type HeroSubjectPosition = "auto" | "left" | "center" | "right";
+export type HeroCropMode = "smart" | "cover" | "contain";
+export type HeroOverlayGradientMode = "auto" | "left" | "right" | "radial" | "none";
+
 export interface HeroImageConfig {
   desktopImageUrl: string;
   tabletImageUrl: string;
@@ -44,22 +49,37 @@ export interface HeroImageConfig {
   desktopAltAr: string;
   mobileAltEn: string;
   mobileAltAr: string;
-  /** Where the (now-bounded, via max-width/max-height) image box anchors
-   * within the hero composition — distinct from objectPosition, which is
-   * the crop focus *inside* that box. */
-  desktopImagePosition: "left" | "center" | "right";
-  mobileImagePosition: "top" | "center" | "bottom";
-  /** CSS object-position value, e.g. "center top", "50% 30%". */
-  desktopObjectPosition: string;
-  mobileObjectPosition: string;
-  /** 1 = 100%, no zoom. */
+
+  /** "auto" (default): the Smart Hero engine (src/lib/heroLayout.ts) picks
+   * content side, crop, and safe text width from the focus point below —
+   * any uploaded photo works without prep. "manual": ignore all of that and
+   * render the hero's original fixed-left, fixed-width composition — a
+   * guaranteed escape hatch back to the pre-smart-hero behavior. */
+  imageStrategy: HeroImageStrategy;
+  /** "auto" derives the subject's side from Desktop Focus X; pin it explicitly if the auto zone guess is wrong. */
+  subjectPosition: HeroSubjectPosition;
+  /** 0-100, where the subject sits in the photo. (50, 50) = dead center. */
+  desktopFocusX: number;
+  desktopFocusY: number;
+  mobileFocusX: number;
+  mobileFocusY: number;
+  /** 0-40. How much extra clearance to reserve around the subject — larger = narrower, safer text column. */
+  faceSafeMarginPct: number;
+  /** 0-100 or null. Manual override for the text column's max-width (% of the hero frame); null = auto-computed. */
+  safeTextAreaPct: number | null;
+  /** "smart" (default): auto-push the crop and zoom slightly when the subject is centered, to open a clear text zone. "cover"/"contain": plain CSS object-fit, no auto-adjustment. */
+  cropMode: HeroCropMode;
+  /** "auto" (default): gradient darkens whichever side the text lands on. Pin a direction, "radial", or "none" to override. */
+  overlayGradient: HeroOverlayGradientMode;
+  /** -20 to 20. Fine-tune nudge on top of the computed safe text width. */
+  contentOffsetPct: number;
+  /** 30-65. Target text-column width (% of the hero frame) the auto system aims for. */
+  heroBalance: number;
+
+  /** 1 = 100%, no zoom — manual-strategy zoom, or the floor the auto engine may zoom past. */
   desktopScale: number;
   mobileScale: number;
-  /** Raw CSS values (e.g. "560px", "48%") — null means "no cap, fill the hero". */
-  desktopMaxWidth: string | null;
-  mobileMaxWidth: string | null;
-  desktopMaxHeight: string | null;
-  mobileMaxHeight: string | null;
+
   /** 0-100. Extra flat tint on top of the hero's own built-in gradient —
    * 0 (default) is a no-op, the existing gradient treatment is untouched. */
   overlayOpacity: number;
@@ -75,10 +95,16 @@ export interface HeroImageConfig {
 
 const HERO_IMAGE_DEFAULTS: Omit<HeroImageConfig, "desktopImageUrl" | "tabletImageUrl" | "mobileImageUrl"> = {
   desktopAltEn: "", desktopAltAr: "", mobileAltEn: "", mobileAltAr: "",
-  desktopImagePosition: "right", mobileImagePosition: "center",
-  desktopObjectPosition: "center top", mobileObjectPosition: "center top",
+  imageStrategy: "auto",
+  subjectPosition: "auto",
+  desktopFocusX: 50, desktopFocusY: 25, mobileFocusX: 50, mobileFocusY: 25,
+  faceSafeMarginPct: 8,
+  safeTextAreaPct: null,
+  cropMode: "smart",
+  overlayGradient: "auto",
+  contentOffsetPct: 0,
+  heroBalance: 45,
   desktopScale: 1, mobileScale: 1,
-  desktopMaxWidth: null, mobileMaxWidth: null, desktopMaxHeight: null, mobileMaxHeight: null,
   overlayOpacity: 0, overlayBlur: 0,
   backgroundImageUrl: null, backgroundOpacity: 40, backgroundBlur: 0,
   showDecorations: true,
@@ -90,9 +116,6 @@ function numOr<T>(value: unknown, fallback: T): number | T {
 }
 function strOr(value: unknown, fallback: string): string {
   return typeof value === "string" && value.trim() !== "" ? value : fallback;
-}
-function strOrNull(value: unknown): string | null {
-  return typeof value === "string" && value.trim() !== "" ? value : null;
 }
 function oneOf<T extends string>(value: unknown, allowed: readonly T[], fallback: T): T {
   return typeof value === "string" && (allowed as readonly string[]).includes(value) ? (value as T) : fallback;
@@ -135,16 +158,20 @@ export const getHeroImageConfig = cache(async function getHeroImageConfig(slug: 
     desktopAltAr: strOr(heroAr.desktopAlt, HERO_IMAGE_DEFAULTS.desktopAltAr),
     mobileAltEn: strOr(hero.mobileAlt, HERO_IMAGE_DEFAULTS.mobileAltEn),
     mobileAltAr: strOr(heroAr.mobileAlt, HERO_IMAGE_DEFAULTS.mobileAltAr),
-    desktopImagePosition: oneOf(hero.desktopImagePosition, ["left", "center", "right"] as const, HERO_IMAGE_DEFAULTS.desktopImagePosition),
-    mobileImagePosition: oneOf(hero.mobileImagePosition, ["top", "center", "bottom"] as const, HERO_IMAGE_DEFAULTS.mobileImagePosition),
-    desktopObjectPosition: strOr(hero.desktopObjectPosition, HERO_IMAGE_DEFAULTS.desktopObjectPosition),
-    mobileObjectPosition: strOr(hero.mobileObjectPosition, HERO_IMAGE_DEFAULTS.mobileObjectPosition),
+    imageStrategy: oneOf(hero.imageStrategy, ["auto", "manual"] as const, HERO_IMAGE_DEFAULTS.imageStrategy),
+    subjectPosition: oneOf(hero.subjectPosition, ["auto", "left", "center", "right"] as const, HERO_IMAGE_DEFAULTS.subjectPosition),
+    desktopFocusX: numOr(hero.desktopFocusX, HERO_IMAGE_DEFAULTS.desktopFocusX),
+    desktopFocusY: numOr(hero.desktopFocusY, HERO_IMAGE_DEFAULTS.desktopFocusY),
+    mobileFocusX: numOr(hero.mobileFocusX, HERO_IMAGE_DEFAULTS.mobileFocusX),
+    mobileFocusY: numOr(hero.mobileFocusY, HERO_IMAGE_DEFAULTS.mobileFocusY),
+    faceSafeMarginPct: numOr(hero.faceSafeMarginPct, HERO_IMAGE_DEFAULTS.faceSafeMarginPct),
+    safeTextAreaPct: numOr(hero.safeTextAreaPct, null),
+    cropMode: oneOf(hero.cropMode, ["smart", "cover", "contain"] as const, HERO_IMAGE_DEFAULTS.cropMode),
+    overlayGradient: oneOf(hero.overlayGradient, ["auto", "left", "right", "radial", "none"] as const, HERO_IMAGE_DEFAULTS.overlayGradient),
+    contentOffsetPct: numOr(hero.contentOffsetPct, HERO_IMAGE_DEFAULTS.contentOffsetPct),
+    heroBalance: numOr(hero.heroBalance, HERO_IMAGE_DEFAULTS.heroBalance),
     desktopScale: numOr(hero.desktopScale, HERO_IMAGE_DEFAULTS.desktopScale),
     mobileScale: numOr(hero.mobileScale, HERO_IMAGE_DEFAULTS.mobileScale),
-    desktopMaxWidth: strOrNull(hero.desktopMaxWidth),
-    mobileMaxWidth: strOrNull(hero.mobileMaxWidth),
-    desktopMaxHeight: strOrNull(hero.desktopMaxHeight),
-    mobileMaxHeight: strOrNull(hero.mobileMaxHeight),
     overlayOpacity: numOr(hero.overlayOpacity, HERO_IMAGE_DEFAULTS.overlayOpacity),
     overlayBlur: numOr(hero.overlayBlur, HERO_IMAGE_DEFAULTS.overlayBlur),
     backgroundImageUrl: resolve(hero.backgroundImageId),

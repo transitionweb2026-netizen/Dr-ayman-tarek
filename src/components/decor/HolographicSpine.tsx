@@ -1,9 +1,11 @@
+import type { CSSProperties } from "react";
+
 const VERTEBRAE_Y = [6, 46, 86, 126, 166, 206, 246, 286, 326, 366, 406];
 
 /** The wireframe holographic spine used in the hero — same path data as the original static build. */
-export function HolographicSpine({ className }: { className?: string }) {
+export function HolographicSpine({ className, style }: { className?: string; style?: CSSProperties }) {
   return (
-    <div className={className}>
+    <div className={className} style={style}>
       <div className="absolute inset-0 rounded-full bg-primary/25 blur-2xl" />
       <svg className="relative h-full w-full overflow-visible" viewBox="0 0 80 460">
         <defs>
