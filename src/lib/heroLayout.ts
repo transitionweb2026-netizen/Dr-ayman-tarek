@@ -133,3 +133,43 @@ export function mirrorSide(pct: number, canonicalSide: "left" | "right", flip: b
   const side = flip ? (canonicalSide === "left" ? "right" : "left") : canonicalSide;
   return { [side]: `${pct}%` };
 }
+
+/** Single source of truth for the Hero's background-darkening overlay math.
+ * Every Hero's built-in protective/atmospheric gradient is defined in its
+ * own component as a set of *base* stop opacities (the site's original,
+ * unmodified design, preserved exactly) — this scales each one by the
+ * CMS-controlled "Hero Background Overlay Opacity" (0-100) so 100 reproduces
+ * the original design untouched and 0 removes the darkening entirely,
+ * without changing the gradient's shape, direction, or color. */
+export function scaleOverlayColor(baseOpacityPct: number, overlayOpacityPct: number, colorHex: string): string {
+  const scaled = clamp((baseOpacityPct * clamp(overlayOpacityPct, 0, 100)) / 100, 0, 100);
+  return hexToRgba(colorHex, scaled / 100);
+}
+
+export interface OverlayStop {
+  /** 0-100, this stop's opacity in the *original*, unscaled design. */
+  opacity: number;
+  /** 0-100, position along the gradient. */
+  position: number;
+}
+
+/** Builds a `--tw-gradient-stops`-ready value (comma-separated `color position%`
+ * pairs) from a set of base stops, scaled by the admin's overlay opacity —
+ * assign this directly to that CSS custom property on an element that
+ * already has a `bg-gradient-to-*` class, and Tailwind's own gradient
+ * utility (and its `rtl:` direction variant) renders it with zero
+ * duplicated gradient-direction logic. */
+export function heroOverlayStops(stops: OverlayStop[], overlayOpacityPct: number, colorHex: string): string {
+  return stops.map((s) => `${scaleOverlayColor(s.opacity, overlayOpacityPct, colorHex)} ${s.position}%`).join(", ");
+}
+
+function hexToRgba(hex: string, alpha: number): string {
+  const clean = hex.replace("#", "").trim();
+  const full = clean.length === 3 ? clean.split("").map((c) => c + c).join("") : clean;
+  const int = parseInt(full, 16);
+  if (full.length !== 6 || Number.isNaN(int)) return `rgba(10, 6, 19, ${alpha.toFixed(3)})`;
+  const r = (int >> 16) & 255;
+  const g = (int >> 8) & 255;
+  const b = int & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(3)})`;
+}

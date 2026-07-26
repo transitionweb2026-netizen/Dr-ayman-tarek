@@ -1,11 +1,11 @@
 "use client";
 
 import type { MouseEvent as ReactMouseEvent } from "react";
-import { BilingualField, Label, SelectField, TextField, ToggleField } from "@/components/admin/ui/Field";
+import { BilingualField, ColorField, Label, SelectField, SliderField, TextField, ToggleField } from "@/components/admin/ui/Field";
 import { MediaPickerField } from "@/components/admin/ui/MediaPicker";
 import { useMediaAssets, type MediaAsset } from "@/hooks/useMediaLibrary";
 import { getPublicMediaUrl } from "@/lib/supabase/storage";
-import { computeHeroLayout, type HeroLayout } from "@/lib/heroLayout";
+import { computeHeroLayout, heroOverlayStops, type HeroLayout } from "@/lib/heroLayout";
 import type { HeroImageConfig } from "@/server/repositories/content";
 
 function clamp(n: number, min: number, max: number): number {
@@ -57,6 +57,10 @@ export function HeroImageFields({
   function str<T extends string>(key: string, fallback: T): T {
     return typeof en[key] === "string" && en[key] ? (en[key] as T) : fallback;
   }
+  function hexOr(key: string, fallback: string): string {
+    const v = en[key];
+    return typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v) ? v : fallback;
+  }
 
   const desktopUrl = urlFor(en.desktopImageId);
   const mobileUrl = urlFor(en.mobileImageId) || desktopUrl;
@@ -79,8 +83,9 @@ export function HeroImageFields({
   const heroBalance = num("heroBalance", 45);
   const desktopScale = num("desktopScale", 1);
   const mobileScale = num("mobileScale", 1);
-  const overlayOpacity = num("overlayOpacity", 0);
+  const overlayOpacity = num("overlayOpacity", 55);
   const overlayBlur = num("overlayBlur", 0);
+  const overlayColor = hexOr("overlayColor", "#0a0613");
 
   const previewConfig: HeroImageConfig = {
     desktopImageUrl: desktopUrl || "",
@@ -106,6 +111,7 @@ export function HeroImageFields({
     mobileScale,
     overlayOpacity,
     overlayBlur,
+    overlayColor,
     backgroundImageUrl: null,
     backgroundOpacity: 40,
     backgroundBlur: 0,
@@ -333,18 +339,24 @@ export function HeroImageFields({
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="space-y-4 rounded-xl border border-outline-variant/20 p-4">
-          <h4 className="text-xs font-semibold uppercase tracking-wide text-on-surface-variant">Overlay</h4>
+          <h4 className="text-xs font-semibold uppercase tracking-wide text-on-surface-variant">Hero Background Overlay</h4>
           <p className="text-xs text-on-surface-variant/70">
-            Extra flat tint/blur layered on top of the hero&apos;s built-in gradient — leave at 0 to keep the default
-            look untouched.
+            Scales the Hero&apos;s built-in darkening gradient so the background artwork reads as more or less
+            present — the gradient&apos;s shape (and text contrast near the content) is always preserved, only its
+            overall intensity changes. 100 = the site&apos;s original design; the default of 55 is a lighter, more
+            premium balance.
           </p>
           <div>
-            <Label hint="0-100">Overlay Opacity</Label>
-            <TextField type="number" min="0" max="100" value={overlayOpacity} onChange={(e) => setShared("overlayOpacity", e.target.value === "" ? 0 : Number(e.target.value))} />
+            <Label hint="0-100, 0 = no overlay, 100 = original design">Hero Background Overlay Opacity</Label>
+            <SliderField min={0} max={100} value={overlayOpacity} onChange={(v) => setShared("overlayOpacity", v)} />
           </div>
           <div>
-            <Label hint="px">Overlay Blur</Label>
-            <TextField type="number" min="0" max="40" value={overlayBlur} onChange={(e) => setShared("overlayBlur", e.target.value === "" ? 0 : Number(e.target.value))} />
+            <Label hint="0-20px">Overlay Blur</Label>
+            <SliderField min={0} max={20} suffix="px" value={overlayBlur} onChange={(v) => setShared("overlayBlur", v)} />
+          </div>
+          <div>
+            <Label hint="Defaults to the theme's own background color">Overlay Color</Label>
+            <ColorField value={overlayColor} onChange={(v) => setShared("overlayColor", v)} />
           </div>
         </div>
 
@@ -392,6 +404,7 @@ export function HeroImageFields({
             cropMode={cropMode}
             overlayOpacity={overlayOpacity}
             overlayBlur={overlayBlur}
+            overlayColor={overlayColor}
             faceSafeMarginPct={faceSafeMarginPct}
             layout={layout}
             aspect="aspect-video"
@@ -407,6 +420,7 @@ export function HeroImageFields({
             cropMode={cropMode}
             overlayOpacity={overlayOpacity}
             overlayBlur={overlayBlur}
+            overlayColor={overlayColor}
             faceSafeMarginPct={faceSafeMarginPct}
             layout={null}
             aspect="mx-auto aspect-[9/16] max-h-64"
@@ -428,6 +442,7 @@ function PreviewPane({
   cropMode,
   overlayOpacity,
   overlayBlur,
+  overlayColor,
   faceSafeMarginPct,
   layout,
   aspect,
@@ -442,6 +457,7 @@ function PreviewPane({
   cropMode: string;
   overlayOpacity: number;
   overlayBlur: number;
+  overlayColor: string;
   faceSafeMarginPct: number;
   layout: HeroLayout | null;
   aspect: string;
@@ -479,7 +495,22 @@ function PreviewPane({
             }}
           />
         )}
-        {overlayOpacity > 0 && <div className="pointer-events-none absolute inset-0 bg-black" style={{ opacity: overlayOpacity / 100 }} />}
+        {overlayOpacity > 0 && (
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: `linear-gradient(to right, ${heroOverlayStops(
+                [
+                  { opacity: 100, position: 0 },
+                  { opacity: 70, position: 50 },
+                  { opacity: 10, position: 100 },
+                ],
+                overlayOpacity,
+                overlayColor,
+              )})`,
+            }}
+          />
+        )}
         {url && safeBoxStyle && (
           <div
             className="pointer-events-none absolute inset-y-0 border-2 border-dashed border-primary/70 bg-primary/5"

@@ -13,7 +13,7 @@ import { MouseParallax } from "@/components/motion/Parallax";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
 import type { HeroImageConfig } from "@/server/repositories/content";
-import { computeHeroLayout, heroGradientToClass, heroSafeWidthCss, mirrorSide } from "@/lib/heroLayout";
+import { computeHeroLayout, heroGradientToClass, heroOverlayStops, heroSafeWidthCss, mirrorSide, scaleOverlayColor } from "@/lib/heroLayout";
 
 const AVATARS = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCm5F_KClouvmKWx93nUbO6JYr4zCLdMn0h3bcl7xULyL7yjuq094yBSRl10k38bGrsF1T4CujvU4gXocmx37Ni-K7byWs0j8lbhIQqs7LwDi2ObwUG81F5LMA_rQfpiqZNXK-v4Ne4dcmgUmPb5HEl7DNkIrK5gEFViyOia2cDf0grk4bu0Qx8DJh79V_gbH7YMkYa2SP5aqzW0YeacUq_dgiY4oGjtqT52wvR0eTz-J8UtHMYDoaP",
@@ -47,14 +47,37 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
   const contentSide = layout?.contentSide ?? "left";
   const flip = contentSide === "right";
   const gradientClass = heroGradientToClass(layout?.gradientDirection ?? "left") ?? "bg-gradient-to-r";
-  // #0a0613 is this theme's `background` color (tailwind.config.ts) — Tailwind v3 doesn't
-  // expose theme colors as CSS variables, so the radial variant spells it out directly
-  // rather than fighting the class-based gradient utilities for the same property.
-  const gradientStyle: CSSProperties | undefined =
-    layout?.gradientDirection === "radial"
-      ? { background: "radial-gradient(ellipse at center, rgba(10,6,19,0.85) 0%, rgba(10,6,19,0.35) 45%, transparent 75%)" }
-      : undefined;
   const showGradient = !layout || layout.gradientDirection !== "none";
+  const { overlayOpacity, overlayColor } = images;
+  // The side gradient's base stops (100/70/10, at 0/50/100%) and the top
+  // gradient's (100/0/50) are this Hero's original, unmodified design —
+  // "Hero Background Overlay Opacity" scales every one of them by the same
+  // factor via heroOverlayStops(), so the gradient's shape (and therefore
+  // its text-protecting behavior) never changes, only its overall intensity.
+  const sideStopsCss = heroOverlayStops(
+    [
+      { opacity: 100, position: 0 },
+      { opacity: 70, position: 50 },
+      { opacity: 10, position: 100 },
+    ],
+    overlayOpacity,
+    overlayColor,
+  );
+  const topStopsCss = heroOverlayStops(
+    [
+      { opacity: 100, position: 0 },
+      { opacity: 0, position: 50 },
+      { opacity: 50, position: 100 },
+    ],
+    overlayOpacity,
+    overlayColor,
+  );
+  const radialStyle: CSSProperties | undefined =
+    layout?.gradientDirection === "radial"
+      ? {
+          background: `radial-gradient(ellipse at center, ${scaleOverlayColor(85, overlayOpacity, overlayColor)} 0%, ${scaleOverlayColor(35, overlayOpacity, overlayColor)} 45%, transparent 75%)`,
+        }
+      : undefined;
 
   // 800px (desktop, lg+) is a measured value, not a guess: English's
   // headline ("Precision Surgery." / "Life Reimagined.") wraps to 2 lines
@@ -75,11 +98,11 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
         <HeroBackgroundImage images={images}>
           {showGradient && (
             <div
-              className={`absolute inset-0 ${gradientStyle ? "" : `${gradientClass} from-background via-background/70 to-background/10`} ${!auto ? "rtl:bg-gradient-to-l" : ""}`}
-              style={gradientStyle}
+              className={`absolute inset-0 ${radialStyle ? "" : `${gradientClass} ${!auto ? "rtl:bg-gradient-to-l" : ""}`}`}
+              style={radialStyle ?? ({ "--tw-gradient-stops": sideStopsCss } as CSSProperties)}
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+          <div className="absolute inset-0 bg-gradient-to-t" style={{ "--tw-gradient-stops": topStopsCss } as CSSProperties} />
         </HeroBackgroundImage>
       </div>
 

@@ -8,7 +8,7 @@ import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
 import type { CSSProperties, ReactNode } from "react";
 import type { HeroImageConfig } from "@/server/repositories/content";
-import { computeHeroLayout, heroGradientToClass, heroSafeWidthCss } from "@/lib/heroLayout";
+import { computeHeroLayout, heroGradientToClass, heroOverlayStops, heroSafeWidthCss, scaleOverlayColor } from "@/lib/heroLayout";
 
 interface PageHeroProps {
   eyebrow: string;
@@ -56,7 +56,37 @@ export function PageHero({
   const layout = auto ? computeHeroLayout(images) : null;
   const contentSide = layout?.contentSide ?? "left";
   const flip = contentSide === "right";
-  const gradientClass = heroGradientToClass(layout?.gradientDirection ?? "left") ?? "bg-background/65";
+  const gradientClass = heroGradientToClass(layout?.gradientDirection ?? "left") ?? "bg-gradient-to-r";
+  const { overlayOpacity, overlayColor } = images;
+  // This Hero's original, unmodified design stops — flat 65% tint for
+  // manual/centered, a 75/45/10 side gradient plus a 100/40/60 top gradient
+  // for auto — all scaled by the same "Hero Background Overlay Opacity" the
+  // Home Hero uses, via the same heroOverlayStops() helper.
+  const flatTintColor = scaleOverlayColor(65, overlayOpacity, overlayColor);
+  const sideStopsCss = heroOverlayStops(
+    [
+      { opacity: 75, position: 0 },
+      { opacity: 45, position: 50 },
+      { opacity: 10, position: 100 },
+    ],
+    overlayOpacity,
+    overlayColor,
+  );
+  const topStopsCss = heroOverlayStops(
+    [
+      { opacity: 100, position: 0 },
+      { opacity: 40, position: 50 },
+      { opacity: 60, position: 100 },
+    ],
+    overlayOpacity,
+    overlayColor,
+  );
+  const radialStyle: CSSProperties | undefined =
+    auto && layout?.gradientDirection === "radial"
+      ? {
+          background: `radial-gradient(ellipse at center, ${scaleOverlayColor(80, overlayOpacity, overlayColor)} 0%, ${scaleOverlayColor(30, overlayOpacity, overlayColor)} 45%, transparent 75%)`,
+        }
+      : undefined;
 
   return (
     <section
@@ -67,22 +97,14 @@ export function PageHero({
       {effectiveImages ? (
         <div className="absolute inset-0 z-0">
           <HeroBackgroundImage images={effectiveImages}>
-            {!auto && <div className="absolute inset-0 bg-background/65" />}
+            {!auto && <div className="absolute inset-0" style={{ backgroundColor: flatTintColor }} />}
             {auto && layout && layout.gradientDirection !== "none" && (
               <div
-                className={
-                  layout.gradientDirection === "radial"
-                    ? "absolute inset-0"
-                    : `absolute inset-0 ${gradientClass} from-background/75 via-background/45 to-background/10`
-                }
-                style={
-                  layout.gradientDirection === "radial"
-                    ? { background: "radial-gradient(ellipse at center, rgba(10,6,19,0.8) 0%, rgba(10,6,19,0.3) 45%, transparent 75%)" }
-                    : undefined
-                }
+                className={radialStyle ? "absolute inset-0" : `absolute inset-0 ${gradientClass}`}
+                style={radialStyle ?? ({ "--tw-gradient-stops": sideStopsCss } as CSSProperties)}
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/60" />
+            <div className="absolute inset-0 bg-gradient-to-t" style={{ "--tw-gradient-stops": topStopsCss } as CSSProperties} />
           </HeroBackgroundImage>
         </div>
       ) : (

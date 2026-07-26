@@ -80,11 +80,20 @@ export interface HeroImageConfig {
   desktopScale: number;
   mobileScale: number;
 
-  /** 0-100. Extra flat tint on top of the hero's own built-in gradient —
-   * 0 (default) is a no-op, the existing gradient treatment is untouched. */
+  /** "Hero Background Overlay Opacity" — 0-100. Scales every stop of the
+   * Hero's built-in protective/atmospheric gradient(s) by this percentage:
+   * 100 reproduces the site's original design exactly (unchanged), 0 removes
+   * the darkening entirely (raw image), and the default of 55 is a
+   * deliberately lighter-than-original balance so the background artwork
+   * reads as more present while the gradient shape — and therefore text
+   * contrast near the content — is fully preserved, just less intense. */
   overlayOpacity: number;
-  /** px. 0 (default) = no blur, image stays crisp. */
+  /** px, 0-20. 0 (default) = no blur, image stays crisp. */
   overlayBlur: number;
+  /** Hex color for the overlay gradient — defaults to the theme's own
+   * `background` token (#0a0613) so the default look is unchanged; admins
+   * can tint the mood without touching code. */
+  overlayColor: string;
   /** Optional ambient layer behind the doctor image — null (default) renders nothing, so this is purely additive. */
   backgroundImageUrl: string | null;
   backgroundOpacity: number;
@@ -114,7 +123,7 @@ const HERO_IMAGE_DEFAULTS: Omit<HeroImageConfig, "desktopImageUrl" | "tabletImag
   contentOffsetPct: 0,
   heroBalance: 45,
   desktopScale: 1, mobileScale: 1,
-  overlayOpacity: 0, overlayBlur: 0,
+  overlayOpacity: 55, overlayBlur: 0, overlayColor: "#0a0613",
   backgroundImageUrl: null, backgroundOpacity: 40, backgroundBlur: 0,
   showDecorations: true,
   // 40px anchors the card right at the Hero's bottom-right corner, inside
@@ -187,6 +196,7 @@ export const getHeroImageConfig = cache(async function getHeroImageConfig(slug: 
     mobileScale: numOr(hero.mobileScale, HERO_IMAGE_DEFAULTS.mobileScale),
     overlayOpacity: numOr(hero.overlayOpacity, HERO_IMAGE_DEFAULTS.overlayOpacity),
     overlayBlur: numOr(hero.overlayBlur, HERO_IMAGE_DEFAULTS.overlayBlur),
+    overlayColor: strOr(hero.overlayColor, HERO_IMAGE_DEFAULTS.overlayColor),
     backgroundImageUrl: resolve(hero.backgroundImageId),
     backgroundOpacity: numOr(hero.backgroundOpacity, HERO_IMAGE_DEFAULTS.backgroundOpacity),
     backgroundBlur: numOr(hero.backgroundBlur, HERO_IMAGE_DEFAULTS.backgroundBlur),

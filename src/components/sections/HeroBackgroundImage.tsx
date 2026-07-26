@@ -17,10 +17,13 @@ import { computeHeroLayout } from "@/lib/heroLayout";
  * no automatic adjustment.
  *
  * Each Hero still owns its own gradient recipe (passed as children, rendered
- * between the photo and the optional CMS overlay tint) since that's the one
- * part of the visual identity that intentionally differs between Home and
- * the shared secondary-page Hero — this component never touches it.
- */
+ * on top of the photo tiers below) since that's the one part of the visual
+ * identity that intentionally differs between Home and the shared
+ * secondary-page Hero — this component never touches its color/opacity.
+ * "Hero Background Overlay Opacity"/Color are per-Hero concerns for exactly
+ * that reason (see HomeHero.tsx/PageHero.tsx, both driven by the same
+ * heroOverlayStops() helper in heroLayout.ts); this component only owns the
+ * one overlay effect that's identical everywhere — blur. */
 export function HeroBackgroundImage({ images, children }: { images: HeroImageConfig; children?: ReactNode }) {
   const { language } = useLanguage();
   const desktopAlt = language === "ar" ? images.desktopAltAr : images.desktopAltEn;
@@ -107,14 +110,8 @@ export function HeroBackgroundImage({ images, children }: { images: HeroImageCon
 
       {children}
 
-      {(images.overlayOpacity > 0 || images.overlayBlur > 0) && (
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundColor: images.overlayOpacity > 0 ? `rgba(0,0,0,${images.overlayOpacity / 100})` : undefined,
-            backdropFilter: images.overlayBlur ? `blur(${images.overlayBlur}px)` : undefined,
-          }}
-        />
+      {images.overlayBlur > 0 && (
+        <div className="absolute inset-0" style={{ backdropFilter: `blur(${images.overlayBlur}px)` }} />
       )}
     </>
   );

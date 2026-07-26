@@ -124,6 +124,59 @@ export function ToggleField({
   );
 }
 
+/** A labeled range slider with a live numeric readout — for CMS values the
+ * admin tunes by feel (opacity, blur) rather than typing an exact number. */
+export function SliderField({
+  value,
+  onChange,
+  min,
+  max,
+  step = 1,
+  suffix = "",
+}: {
+  value: number;
+  onChange: (v: number) => void;
+  min: number;
+  max: number;
+  step?: number;
+  suffix?: string;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-outline-variant/30 accent-primary"
+      />
+      <span className="w-14 shrink-0 text-right text-sm tabular-nums text-white">
+        {value}
+        {suffix}
+      </span>
+    </div>
+  );
+}
+
+/** Native color picker + a synced hex text input, so an admin can either
+ * eyeball a color or paste/type an exact hex value. */
+export function ColorField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const isValidHex = /^#[0-9a-fA-F]{6}$/.test(value);
+  return (
+    <div className="flex items-center gap-3">
+      <input
+        type="color"
+        value={isValidHex ? value : "#0a0613"}
+        onChange={(e) => onChange(e.target.value)}
+        className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-outline-variant/40 bg-surface-container p-1"
+      />
+      <TextField value={value} onChange={(e) => onChange(e.target.value)} dir="ltr" placeholder="#0a0613" className="font-mono" />
+    </div>
+  );
+}
+
 export function SelectField({
   value,
   onChange,
