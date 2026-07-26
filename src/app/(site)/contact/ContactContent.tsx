@@ -12,7 +12,7 @@ import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
 import type { SiteSettingsData } from "@/server/repositories/settings";
-import type { BilingualFaqItem, BilingualService } from "@/server/repositories/content";
+import type { BilingualFaqItem, BilingualService, HeroImageConfig } from "@/server/repositories/content";
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 interface HeroContent { eyebrow: string; title: string; subtitle: string }
@@ -29,6 +29,7 @@ export function ContactContent({
   services,
   generalConsultationLabel,
   otherLabel,
+  heroImages,
 }: {
   sections: Sections;
   settings: SiteSettingsData;
@@ -36,6 +37,7 @@ export function ContactContent({
   services: BilingualService[];
   generalConsultationLabel: { en: string; ar: string };
   otherLabel: { en: string; ar: string };
+  heroImages: HeroImageConfig;
 }) {
   const { t, language } = useLanguage();
 
@@ -75,7 +77,7 @@ export function ContactContent({
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} align="center" height="sm" />
+      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} align="center" height="sm" images={heroImages} />
 
       <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap-sm md:px-margin-desktop">
         <GlassCard radius="3xl" interactive={false} className="w-full px-gutter py-10 shadow-glow">

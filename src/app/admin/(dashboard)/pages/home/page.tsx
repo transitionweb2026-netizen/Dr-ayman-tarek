@@ -3,6 +3,7 @@
 import { PageHeader } from "@/components/admin/ui/Card";
 import { SectionCard } from "@/components/admin/sections/SectionCard";
 import { SectionTextFields, SectionRepeaterField } from "@/components/admin/sections/SectionFields";
+import { HeroImageFields } from "@/components/admin/sections/HeroImageFields";
 
 export default function HomePageAdmin() {
   return (
@@ -12,23 +13,24 @@ export default function HomePageAdmin() {
       <div className="space-y-6">
         <SectionCard pageSlug="home" sectionKey="hero" title="Hero">
           {({ en, ar, setEn, setAr }) => (
-            <SectionTextFields
-              en={en} ar={ar} setEn={setEn} setAr={setAr}
-              fields={[
-                { key: "badge", label: "Badge" },
-                { key: "headingLine1", label: "Heading — line 1" },
-                { key: "headingLine2", label: "Heading — line 2" },
-                { key: "description", label: "Description", multiline: true },
-                { key: "primaryCta", label: "Primary button label" },
-                { key: "secondaryCta", label: "Secondary button label" },
-                { key: "doctorName", label: "Doctor name (on hero card)" },
-                { key: "doctorTitle", label: "Doctor title (on hero card)" },
-                { key: "statValue", label: "Hero stat value", hint: "e.g. 5,000+" },
-                { key: "statLabel", label: "Hero stat label" },
-                { key: "boardCertifiedTitle", label: "Certification badge title" },
-                { key: "boardCertifiedSubtitle", label: "Certification badge subtitle" },
-              ]}
-            />
+            <div className="space-y-8">
+              <SectionTextFields
+                en={en} ar={ar} setEn={setEn} setAr={setAr}
+                fields={[
+                  { key: "badge", label: "Badge" },
+                  { key: "headingLine1", label: "Heading — line 1" },
+                  { key: "headingLine2", label: "Heading — line 2" },
+                  { key: "description", label: "Description", multiline: true },
+                  { key: "primaryCta", label: "Primary button label" },
+                  { key: "secondaryCta", label: "Secondary button label" },
+                  { key: "doctorName", label: "Doctor name (on hero card)" },
+                  { key: "doctorTitle", label: "Doctor title (on hero card)" },
+                  { key: "statValue", label: "Hero stat value", hint: "e.g. 5,000+" },
+                  { key: "statLabel", label: "Hero stat label" },
+                ]}
+              />
+              <HeroImageFields en={en} ar={ar} setEn={setEn} setAr={setAr} />
+            </div>
           )}
         </SectionCard>
 

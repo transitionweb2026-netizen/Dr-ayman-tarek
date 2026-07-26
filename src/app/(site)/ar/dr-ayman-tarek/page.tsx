@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { DrAymanTarekContent } from "../../dr-ayman-tarek/DrAymanTarekContent";
-import { getPageSections, getSpecialties, getTestimonials } from "@/server/repositories/content";
+import { getPageSections, getSpecialties, getTestimonials, getHeroImageConfig } from "@/server/repositories/content";
 import { getSiteSettings } from "@/server/repositories/settings";
 import { buildStaticPageMetadata, getPageSeoSchemaFlags } from "@/lib/seo/pageMetadata";
 import { buildWebPageSchema, buildBreadcrumbSchema, buildPhysicianSchema } from "@/lib/seo/schema";
@@ -21,12 +21,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DrAymanTarekPageArabic() {
-  const [sections, specialties, testimonials, settings, schemaFlags] = await Promise.all([
+  const [sections, specialties, testimonials, settings, schemaFlags, heroImages] = await Promise.all([
     getPageSections("dr-ayman-tarek"),
     getSpecialties(),
     getTestimonials("dr-ayman-tarek"),
     getSiteSettings(),
     getPageSeoSchemaFlags("dr-ayman-tarek"),
+    getHeroImageConfig("dr-ayman-tarek"),
   ]);
 
   const clinicInfo = {
@@ -49,7 +50,7 @@ export default async function DrAymanTarekPageArabic() {
           <JsonLd data={buildPhysicianSchema(settings, LANG, PATH)} />
         </>
       )}
-      <DrAymanTarekContent sections={sections} specialties={specialties} testimonials={testimonials} clinicInfo={clinicInfo} />
+      <DrAymanTarekContent sections={sections} specialties={specialties} testimonials={testimonials} clinicInfo={clinicInfo} heroImages={heroImages} />
     </>
   );
 }

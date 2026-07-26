@@ -12,7 +12,7 @@ import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
-import type { BilingualSpecialty, BilingualTestimonial } from "@/server/repositories/content";
+import type { BilingualSpecialty, BilingualTestimonial, HeroImageConfig } from "@/server/repositories/content";
 
 // Bespoke illustration images, positionally matched to the always-present
 // certificate/achievement items (not admin-uploaded, so kept as a fixed
@@ -50,11 +50,13 @@ export function DrAymanTarekContent({
   specialties,
   testimonials: bilingualTestimonials,
   clinicInfo,
+  heroImages,
 }: {
   sections: Sections;
   specialties: BilingualSpecialty[];
   testimonials: BilingualTestimonial[];
   clinicInfo: { en: { address: string; hours: string }; ar: { address: string; hours: string }; phone: string };
+  heroImages: HeroImageConfig;
 }) {
   const { language, t } = useLanguage();
   const clinic = language === "ar" ? clinicInfo.ar : clinicInfo.en;
@@ -99,6 +101,7 @@ export function DrAymanTarekContent({
         }
         subtitle={hero.subtitle || ""}
         ctaLabel={hero.cta}
+        images={heroImages}
       />
 
       <AboutPreview title={about.title || ""} videoCaption={about.videoCaption || ""} videoImage={DOCTOR_INTRO_VIDEO}>

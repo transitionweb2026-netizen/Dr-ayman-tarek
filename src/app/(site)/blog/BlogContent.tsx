@@ -6,7 +6,7 @@ import { ArticlesGrid } from "@/components/sections/ArticlesGrid";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
-import type { BilingualArticle } from "@/server/repositories/content";
+import type { BilingualArticle, HeroImageConfig } from "@/server/repositories/content";
 import type { BlogArticle } from "@/data/blog";
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
@@ -31,7 +31,15 @@ function toBlogArticle(a: BilingualArticle, language: "en" | "ar"): BlogArticle 
   };
 }
 
-export function BlogContent({ sections, articles }: { sections: Sections; articles: BilingualArticle[] }) {
+export function BlogContent({
+  sections,
+  articles,
+  heroImages,
+}: {
+  sections: Sections;
+  articles: BilingualArticle[];
+  heroImages: HeroImageConfig;
+}) {
   const { language } = useLanguage();
   const hero = pickSection<HeroContent>(sections, "hero", language);
   const finalCta = pickSection<CtaContent>(sections, "finalCta", language);
@@ -41,7 +49,7 @@ export function BlogContent({ sections, articles }: { sections: Sections; articl
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} ctaIcon="auto_stories" />
+      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} ctaIcon="auto_stories" images={heroImages} />
 
       <section className="mx-auto max-w-container-max space-y-14 px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop">
         {featured && <FeaturedArticle article={toBlogArticle(featured, language)} />}

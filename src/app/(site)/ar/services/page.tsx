@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ServicesContent } from "../../services/ServicesContent";
-import { getPageSections, getServices } from "@/server/repositories/content";
+import { getPageSections, getServices, getHeroImageConfig } from "@/server/repositories/content";
 import { buildStaticPageMetadata, getPageSeoSchemaFlags } from "@/lib/seo/pageMetadata";
 import { buildWebPageSchema, buildBreadcrumbSchema } from "@/lib/seo/schema";
 import { breadcrumbItems } from "@/lib/seo/pageRegistry";
@@ -20,10 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ServicesPageArabic() {
-  const [sections, services, schemaFlags] = await Promise.all([
+  const [sections, services, schemaFlags, heroImages] = await Promise.all([
     getPageSections("services"),
     getServices(),
     getPageSeoSchemaFlags("services"),
+    getHeroImageConfig("services"),
   ]);
 
   return (
@@ -39,7 +40,7 @@ export default async function ServicesPageArabic() {
           <JsonLd data={buildBreadcrumbSchema(breadcrumbItems("services", LANG))} />
         </>
       )}
-      <ServicesContent sections={sections} services={services} />
+      <ServicesContent sections={sections} services={services} heroImages={heroImages} />
     </>
   );
 }

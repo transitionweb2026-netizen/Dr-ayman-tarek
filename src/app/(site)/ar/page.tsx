@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { HomeContent } from "../HomeContent";
-import { getPageSections, getVideos, getArticles, getFaqItems, getTestimonials } from "@/server/repositories/content";
+import { getPageSections, getVideos, getArticles, getFaqItems, getTestimonials, getHeroImageConfig } from "@/server/repositories/content";
 import { getSiteSettings } from "@/server/repositories/settings";
 import { buildStaticPageMetadata, getPageSeoSchemaFlags } from "@/lib/seo/pageMetadata";
 import { buildWebPageSchema, buildFaqSchema } from "@/lib/seo/schema";
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePageArabic() {
-  const [sections, videos, articles, faqItems, testimonials, settings, schemaFlags] = await Promise.all([
+  const [sections, videos, articles, faqItems, testimonials, settings, schemaFlags, heroImages] = await Promise.all([
     getPageSections("home"),
     getVideos(),
     getArticles(),
@@ -28,6 +28,7 @@ export default async function HomePageArabic() {
     getTestimonials("home"),
     getSiteSettings(),
     getPageSeoSchemaFlags("home"),
+    getHeroImageConfig("home"),
   ]);
 
   return (
@@ -51,7 +52,7 @@ export default async function HomePageArabic() {
           })()}
         </>
       )}
-      <HomeContent sections={sections} videos={videos} articles={articles} faqItems={faqItems} testimonials={testimonials} />
+      <HomeContent sections={sections} videos={videos} articles={articles} faqItems={faqItems} testimonials={testimonials} heroImages={heroImages} />
     </>
   );
 }

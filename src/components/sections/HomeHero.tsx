@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { HolographicBrain } from "@/components/decor/HolographicBrain";
 import { HolographicSpine } from "@/components/decor/HolographicSpine";
@@ -11,9 +10,8 @@ import { ParticleField } from "@/components/decor/ParticleField";
 import { GlowOrb } from "@/components/decor/GlowOrb";
 import { MouseParallax } from "@/components/motion/Parallax";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
-
-const HERO_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw";
+import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
+import type { HeroImageConfig } from "@/server/repositories/content";
 
 const AVATARS = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCm5F_KClouvmKWx93nUbO6JYr4zCLdMn0h3bcl7xULyL7yjuq094yBSRl10k38bGrsF1T4CujvU4gXocmx37Ni-K7byWs0j8lbhIQqs7LwDi2ObwUG81F5LMA_rQfpiqZNXK-v4Ne4dcmgUmPb5HEl7DNkIrK5gEFViyOia2cDf0grk4bu0Qx8DJh79V_gbH7YMkYa2SP5aqzW0YeacUq_dgiY4oGjtqT52wvR0eTz-J8UtHMYDoaP",
@@ -32,32 +30,35 @@ export interface HomeHeroContent {
   doctorTitle: string;
   statValue: string;
   statLabel: string;
-  boardCertifiedTitle: string;
-  boardCertifiedSubtitle: string;
 }
 
-export function HomeHero({ content }: { content: Partial<HomeHeroContent> }) {
+export function HomeHero({ content, images }: { content: Partial<HomeHeroContent>; images: HeroImageConfig }) {
   const t = (key: keyof HomeHeroContent) => content[key] || "";
   return (
     <section className="relative flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 pt-20 lg:min-h-[700px]">
-      {/* Full-bleed background artwork. The gradient mirrors in RTL (rtl:bg-gradient-to-l)
-          so the photo stays more visible on the side the floating cards sit
-          beside — text starts at the reading edge either way. */}
+      {/* Full-bleed background artwork — one photo per breakpoint (art
+          directed, not just resized), CMS-configurable via HeroImageConfig.
+          The gradient mirrors in RTL (rtl:bg-gradient-to-l) so the photo
+          stays more visible on the side the floating card sits beside —
+          text starts at the reading edge either way. This same treatment
+          now carries the doctor's photo at every breakpoint, mobile
+          included — there is no separate mobile-only portrait anymore. */}
       <div className="absolute inset-0 z-0">
-        <Image src={HERO_IMAGE} alt="" fill priority className="object-cover object-top" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/10 rtl:bg-gradient-to-l" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
-        {/* Below lg this same photo is also the dedicated mobile portrait
-            further down, so the ambient background version needs to read as
-            a faint backdrop, not a second competing face. */}
-        <div className="absolute inset-0 bg-background/70 lg:hidden" />
+        <HeroBackgroundImage images={images}>
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/10 rtl:bg-gradient-to-l" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+        </HeroBackgroundImage>
       </div>
 
-      <GlowOrb className="z-[1] -left-52 -top-32 h-[600px] w-[600px]" />
-      <GlowOrb className="z-[1] -right-24 top-1/4 h-[480px] w-[480px]" color="tertiary" />
-      <div className="dot-grid pointer-events-none absolute inset-0 z-[1] opacity-[0.05]" />
+      {images.showDecorations && (
+        <>
+          <GlowOrb className="z-[1] -left-52 -top-32 h-[600px] w-[600px]" />
+          <GlowOrb className="z-[1] -right-24 top-1/4 h-[480px] w-[480px]" color="tertiary" />
+          <div className="dot-grid pointer-events-none absolute inset-0 z-[1] opacity-[0.05]" />
+        </>
+      )}
 
-      <div className="relative z-10 w-full px-margin-mobile md:px-8 lg:px-12">
+      <div className="relative z-10 mx-auto w-full max-w-container-max px-margin-mobile md:px-8 lg:px-12">
         <div className="max-w-xl space-y-7">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -110,35 +111,6 @@ export function HomeHero({ content }: { content: Partial<HomeHeroContent> }) {
             </Button>
           </motion.div>
 
-          {/* Doctor portrait — mobile only. On lg+ the same photo already
-              carries the whole section as a full-bleed background, so this
-              dedicated frame exists purely to give it real visual presence
-              on narrow screens instead of staying a dim backdrop. */}
-          <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-[32px] border border-primary/15 shadow-glow-lg lg:hidden"
-          >
-            <Image
-              src={HERO_IMAGE}
-              alt=""
-              fill
-              sizes="(max-width: 1024px) 320px"
-              className="object-cover object-top"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 flex items-center gap-2 p-5">
-              <span className="icon-badge-neon flex h-9 w-9 shrink-0 items-center justify-center rounded-full">
-                <NeonIcon name="verified" filled className="text-base" />
-              </span>
-              <div>
-                <p className="text-body-lg font-bold text-white">{t("doctorName")}</p>
-                <p className="text-small text-on-surface-variant">{t("doctorTitle")}</p>
-              </div>
-            </div>
-          </motion.div>
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -160,48 +132,40 @@ export function HomeHero({ content }: { content: Partial<HomeHeroContent> }) {
         </div>
       </div>
 
-      {/* Floating hero cards — Board Certified + Connect With Us. Normal-flow
-          stack below the content on mobile/tablet; absolutely positioned
-          beside the doctor's image (right side) once there's room at lg. */}
-      <div className="relative z-10 mt-10 flex w-full flex-col items-center gap-5 px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0">
-        <div className="w-full max-w-xs animate-float-y lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-[14%] lg:w-64 rtl:lg:right-auto rtl:lg:left-[5%]">
-          <GlassCard radius="xl" className="p-5 shadow-glow">
-            <NeonIcon name="verified" filled className="mb-2 text-3xl" />
-            <h3 className="mb-1 text-card-title text-white">{t("boardCertifiedTitle")}</h3>
-            <p className="text-small text-on-surface-variant">{t("boardCertifiedSubtitle")}</p>
-          </GlassCard>
-        </div>
-
-        <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[8%] lg:right-[5%] rtl:lg:right-auto rtl:lg:left-[5%]">
+      {/* Connect With Us — normal-flow stack below the content on mobile/
+          tablet; vertically centered beside the doctor image at lg, sharing
+          the same max-w-container-max frame as the content column above so
+          both rows stay aligned to the same centered composition. */}
+      <div className="relative z-10 mx-auto mt-10 flex w-full max-w-container-max flex-col items-center gap-5 px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-12">
+        <div className="w-full max-w-xs lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-1/2 lg:w-64 lg:-translate-y-1/2 rtl:lg:right-auto rtl:lg:left-[5%]">
           <HeroSocialCard />
         </div>
       </div>
 
       {/* Holographic overlay layer — brain, spine, rings, particles, HUD */}
-      <div className="pointer-events-none absolute inset-0 z-[5] hidden lg:block">
-        <MouseParallax strength={10}>
-          <div className="absolute left-[45%] top-[45%] h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow rounded-full border border-primary/30" />
-        </MouseParallax>
-        <div className="absolute left-[45%] top-[45%] h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow-rev rounded-full border border-tertiary/20" />
+      {images.showDecorations && (
+        <div className="pointer-events-none absolute inset-0 z-[5] hidden lg:block">
+          <MouseParallax strength={10}>
+            <div className="absolute left-[45%] top-[45%] h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow rounded-full border border-primary/30" />
+          </MouseParallax>
+          <div className="absolute left-[45%] top-[45%] h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 animate-spin-slow-rev rounded-full border border-tertiary/20" />
 
-        <HolographicBrain className="absolute left-[36%] top-[10%] h-[72%] w-[19%]" />
-        <HolographicSpine className="absolute right-[1%] top-[8%] h-[80%] w-[10%]" />
+          <HolographicBrain className="absolute left-[36%] top-[10%] h-[72%] w-[19%]" />
+          <HolographicSpine className="absolute right-[1%] top-[8%] h-[80%] w-[10%]" />
 
-        <div className="icon-badge-neon absolute left-[63%] top-[6%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full">
-          <NeonIcon name="monitor_heart" className="text-2xl" />
+          <div className="icon-badge-neon absolute left-[63%] top-[6%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full">
+            <NeonIcon name="monitor_heart" className="text-2xl" />
+          </div>
+          <div
+            className="icon-badge-neon absolute bottom-[18%] left-[68%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full"
+            style={{ animationDelay: "1.6s" }}
+          >
+            <NeonIcon name="graphic_eq" className="text-3xl" />
+          </div>
+
+          <ParticleField count={8} className="absolute inset-0" />
         </div>
-        <div
-          className="icon-badge-neon absolute bottom-[18%] left-[68%] flex h-14 w-14 animate-float-y items-center justify-center rounded-full"
-          style={{ animationDelay: "1.6s" }}
-        >
-          <NeonIcon name="graphic_eq" className="text-3xl" />
-        </div>
-
-        <ParticleField
-          count={8}
-          className="absolute inset-0"
-        />
-      </div>
+      )}
     </section>
   );
 }

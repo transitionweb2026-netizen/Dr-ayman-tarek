@@ -7,7 +7,7 @@ import { TechShowcase } from "@/components/sections/TechShowcase";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
-import type { BilingualService } from "@/server/repositories/content";
+import type { BilingualService, HeroImageConfig } from "@/server/repositories/content";
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 
@@ -18,7 +18,15 @@ interface WhyChooseContent { eyebrow: string; title: string; subtitle: string; i
 interface TechContent { heading: string; technologies: string[]; subheading: string; description: string; cta: string }
 interface CtaContent { heading: string; subtitle: string }
 
-export function ServicesContent({ sections, services }: { sections: Sections; services: BilingualService[] }) {
+export function ServicesContent({
+  sections,
+  services,
+  heroImages,
+}: {
+  sections: Sections;
+  services: BilingualService[];
+  heroImages: HeroImageConfig;
+}) {
   const { language } = useLanguage();
 
   const hero = pickSection<HeroContent>(sections, "hero", language);
@@ -31,7 +39,7 @@ export function ServicesContent({ sections, services }: { sections: Sections; se
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} />
+      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} images={heroImages} />
       <ServicesGrid eyebrowOverride={grid.eyebrow} titleOverride={grid.title} subtitleOverride={grid.subtitle} services={services} />
       <FeatureGrid eyebrow={whyChoose.eyebrow || ""} title={whyChoose.title || ""} subtitle={whyChoose.subtitle || ""} features={whyChooseFeatures} />
       <TechShowcase heading={tech.heading} technologies={tech.technologies} subheading={tech.subheading} description={tech.description} cta={tech.cta} />

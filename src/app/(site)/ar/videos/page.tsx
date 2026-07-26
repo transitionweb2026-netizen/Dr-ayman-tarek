@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { VideosContent } from "../../videos/VideosContent";
-import { getPageSections, getVideos } from "@/server/repositories/content";
+import { getPageSections, getVideos, getHeroImageConfig } from "@/server/repositories/content";
 import { buildStaticPageMetadata, getPageSeoSchemaFlags } from "@/lib/seo/pageMetadata";
 import { buildWebPageSchema, buildBreadcrumbSchema, buildVideoObjectSchema } from "@/lib/seo/schema";
 import { breadcrumbItems } from "@/lib/seo/pageRegistry";
@@ -20,10 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function VideosPageArabic() {
-  const [sections, videos, schemaFlags] = await Promise.all([
+  const [sections, videos, schemaFlags, heroImages] = await Promise.all([
     getPageSections("videos"),
     getVideos(),
     getPageSeoSchemaFlags("videos"),
+    getHeroImageConfig("videos"),
   ]);
 
   return (
@@ -52,7 +53,7 @@ export default async function VideosPageArabic() {
           ))}
         </>
       )}
-      <VideosContent sections={sections} videos={videos} />
+      <VideosContent sections={sections} videos={videos} heroImages={heroImages} />
     </>
   );
 }

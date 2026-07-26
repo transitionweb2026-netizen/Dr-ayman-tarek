@@ -1,19 +1,22 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { GlowOrb } from "@/components/decor/GlowOrb";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
-import { useLanguage } from "@/i18n/LanguageProvider";
+import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
 import type { ReactNode } from "react";
+import type { HeroImageConfig } from "@/server/repositories/content";
 
 interface PageHeroProps {
   eyebrow: string;
   title: ReactNode;
   subtitle: string;
-  /** Pass null to render the abstract gradient background instead of a photo. */
+  images: HeroImageConfig;
+  /** Escape hatch, rarely needed: pass null for the abstract gradient
+   * background instead of a photo, or a string to pin one fixed image at
+   * every breakpoint. Omit (the norm) to use the CMS-configured `images`. */
   image?: string | null;
   ctaLabel?: string;
   ctaIcon?: string;
@@ -22,23 +25,29 @@ interface PageHeroProps {
   children?: ReactNode;
 }
 
-const HERO_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw";
-
-/** Shared secondary-page hero used by Services, About, Videos, Contact, and Dr. Ayman Tarek. */
+/** Shared secondary-page hero used by Services, Dr. Ayman Tarek, Videos,
+ * Blog, and Contact — same visual system as HomeHero (full-bleed CMS photo,
+ * gradient, glow/dot-grid decorations), scaled down for a shorter, more
+ * text-forward hero. */
 export function PageHero({
   eyebrow,
   title,
   subtitle,
-  image = HERO_IMAGE,
+  images,
+  image,
   ctaLabel,
   ctaIcon = "calendar_month",
   align = "left",
   height = "md",
   children,
 }: PageHeroProps) {
-  const { t } = useLanguage();
   const isCenter = align === "center";
+  const showAbstractOnly = image === null;
+  const effectiveImages: HeroImageConfig | null = showAbstractOnly
+    ? null
+    : typeof image === "string"
+      ? { ...images, desktopImageUrl: image, tabletImageUrl: image, mobileImageUrl: image }
+      : images;
 
   return (
     <section
@@ -46,26 +55,27 @@ export function PageHero({
         height === "sm" ? "min-h-[45vh] lg:min-h-[380px]" : "min-h-[55vh] lg:min-h-[460px]"
       } items-center justify-center`}
     >
-      {image ? (
+      {effectiveImages ? (
         <div className="absolute inset-0 z-0">
-          <Image src={image} alt="" fill priority className="object-cover object-top" />
-          <div className="absolute inset-0 bg-background/65" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/60" />
-          {/* Below lg this same photo is also the dedicated mobile portrait
-              further down, so the ambient background version needs to read
-              as a faint backdrop, not a second competing face. */}
-          <div className="absolute inset-0 bg-background/60 lg:hidden" />
+          <HeroBackgroundImage images={effectiveImages}>
+            <div className="absolute inset-0 bg-background/65" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/60" />
+          </HeroBackgroundImage>
         </div>
       ) : (
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-surface-container-lowest via-background to-[#150a24]" />
       )}
 
-      <GlowOrb className="z-[1] -left-40 -top-32 h-[480px] w-[480px]" />
-      <GlowOrb className="z-[1] -right-24 bottom-0 h-[400px] w-[400px]" color="tertiary" />
-      <div className="dot-grid pointer-events-none absolute inset-0 z-[1] opacity-[0.05]" />
+      {images.showDecorations && (
+        <>
+          <GlowOrb className="z-[1] -left-40 -top-32 h-[480px] w-[480px]" />
+          <GlowOrb className="z-[1] -right-24 bottom-0 h-[400px] w-[400px]" color="tertiary" />
+          <div className="dot-grid pointer-events-none absolute inset-0 z-[1] opacity-[0.05]" />
+        </>
+      )}
 
       <div
-        className={`relative z-10 w-full px-margin-mobile md:px-8 lg:px-12 ${
+        className={`relative z-10 mx-auto w-full max-w-container-max px-margin-mobile md:px-8 lg:px-12 ${
           isCenter ? "text-center" : ""
         }`}
       >
@@ -92,33 +102,18 @@ export function PageHero({
         </motion.div>
       </div>
 
-      {/* Doctor portrait — mobile only, same reasoning as HomeHero: the photo
-          is a dim full-bleed background at every size, so this gives it real
-          visual presence on narrow screens where there's no side-by-side room. */}
-      {image && (
-        <motion.div
-          initial={{ opacity: 0, y: 24, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 mx-auto mt-8 aspect-[4/5] w-full max-w-[240px] overflow-hidden rounded-[32px] border border-primary/15 shadow-glow-lg lg:hidden"
-        >
-          <Image src={image} alt="" fill sizes="240px" className="object-cover object-top" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
-          <p className="absolute inset-x-0 bottom-0 p-4 text-body font-bold text-white">{t("meta.brand")}</p>
-        </motion.div>
-      )}
-
       {/* Connect With Us — normal-flow stack below the content on mobile/
-          tablet; absolutely positioned beside the image (right side) at lg.
-          Centered heroes (Contact only) keep it in normal flow at every
-          size instead: centered text plus a right-anchored absolute card
-          collide at 1024-1280px, confirmed via screenshot QA — a centered
-          layout doesn't have a "beside the image" side to pin it to. */}
+          tablet; absolutely positioned beside the image (right side) at lg,
+          sharing the same max-w-container-max frame as the content column
+          above. Centered heroes (Contact only) keep it in normal flow at
+          every size instead: centered text plus a right-anchored absolute
+          card collide at 1024-1280px, confirmed via screenshot QA — a
+          centered layout doesn't have a "beside the image" side to pin it to. */}
       <div
         className={
           isCenter
             ? "relative z-10 mt-8 flex w-full justify-center px-margin-mobile md:px-8"
-            : "relative z-10 mt-8 flex w-full justify-center px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-0"
+            : "relative z-10 mx-auto mt-8 flex w-full max-w-container-max justify-center px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-12"
         }
       >
         <div

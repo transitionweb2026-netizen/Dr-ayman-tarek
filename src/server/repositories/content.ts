@@ -29,6 +29,131 @@ export const getPageSections = cache(async function getPageSections(
   return map;
 });
 
+/** Same default photo every hero already used pre-CMS — the fallback when a
+ * page's hero section has no desktop image configured yet, so an
+ * unconfigured hero still renders exactly as it always has (never a broken
+ * image). Kept as the single shared default rather than per-page copies. */
+const DEFAULT_HERO_IMAGE_URL =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuCzisrET4Qkk8YLXGhJ2mVo7nKTWW63hoguCebr-wvWBiXwpBJCiMlxUIeY5UZjBMIo_6euqQYrIjaosvUv3eFdDQM3CvsV_XbLZcyymmvgQFyZfgFDW2OrQVXrD-Z2Q5eZ0pUi5c0_quGDB2PhTRff6XEfa35aYt2iTFghaDbo-OS8YixuEWh-6KrSyqJgSHDtlYajwgDYJolToQH1MvTWYbjrIvgsOGpPbIfnGk2q6zdT69oefoMw";
+
+export interface HeroImageConfig {
+  desktopImageUrl: string;
+  tabletImageUrl: string;
+  mobileImageUrl: string;
+  desktopAltEn: string;
+  desktopAltAr: string;
+  mobileAltEn: string;
+  mobileAltAr: string;
+  /** Where the (now-bounded, via max-width/max-height) image box anchors
+   * within the hero composition — distinct from objectPosition, which is
+   * the crop focus *inside* that box. */
+  desktopImagePosition: "left" | "center" | "right";
+  mobileImagePosition: "top" | "center" | "bottom";
+  /** CSS object-position value, e.g. "center top", "50% 30%". */
+  desktopObjectPosition: string;
+  mobileObjectPosition: string;
+  /** 1 = 100%, no zoom. */
+  desktopScale: number;
+  mobileScale: number;
+  /** Raw CSS values (e.g. "560px", "48%") — null means "no cap, fill the hero". */
+  desktopMaxWidth: string | null;
+  mobileMaxWidth: string | null;
+  desktopMaxHeight: string | null;
+  mobileMaxHeight: string | null;
+  /** 0-100. Extra flat tint on top of the hero's own built-in gradient —
+   * 0 (default) is a no-op, the existing gradient treatment is untouched. */
+  overlayOpacity: number;
+  /** px. 0 (default) = no blur, image stays crisp. */
+  overlayBlur: number;
+  /** Optional ambient layer behind the doctor image — null (default) renders nothing, so this is purely additive. */
+  backgroundImageUrl: string | null;
+  backgroundOpacity: number;
+  backgroundBlur: number;
+  /** Glow orbs / dot-grid / holographic overlay. Default true (current behavior). */
+  showDecorations: boolean;
+}
+
+const HERO_IMAGE_DEFAULTS: Omit<HeroImageConfig, "desktopImageUrl" | "tabletImageUrl" | "mobileImageUrl"> = {
+  desktopAltEn: "", desktopAltAr: "", mobileAltEn: "", mobileAltAr: "",
+  desktopImagePosition: "right", mobileImagePosition: "center",
+  desktopObjectPosition: "center top", mobileObjectPosition: "center top",
+  desktopScale: 1, mobileScale: 1,
+  desktopMaxWidth: null, mobileMaxWidth: null, desktopMaxHeight: null, mobileMaxHeight: null,
+  overlayOpacity: 0, overlayBlur: 0,
+  backgroundImageUrl: null, backgroundOpacity: 40, backgroundBlur: 0,
+  showDecorations: true,
+};
+
+function numOr<T>(value: unknown, fallback: T): number | T {
+  const n = Number(value);
+  return Number.isFinite(n) && value !== "" && value !== null && value !== undefined ? n : fallback;
+}
+function strOr(value: unknown, fallback: string): string {
+  return typeof value === "string" && value.trim() !== "" ? value : fallback;
+}
+function strOrNull(value: unknown): string | null {
+  return typeof value === "string" && value.trim() !== "" ? value : null;
+}
+function oneOf<T extends string>(value: unknown, allowed: readonly T[], fallback: T): T {
+  return typeof value === "string" && (allowed as readonly string[]).includes(value) ? (value as T) : fallback;
+}
+
+/** Hero image + composition config for one page — separate from
+ * getPageSections()'s generic text content because it needs an extra
+ * media_assets lookup to resolve stored media IDs into public URLs.
+ * Reuses getPageSections() (React-cache()-deduped) rather than re-querying
+ * page_sections, so this never costs a second round trip for the same page
+ * within one request. All "shared" (non-bilingual) fields are read from the
+ * English side of the hero section — the admin form writes the same value
+ * to both languages, matching the rest of this CMS's "shared field" pattern. */
+export const getHeroImageConfig = cache(async function getHeroImageConfig(slug: PageSlug): Promise<HeroImageConfig> {
+  const sections = await getPageSections(slug);
+  const hero = sections.hero?.en || {};
+  const heroAr = sections.hero?.ar || {};
+
+  const mediaIds = [hero.desktopImageId, hero.tabletImageId, hero.mobileImageId, hero.backgroundImageId].filter(
+    (id): id is string => typeof id === "string" && id.length > 0,
+  );
+
+  let mediaUrls: Record<string, string> = {};
+  if (mediaIds.length > 0) {
+    const supabase = await createClient();
+    const { data } = await supabase.from("media_assets").select("id, storage_path").in("id", mediaIds);
+    mediaUrls = Object.fromEntries((data || []).map((row) => [row.id, mediaPublicUrl(row.storage_path)]));
+  }
+  const resolve = (id: unknown) => (typeof id === "string" && mediaUrls[id] ? mediaUrls[id] : null);
+
+  const desktopImageUrl = resolve(hero.desktopImageId) || DEFAULT_HERO_IMAGE_URL;
+  const mobileImageUrl = resolve(hero.mobileImageId) || desktopImageUrl;
+  const tabletImageUrl = resolve(hero.tabletImageId) || desktopImageUrl;
+
+  return {
+    desktopImageUrl,
+    tabletImageUrl,
+    mobileImageUrl,
+    desktopAltEn: strOr(hero.desktopAlt, HERO_IMAGE_DEFAULTS.desktopAltEn),
+    desktopAltAr: strOr(heroAr.desktopAlt, HERO_IMAGE_DEFAULTS.desktopAltAr),
+    mobileAltEn: strOr(hero.mobileAlt, HERO_IMAGE_DEFAULTS.mobileAltEn),
+    mobileAltAr: strOr(heroAr.mobileAlt, HERO_IMAGE_DEFAULTS.mobileAltAr),
+    desktopImagePosition: oneOf(hero.desktopImagePosition, ["left", "center", "right"] as const, HERO_IMAGE_DEFAULTS.desktopImagePosition),
+    mobileImagePosition: oneOf(hero.mobileImagePosition, ["top", "center", "bottom"] as const, HERO_IMAGE_DEFAULTS.mobileImagePosition),
+    desktopObjectPosition: strOr(hero.desktopObjectPosition, HERO_IMAGE_DEFAULTS.desktopObjectPosition),
+    mobileObjectPosition: strOr(hero.mobileObjectPosition, HERO_IMAGE_DEFAULTS.mobileObjectPosition),
+    desktopScale: numOr(hero.desktopScale, HERO_IMAGE_DEFAULTS.desktopScale),
+    mobileScale: numOr(hero.mobileScale, HERO_IMAGE_DEFAULTS.mobileScale),
+    desktopMaxWidth: strOrNull(hero.desktopMaxWidth),
+    mobileMaxWidth: strOrNull(hero.mobileMaxWidth),
+    desktopMaxHeight: strOrNull(hero.desktopMaxHeight),
+    mobileMaxHeight: strOrNull(hero.mobileMaxHeight),
+    overlayOpacity: numOr(hero.overlayOpacity, HERO_IMAGE_DEFAULTS.overlayOpacity),
+    overlayBlur: numOr(hero.overlayBlur, HERO_IMAGE_DEFAULTS.overlayBlur),
+    backgroundImageUrl: resolve(hero.backgroundImageId),
+    backgroundOpacity: numOr(hero.backgroundOpacity, HERO_IMAGE_DEFAULTS.backgroundOpacity),
+    backgroundBlur: numOr(hero.backgroundBlur, HERO_IMAGE_DEFAULTS.backgroundBlur),
+    showDecorations: hero.showDecorations === false ? false : HERO_IMAGE_DEFAULTS.showDecorations,
+  };
+});
+
 export interface PageSeoData {
   seoTitleEn: string | null;
   seoTitleAr: string | null;

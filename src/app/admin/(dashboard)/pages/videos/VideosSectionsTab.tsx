@@ -2,18 +2,22 @@
 
 import { SectionCard } from "@/components/admin/sections/SectionCard";
 import { SectionTextFields } from "@/components/admin/sections/SectionFields";
+import { HeroImageFields } from "@/components/admin/sections/HeroImageFields";
 
 export function VideosSectionsTab() {
   return (
     <div className="space-y-6">
       <SectionCard pageSlug="videos" sectionKey="hero" title="Hero">
         {({ en, ar, setEn, setAr }) => (
-          <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
-            { key: "eyebrow", label: "Eyebrow" },
-            { key: "title", label: "Title" },
-            { key: "subtitle", label: "Subtitle" },
-            { key: "cta", label: "Button label" },
-          ]} />
+          <div className="space-y-8">
+            <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
+              { key: "eyebrow", label: "Eyebrow" },
+              { key: "title", label: "Title" },
+              { key: "subtitle", label: "Subtitle" },
+              { key: "cta", label: "Button label" },
+            ]} />
+            <HeroImageFields en={en} ar={ar} setEn={setEn} setAr={setAr} />
+          </div>
         )}
       </SectionCard>
 

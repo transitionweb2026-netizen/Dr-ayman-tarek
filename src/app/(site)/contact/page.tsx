@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ContactContent } from "./ContactContent";
-import { getPageSections, getFaqItems, getServices } from "@/server/repositories/content";
+import { getPageSections, getFaqItems, getServices, getHeroImageConfig } from "@/server/repositories/content";
 import { getSiteSettings } from "@/server/repositories/settings";
 import { buildStaticPageMetadata, getPageSeoSchemaFlags } from "@/lib/seo/pageMetadata";
 import { buildWebPageSchema, buildBreadcrumbSchema, buildFaqSchema, buildContactPageSchema } from "@/lib/seo/schema";
@@ -21,12 +21,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
-  const [sections, settings, faqItems, services, schemaFlags] = await Promise.all([
+  const [sections, settings, faqItems, services, schemaFlags, heroImages] = await Promise.all([
     getPageSections("contact"),
     getSiteSettings(),
     getFaqItems("contact"),
     getServices(),
     getPageSeoSchemaFlags("contact"),
+    getHeroImageConfig("contact"),
   ]);
 
   return (
@@ -54,6 +55,7 @@ export default async function ContactPage() {
         services={services}
         generalConsultationLabel={{ en: "General Consultation", ar: "استشارة عامة" }}
         otherLabel={{ en: "Other", ar: "أخرى" }}
+        heroImages={heroImages}
       />
     </>
   );

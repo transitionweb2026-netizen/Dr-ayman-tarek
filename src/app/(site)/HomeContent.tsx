@@ -11,7 +11,7 @@ import { FinalCta } from "@/components/sections/FinalCta";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
-import type { BilingualVideo, BilingualArticle, BilingualFaqItem, BilingualTestimonial } from "@/server/repositories/content";
+import type { BilingualVideo, BilingualArticle, BilingualFaqItem, BilingualTestimonial, HeroImageConfig } from "@/server/repositories/content";
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 interface AboutContent { title: string; bio: string; cta: string; videoCaption: string }
@@ -24,12 +24,14 @@ export function HomeContent({
   articles,
   faqItems,
   testimonials,
+  heroImages,
 }: {
   sections: Sections;
   videos: BilingualVideo[];
   articles: BilingualArticle[];
   faqItems: BilingualFaqItem[];
   testimonials: BilingualTestimonial[];
+  heroImages: HeroImageConfig;
 }) {
   const { t, language } = useLanguage();
 
@@ -62,7 +64,7 @@ export function HomeContent({
 
   return (
     <>
-      <HomeHero content={hero} />
+      <HomeHero content={hero} images={heroImages} />
       <StatsStrip stats={stats.length > 0 ? stats : undefined} />
       <AboutPreview
         title={about.title || ""}

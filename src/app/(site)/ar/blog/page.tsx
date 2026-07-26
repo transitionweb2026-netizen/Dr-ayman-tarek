@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { BlogContent } from "../../blog/BlogContent";
-import { getPageSections, getArticles } from "@/server/repositories/content";
+import { getPageSections, getArticles, getHeroImageConfig } from "@/server/repositories/content";
 import { buildStaticPageMetadata, getPageSeoSchemaFlags } from "@/lib/seo/pageMetadata";
 import { buildWebPageSchema, buildBreadcrumbSchema } from "@/lib/seo/schema";
 import { breadcrumbItems } from "@/lib/seo/pageRegistry";
@@ -20,10 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPageArabic() {
-  const [sections, articles, schemaFlags] = await Promise.all([
+  const [sections, articles, schemaFlags, heroImages] = await Promise.all([
     getPageSections("blog"),
     getArticles(),
     getPageSeoSchemaFlags("blog"),
+    getHeroImageConfig("blog"),
   ]);
 
   return (
@@ -39,7 +40,7 @@ export default async function BlogPageArabic() {
           <JsonLd data={buildBreadcrumbSchema(breadcrumbItems("blog", LANG))} />
         </>
       )}
-      <BlogContent sections={sections} articles={articles} />
+      <BlogContent sections={sections} articles={articles} heroImages={heroImages} />
     </>
   );
 }
