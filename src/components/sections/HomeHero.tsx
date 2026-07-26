@@ -164,20 +164,16 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
         </div>
       </div>
 
-      {/* Connect With Us — normal-flow stack below the content on mobile/
-          tablet (extra top margin from Contact Card Bottom Offset — no
-          "bottom" position exists to anchor to outside of absolute
-          positioning); anchored near the bottom beside the doctor image at
-          lg via a real `bottom` offset, on whichever side the text isn't
-          (opposite of contentSide in auto mode; the language-mirrored far
-          side in manual mode). All three offsets are CMS fields (Desktop/
-          Tablet/Mobile Contact Card Bottom Offset) — nothing here is a
-          hardcoded pixel value baked into the component. */}
+      {/* Connect With Us — hidden entirely on mobile (<768px); anchored to
+          the Hero's bottom-right from tablet up via a plain `bottom` offset
+          — no vertical centering, no translateY, no max()/min()/clamp(),
+          no percentage-based vertical position. Tablet and Desktop each get
+          their own CMS-configurable pixel offset (Tablet/Desktop Contact
+          Card Bottom Offset) applied at their own breakpoint. */}
       <div
-        className="relative z-10 mx-auto mt-[var(--cc-gap-mobile)] flex w-full max-w-container-max flex-col items-center gap-5 px-margin-mobile md:mt-[var(--cc-gap-tablet)] md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-12"
+        className="hidden md:absolute md:inset-0 md:z-10 md:mx-auto md:block md:w-full md:max-w-container-max md:px-8 md:pointer-events-none lg:px-12"
         style={
           {
-            "--cc-gap-mobile": `${images.contactCardOffsetMobile}px`,
             "--cc-gap-tablet": `${images.contactCardOffsetTablet}px`,
             "--cc-gap-desktop": `${images.contactCardOffsetDesktop}px`,
           } as CSSProperties
@@ -186,8 +182,8 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
         <div
           className={
             auto
-              ? `w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[var(--cc-gap-desktop)] lg:w-64 ${flip ? "lg:left-[5%]" : "lg:right-[5%]"}`
-              : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:right-[5%] lg:bottom-[var(--cc-gap-desktop)] lg:w-64 rtl:lg:right-auto rtl:lg:left-[5%]"
+              ? `md:pointer-events-auto md:absolute md:bottom-[var(--cc-gap-tablet)] md:w-64 lg:bottom-[var(--cc-gap-desktop)] ${flip ? "md:left-[5%]" : "md:right-[5%]"}`
+              : "md:pointer-events-auto md:absolute md:bottom-[var(--cc-gap-tablet)] md:right-[5%] md:w-64 lg:bottom-[var(--cc-gap-desktop)] rtl:md:right-auto rtl:md:left-[5%]"
           }
         >
           <HeroSocialCard />

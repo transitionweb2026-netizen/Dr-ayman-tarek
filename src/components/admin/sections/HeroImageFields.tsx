@@ -110,9 +110,8 @@ export function HeroImageFields({
     backgroundOpacity: 40,
     backgroundBlur: 0,
     showDecorations: true,
-    contactCardOffsetDesktop: 200,
+    contactCardOffsetDesktop: 40,
     contactCardOffsetTablet: 40,
-    contactCardOffsetMobile: 40,
   };
   const layout: HeroLayout | null = imageStrategy === "auto" ? computeHeroLayout(previewConfig) : null;
 
@@ -303,41 +302,30 @@ export function HeroImageFields({
         <div>
           <h4 className="text-xs font-semibold uppercase tracking-wide text-on-surface-variant">Contact Card Position</h4>
           <p className="mt-1 text-xs text-on-surface-variant/70">
-            How far the &quot;Connect With Us&quot; card&apos;s bottom edge sits above the Hero&apos;s own bottom edge
-            (desktop), or the extra top spacing before it in the stacked layout (tablet/mobile). Independent per
-            breakpoint — the desktop default (200px) keeps a clear ~60px gap above the floating WhatsApp/Phone
-            buttons.
+            How far the &quot;Connect With Us&quot; card&apos;s bottom edge sits above the Hero&apos;s own bottom
+            edge — a plain bottom anchor, independently configurable for Desktop and Tablet. The card is hidden
+            entirely below tablet width (no mobile offset — there&apos;s nothing to position).
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <Label hint="px, from the Hero's bottom edge">Desktop Contact Card Bottom Offset</Label>
             <TextField
               type="number"
               min="0"
-              max="600"
-              value={num("contactCardOffsetDesktop", 200)}
-              onChange={(e) => setShared("contactCardOffsetDesktop", e.target.value === "" ? 200 : Number(e.target.value))}
+              max="200"
+              value={num("contactCardOffsetDesktop", 40)}
+              onChange={(e) => setShared("contactCardOffsetDesktop", e.target.value === "" ? 40 : Number(e.target.value))}
             />
           </div>
           <div>
-            <Label hint="px, top spacing in the stacked layout">Tablet Contact Card Bottom Offset</Label>
+            <Label hint="px, from the Hero's bottom edge">Tablet Contact Card Bottom Offset</Label>
             <TextField
               type="number"
               min="0"
               max="200"
               value={num("contactCardOffsetTablet", 40)}
               onChange={(e) => setShared("contactCardOffsetTablet", e.target.value === "" ? 40 : Number(e.target.value))}
-            />
-          </div>
-          <div>
-            <Label hint="px, top spacing in the stacked layout">Mobile Contact Card Bottom Offset</Label>
-            <TextField
-              type="number"
-              min="0"
-              max="200"
-              value={num("contactCardOffsetMobile", 40)}
-              onChange={(e) => setShared("contactCardOffsetMobile", e.target.value === "" ? 40 : Number(e.target.value))}
             />
           </div>
         </div>
