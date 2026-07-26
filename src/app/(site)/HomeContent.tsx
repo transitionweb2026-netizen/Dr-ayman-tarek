@@ -52,7 +52,7 @@ export function HomeContent({
 
   const insightArticles = articles.slice(0, 3).map((a) => {
     const copy = language === "ar" ? a.ar : a.en;
-    return { tag: copy.category || "", date: copy.date, title: copy.title, excerpt: copy.excerpt, image: a.image };
+    return { slug: a.slug, tag: copy.category || "", date: copy.date, title: copy.title, excerpt: copy.excerpt, image: a.image };
   });
 
   const homeFaqItems = faqItems.map((item) => {

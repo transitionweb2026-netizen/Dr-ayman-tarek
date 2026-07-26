@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageProvider";
@@ -16,10 +17,18 @@ interface LanguageSwitchProps {
  * tracks whichever button is active even when flexbox visually reorders
  * the two buttons under dir="rtl" — a plain x-offset would end up on the
  * wrong side once the site flips direction.
+ *
+ * Header renders three of these at once (desktop nav, mobile top bar,
+ * mobile drawer) — display:none instances don't join Framer Motion's
+ * layout tracking, but the drawer's is portalled and genuinely visible at
+ * the same time as the mobile top bar's while open, so a shared literal
+ * layoutId collided between them and left one without its pill background.
+ * useId() scopes the layoutId per mounted instance instead.
  */
 export function LanguageSwitch({ className, size = "sm" }: LanguageSwitchProps) {
   const { language, setLanguage, t } = useLanguage();
   const isLg = size === "lg";
+  const pillId = useId();
 
   return (
     <div
@@ -48,7 +57,7 @@ export function LanguageSwitch({ className, size = "sm" }: LanguageSwitchProps) 
           >
             {active && (
               <motion.span
-                layoutId="language-switch-pill"
+                layoutId={`language-switch-pill-${pillId}`}
                 className="absolute inset-0 rounded-full bg-gradient-brand shadow-glow"
                 transition={{ type: "spring", stiffness: 420, damping: 32 }}
               />

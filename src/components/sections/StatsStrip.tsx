@@ -41,7 +41,13 @@ export function StatsStrip({ stats }: { stats?: Stat[] }) {
     <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap-sm md:px-margin-desktop">
       <GlassCard radius="3xl" interactive={false} className="w-full px-gutter py-10 shadow-glow">
         <Stagger
-          className={`grid grid-cols-2 gap-6 text-center ${gridColsClass[resolvedStats.length] ?? "md:grid-cols-4"}`}
+          // The mobile base is grid-cols-2, so an odd count (5 stats, most
+          // notably) would orphan its last item alone on a row with a
+          // lopsided empty gap beside it — same failure mode gridColsClass
+          // already works around at sm:/md:. `nth-child(odd):last-child`
+          // only ever matches when the total count is odd, so this is a
+          // no-op for the common even counts (e.g. 4).
+          className={`grid grid-cols-2 gap-6 text-center [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:max-w-[calc(50%-0.75rem)] sm:[&>*:last-child:nth-child(odd)]:col-span-1 sm:[&>*:last-child:nth-child(odd)]:mx-0 sm:[&>*:last-child:nth-child(odd)]:max-w-none ${gridColsClass[resolvedStats.length] ?? "md:grid-cols-4"}`}
           gap={0.08}
         >
           {resolvedStats.map((stat) => (

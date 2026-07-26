@@ -1,4 +1,12 @@
-import { generateHTML } from "@tiptap/core";
+// @tiptap/html, NOT @tiptap/core — @tiptap/core's generateHTML() calls
+// ProseMirror's DOMSerializer directly, which needs a real `window` and
+// throws `ReferenceError: window is not defined` in a Node/Server Component
+// context. @tiptap/html is the purpose-built package for exactly this:
+// server-side HTML generation, backed by its own bundled lightweight DOM
+// (linkedom) instead of a browser global. Confirmed by reproducing the
+// error directly — every blog post was silently falling back to its excerpt
+// instead of real content because of this exact mismatch.
+import { generateHTML } from "@tiptap/html";
 import StarterKit from "@tiptap/starter-kit";
 import LinkExtension from "@tiptap/extension-link";
 import ImageExtension from "@tiptap/extension-image";
@@ -23,7 +31,11 @@ export function renderRichTextHtml(json: unknown): string {
   if (!json || typeof json !== "object" || Object.keys(json as object).length === 0) return "";
   try {
     return generateHTML(json as Parameters<typeof generateHTML>[0], EXTENSIONS);
-  } catch {
+  } catch (err) {
+    // Surface this — a silent catch here is exactly what let the
+    // @tiptap/core-vs-@tiptap/html mismatch above hide as "every post shows
+    // its excerpt" instead of a visible error.
+    console.error("renderRichTextHtml failed:", err);
     return "";
   }
 }

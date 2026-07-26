@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { localizedHref } from "@/lib/localizedHref";
 import type { BilingualVideo } from "@/server/repositories/content";
 
 interface VideoSeriesPreviewProps {
@@ -26,10 +27,14 @@ export function VideoSeriesPreview({ videos, titleOverride }: VideoSeriesPreview
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <SectionHeading title={titleOverride ?? t("home.videoSeries.title")} />
-      <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-3">
+      {/* This section always shows at most 3 videos (slice(0, 3)) — jumping
+          straight from 1 to 3 columns (skipping an intermediate 2-up
+          layout) avoids the 3rd card orphaning alone on its own row with a
+          lopsided empty gap beside it at tablet widths. */}
+      <Stagger className="grid grid-cols-1 items-start gap-gutter lg:grid-cols-3">
         {featured.map((video) => (
           <StaggerChild key={video.id}>
-            <Link href="/videos">
+            <Link href={localizedHref("/videos", language)}>
               <GlassCard radius="3xl" className="group overflow-hidden">
                 <div className="relative aspect-[9/16] overflow-hidden">
                   <Image
