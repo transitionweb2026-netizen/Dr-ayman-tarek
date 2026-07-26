@@ -91,6 +91,19 @@ export interface HeroImageConfig {
   backgroundBlur: number;
   /** Glow orbs / dot-grid / holographic overlay. Default true (current behavior). */
   showDecorations: boolean;
+
+  /** px. How far the "Connect With Us" card's bottom edge sits above the
+   * Hero's own bottom edge at each breakpoint tier — independent per tier
+   * since the card is absolutely bottom-anchored on desktop but sits in
+   * normal document flow (this becomes extra top margin instead) on
+   * tablet/mobile. Kept deliberately in real pixels, not a percentage: the
+   * point is a precise, admin-tunable gap above the viewport-fixed
+   * WhatsApp/Phone buttons, which are themselves positioned in fixed
+   * pixels — a percentage would drift out of sync with them as the Hero's
+   * height changes. */
+  contactCardOffsetDesktop: number;
+  contactCardOffsetTablet: number;
+  contactCardOffsetMobile: number;
 }
 
 const HERO_IMAGE_DEFAULTS: Omit<HeroImageConfig, "desktopImageUrl" | "tabletImageUrl" | "mobileImageUrl"> = {
@@ -108,6 +121,15 @@ const HERO_IMAGE_DEFAULTS: Omit<HeroImageConfig, "desktopImageUrl" | "tabletImag
   overlayOpacity: 0, overlayBlur: 0,
   backgroundImageUrl: null, backgroundOpacity: 40, backgroundBlur: 0,
   showDecorations: true,
+  // Desktop's 200px default lands the card's bottom edge ~60px above the
+  // floating WhatsApp/Phone buttons (which sit 32px + 108px-tall stack =
+  // 140px up from the viewport's bottom edge in the common case where the
+  // Hero fills the fold) — squarely inside the requested 48-64px gap.
+  // Tablet/mobile default to 40px, matching this layout's original
+  // pre-offset spacing exactly, so unconfigured heroes don't shift there.
+  contactCardOffsetDesktop: 200,
+  contactCardOffsetTablet: 40,
+  contactCardOffsetMobile: 40,
 };
 
 function numOr<T>(value: unknown, fallback: T): number | T {
@@ -178,6 +200,9 @@ export const getHeroImageConfig = cache(async function getHeroImageConfig(slug: 
     backgroundOpacity: numOr(hero.backgroundOpacity, HERO_IMAGE_DEFAULTS.backgroundOpacity),
     backgroundBlur: numOr(hero.backgroundBlur, HERO_IMAGE_DEFAULTS.backgroundBlur),
     showDecorations: hero.showDecorations === false ? false : HERO_IMAGE_DEFAULTS.showDecorations,
+    contactCardOffsetDesktop: numOr(hero.contactCardOffsetDesktop, HERO_IMAGE_DEFAULTS.contactCardOffsetDesktop),
+    contactCardOffsetTablet: numOr(hero.contactCardOffsetTablet, HERO_IMAGE_DEFAULTS.contactCardOffsetTablet),
+    contactCardOffsetMobile: numOr(hero.contactCardOffsetMobile, HERO_IMAGE_DEFAULTS.contactCardOffsetMobile),
   };
 });
 
