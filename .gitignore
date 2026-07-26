@@ -27,3 +27,6 @@ next-env.d.ts
 .qa-screenshots/
 # next-agents-md
 .next-docs/
+# Python bytecode cache (e.g. from running installed skills' scripts)
+__pycache__/
+*.pyc

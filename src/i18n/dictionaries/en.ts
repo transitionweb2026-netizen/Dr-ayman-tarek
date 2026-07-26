@@ -53,6 +53,7 @@ export const en = {
     mapPreviewNote: "Map preview — interactive map loads on the live site.",
     directions: "Directions",
     backToBlog: "Back to Blog",
+    skipToContent: "Skip to main content",
   },
 
   home: {

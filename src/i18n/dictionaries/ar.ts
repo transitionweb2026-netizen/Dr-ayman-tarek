@@ -53,6 +53,7 @@ export const ar = {
     mapPreviewNote: "معاينة الخريطة — تُحمَّل الخريطة التفاعلية على الموقع الفعلي.",
     directions: "اتجاهات الوصول",
     backToBlog: "العودة إلى المدونة",
+    skipToContent: "تخطي إلى المحتوى الرئيسي",
   },
 
   home: {
