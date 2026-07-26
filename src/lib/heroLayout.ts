@@ -12,6 +12,17 @@ import type { HeroImageConfig } from "@/server/repositories/content";
  * always agree.
  */
 
+/** The auto-computed text column width (heroBalance, a % of the hero's
+ * frame) must never shrink below this — 36rem/576px is exactly the
+ * original fixed "manual" mode's max-w-xl. Below it, a longer-language
+ * headline (English's "Precision Surgery." is longer than most
+ * translations) can wrap into an extra line that a more compact
+ * translation doesn't need, breaking height parity between languages for
+ * no visual reason. Single source of truth — every Hero computing a
+ * width from safeTextWidthPct must run it through heroSafeWidthCss()
+ * below rather than using the raw percentage directly. */
+export const HERO_CONTENT_MIN_WIDTH = "36rem";
+
 const LEFT_ZONE_MAX = 35;
 const RIGHT_ZONE_MIN = 65;
 /** How far (in focus-percentage points) to push the crop away from the text
@@ -94,6 +105,13 @@ export function computeHeroLayout(images: HeroImageConfig): HeroLayout {
     safeTextWidthPct,
     gradientDirection,
   };
+}
+
+/** The CSS value to feed into the `--hero-safe-width` custom property —
+ * never the raw percentage on its own, so the min-width floor above is
+ * impossible to bypass by accident in either Hero component. */
+export function heroSafeWidthCss(safeTextWidthPct: number): string {
+  return `max(${safeTextWidthPct}%, ${HERO_CONTENT_MIN_WIDTH})`;
 }
 
 /** Tailwind's "to-r"/"to-l" gradient utilities are named by which way the

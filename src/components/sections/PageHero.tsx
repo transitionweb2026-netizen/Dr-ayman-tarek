@@ -8,7 +8,7 @@ import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
 import type { CSSProperties, ReactNode } from "react";
 import type { HeroImageConfig } from "@/server/repositories/content";
-import { computeHeroLayout, heroGradientToClass } from "@/lib/heroLayout";
+import { computeHeroLayout, heroGradientToClass, heroSafeWidthCss } from "@/lib/heroLayout";
 
 interface PageHeroProps {
   eyebrow: string;
@@ -113,7 +113,7 @@ export function PageHero({
                 ? `lg:max-w-[var(--hero-safe-width)] ${flip ? "lg:ml-auto" : "lg:mr-auto"}`
                 : "max-w-xl"
           }
-          style={auto && layout ? ({ "--hero-safe-width": `${layout.safeTextWidthPct}%` } as CSSProperties) : undefined}
+          style={auto && layout ? ({ "--hero-safe-width": heroSafeWidthCss(layout.safeTextWidthPct) } as CSSProperties) : undefined}
         >
           <span className="eyebrow mb-6 shadow-glow">
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary shadow-[0_0_10px_rgba(196,61,255,0.8)]" />

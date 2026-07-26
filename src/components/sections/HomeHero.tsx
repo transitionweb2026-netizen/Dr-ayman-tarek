@@ -13,7 +13,7 @@ import { MouseParallax } from "@/components/motion/Parallax";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
 import type { HeroImageConfig } from "@/server/repositories/content";
-import { computeHeroLayout, heroGradientToClass, mirrorSide } from "@/lib/heroLayout";
+import { computeHeroLayout, heroGradientToClass, heroSafeWidthCss, mirrorSide } from "@/lib/heroLayout";
 
 const AVATARS = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCm5F_KClouvmKWx93nUbO6JYr4zCLdMn0h3bcl7xULyL7yjuq094yBSRl10k38bGrsF1T4CujvU4gXocmx37Ni-K7byWs0j8lbhIQqs7LwDi2ObwUG81F5LMA_rQfpiqZNXK-v4Ne4dcmgUmPb5HEl7DNkIrK5gEFViyOia2cDf0grk4bu0Qx8DJh79V_gbH7YMkYa2SP5aqzW0YeacUq_dgiY4oGjtqT52wvR0eTz-J8UtHMYDoaP",
@@ -56,8 +56,16 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
       : undefined;
   const showGradient = !layout || layout.gradientDirection !== "none";
 
+  // 800px (desktop, lg+) is a measured value, not a guess: English's
+  // headline ("Precision Surgery." / "Life Reimagined.") wraps to 2 lines
+  // each at the shared 576px content column and the font's clamped max
+  // size, needing ~795px of total section height — taller than Arabic's,
+  // whose shorter translated phrases fit on one line each. Both languages
+  // share this one floor so the *outer* Hero box renders at an identical
+  // height regardless of language; only min-h (not a hard height) is used,
+  // so nothing is ever clipped if copy changes later and needs more room.
   return (
-    <section className="relative flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 pt-20 lg:min-h-[700px]">
+    <section className="relative flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 pt-20 lg:min-h-[800px]">
       {/* Full-bleed background artwork — one photo per breakpoint (art
           directed, not just resized), CMS-configurable via HeroImageConfig.
           This same treatment carries the doctor's photo at every
@@ -90,7 +98,7 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
               ? `space-y-7 lg:max-w-[var(--hero-safe-width)] ${flip ? "lg:ml-auto" : "lg:mr-auto"}`
               : "max-w-xl space-y-7"
           }
-          style={auto ? ({ "--hero-safe-width": `${layout!.safeTextWidthPct}%` } as CSSProperties) : undefined}
+          style={auto ? ({ "--hero-safe-width": heroSafeWidthCss(layout!.safeTextWidthPct) } as CSSProperties) : undefined}
         >
           <motion.div
             initial={{ opacity: 0, y: 24 }}
