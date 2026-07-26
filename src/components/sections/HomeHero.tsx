@@ -165,16 +165,21 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
       </div>
 
       {/* Connect With Us — normal-flow stack below the content on mobile/
-          tablet; vertically centered beside the doctor image at lg, on
+          tablet; anchored near the bottom beside the doctor image at lg, on
           whichever side the text isn't (opposite of contentSide in auto
           mode; the language-mirrored far side in manual mode), sharing the
-          same max-w-container-max frame as the content column above. */}
+          same max-w-container-max frame as the content column above.
+          bottom-[max(10%,170px)] keeps the offset proportional to the
+          Hero's own height on tall sections, but never lets it drop below
+          170px — enough clearance that it can't collide with the
+          viewport-fixed WhatsApp/Phone buttons (which sit ~140px tall,
+          32px up from the viewport's bottom edge) at any screen height. */}
       <div className="relative z-10 mx-auto mt-10 flex w-full max-w-container-max flex-col items-center gap-5 px-margin-mobile md:px-8 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block lg:px-12">
         <div
           className={
             auto
-              ? `w-full max-w-xs lg:pointer-events-auto lg:absolute lg:top-1/2 lg:w-64 lg:-translate-y-1/2 ${flip ? "lg:left-[5%]" : "lg:right-[5%]"}`
-              : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:right-[5%] lg:top-1/2 lg:w-64 lg:-translate-y-1/2 rtl:lg:right-auto rtl:lg:left-[5%]"
+              ? `w-full max-w-xs lg:pointer-events-auto lg:absolute lg:bottom-[max(10%,170px)] lg:w-64 ${flip ? "lg:left-[5%]" : "lg:right-[5%]"}`
+              : "w-full max-w-xs lg:pointer-events-auto lg:absolute lg:right-[5%] lg:bottom-[max(10%,170px)] lg:w-64 rtl:lg:right-auto rtl:lg:left-[5%]"
           }
         >
           <HeroSocialCard />
