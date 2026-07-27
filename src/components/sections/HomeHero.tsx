@@ -198,6 +198,19 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
             </div>
           </motion.div>
         </div>
+
+        {/* Connect With Us — normal-flow stack below the CTA/stat row on
+            mobile (<768px) only, restoring the card that a prior pass
+            wrongly hid on mobile entirely (regression). Same component,
+            same CMS data, same visual treatment as tablet/desktop — just
+            laid out in-flow instead of absolutely positioned, matching the
+            pattern PageHero already uses for this exact card. The md+
+            absolute-positioned block right below is untouched. */}
+        <div className="relative z-10 mt-8 flex w-full justify-center md:hidden">
+          <div className="w-full max-w-xs">
+            <HeroSocialCard />
+          </div>
+        </div>
       </div>
 
       {/* Connect With Us — hidden entirely on mobile (<768px); anchored to
