@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Phone } from "lucide-react";
 import type { MouseEvent as ReactMouseEvent, ReactNode } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { WhatsAppGlyph, InstagramGlyph, FacebookGlyph } from "@/components/ui/SocialGlyph";
+import { WhatsAppGlyph, socialGlyphFor } from "@/components/ui/SocialGlyph";
 
 const staggerContainer = {
   hidden: {},
@@ -55,18 +55,23 @@ function MagneticIcon({ href, label, children }: { href: string; label: string; 
 }
 
 /** Premium glass "Connect With Us" card — social icons + phone, floated inside the Home hero.
- * WhatsApp/phone come straight from Site Settings; Instagram/Facebook are looked up from the
- * same CMS social-links list the Footer uses — a platform with no configured URL is left out
- * entirely rather than shown as a dead "#" link. */
+ * WhatsApp/phone come straight from Site Settings; every other platform (Instagram, Facebook,
+ * TikTok, LinkedIn, YouTube, …) is rendered from the same CMS social-links list the Footer
+ * uses — a platform with no configured URL is left out entirely rather than shown dead. */
 export function HeroSocialCard() {
   const { t, contact } = useLanguage();
-  const findSocial = (platform: string) => contact.socialLinks.find((s) => s.platform.toLowerCase() === platform)?.url;
-  const instagramUrl = findSocial("instagram");
-  const facebookUrl = findSocial("facebook");
-  const socials: { labelKey: string; href: string; render: (className: string) => ReactNode }[] = [
-    { labelKey: "heroSocialCard.whatsapp", href: `https://wa.me/${contact.whatsapp}`, render: (c) => <WhatsAppGlyph className={c} /> },
-    ...(instagramUrl ? [{ labelKey: "heroSocialCard.instagram", href: instagramUrl, render: (c: string) => <InstagramGlyph className={c} /> }] : []),
-    ...(facebookUrl ? [{ labelKey: "heroSocialCard.facebook", href: facebookUrl, render: (c: string) => <FacebookGlyph className={c} /> }] : []),
+  const labelFor = (platform: string) => {
+    const key = `heroSocialCard.${platform.toLowerCase()}`;
+    const translated = t(key);
+    return translated === key ? platform.charAt(0).toUpperCase() + platform.slice(1) : translated;
+  };
+  const otherSocials = contact.socialLinks.filter((s) => s.platform.toLowerCase() !== "whatsapp" && s.url);
+  const socials: { key: string; label: string; href: string; render: (className: string) => ReactNode }[] = [
+    { key: "whatsapp", label: t("heroSocialCard.whatsapp"), href: `https://wa.me/${contact.whatsapp}`, render: (c) => <WhatsAppGlyph className={c} /> },
+    ...otherSocials.map((s) => {
+      const Glyph = socialGlyphFor(s.platform);
+      return { key: s.platform, label: labelFor(s.platform), href: s.url, render: (c: string) => <Glyph className={c} /> };
+    }),
   ];
   return (
     <motion.div
@@ -87,11 +92,11 @@ export function HeroSocialCard() {
         whileInView="show"
         viewport={{ once: true, amount: 0.6 }}
         variants={staggerContainer}
-        className="relative mb-5 flex items-center gap-4"
+        className="relative mb-5 flex flex-wrap items-center gap-4"
       >
         {socials.map((social) => (
-          <motion.div key={social.labelKey} variants={staggerItem}>
-            <MagneticIcon href={social.href} label={t(social.labelKey)}>
+          <motion.div key={social.key} className="shrink-0" variants={staggerItem}>
+            <MagneticIcon href={social.href} label={social.label}>
               {social.render("icon-neon h-5 w-5")}
             </MagneticIcon>
           </motion.div>

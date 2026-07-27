@@ -38,6 +38,9 @@ export const en = {
     whatsapp: "WhatsApp",
     instagram: "Instagram",
     facebook: "Facebook",
+    tiktok: "TikTok",
+    linkedin: "LinkedIn",
+    youtube: "YouTube",
   },
 
   common: {

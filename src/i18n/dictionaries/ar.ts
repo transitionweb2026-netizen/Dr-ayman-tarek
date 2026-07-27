@@ -38,6 +38,9 @@ export const ar = {
     whatsapp: "واتساب",
     instagram: "إنستغرام",
     facebook: "فيسبوك",
+    tiktok: "تيك توك",
+    linkedin: "لينكد إن",
+    youtube: "يوتيوب",
   },
 
   common: {
