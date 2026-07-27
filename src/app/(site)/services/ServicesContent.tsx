@@ -27,7 +27,7 @@ export function ServicesContent({
   services: BilingualService[];
   heroImages: HeroImageConfig;
 }) {
-  const { language } = useLanguage();
+  const { language, contact } = useLanguage();
 
   const hero = pickSection<HeroContent>(sections, "hero", language);
   const grid = pickSection<GridContent>(sections, "grid", language);
@@ -39,7 +39,7 @@ export function ServicesContent({
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} images={heroImages} />
+      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} ctaHref={contact.bookingHref} images={heroImages} />
       <ServicesGrid eyebrowOverride={grid.eyebrow} titleOverride={grid.title} subtitleOverride={grid.subtitle} services={services} />
       <FeatureGrid eyebrow={whyChoose.eyebrow || ""} title={whyChoose.title || ""} subtitle={whyChoose.subtitle || ""} features={whyChooseFeatures} />
       <TechShowcase heading={tech.heading} technologies={tech.technologies} subheading={tech.subheading} description={tech.description} cta={tech.cta} />

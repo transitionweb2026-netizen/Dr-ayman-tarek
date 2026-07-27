@@ -53,6 +53,13 @@ function isInternalPath(href: string): boolean {
   return href.startsWith("/") && !href.startsWith("//");
 }
 
+/** A bare "#section-id" — scrolls within the current page (globals.css sets
+ * html { scroll-behavior: smooth }), so it must never get next/link's
+ * client-side route handling or an external target="_blank". */
+function isSamePageAnchor(href: string): boolean {
+  return href.startsWith("#");
+}
+
 /**
  * The one button component used everywhere on the site — primary/ghost/
  * outline/whatsapp variants, consistent sizing + typography, and a real
@@ -106,6 +113,13 @@ export function Button({ variant = "primary", size = "lg", icon, iconPosition = 
         <Link href={href} className={cn(variantClass[variant], sizeClass[size], className)} onClick={handleClick} {...anchorProps}>
           {content}
         </Link>
+      );
+    }
+    if (isSamePageAnchor(href)) {
+      return (
+        <a href={href} className={cn(variantClass[variant], sizeClass[size], className)} onClick={handleClick} {...anchorProps}>
+          {content}
+        </a>
       );
     }
     return (

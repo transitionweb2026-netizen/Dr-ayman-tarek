@@ -3,6 +3,11 @@ import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { mediaPublicUrl } from "./media";
 
+function isRealUrl(url: string | null | undefined): boolean {
+  const trimmed = (url || "").trim();
+  return trimmed !== "" && trimmed !== "#" && !trimmed.toLowerCase().startsWith("javascript:");
+}
+
 export interface SiteSettingsData {
   doctorNameEn: string; doctorNameAr: string;
   clinicNameEn: string; clinicNameAr: string;
@@ -72,7 +77,11 @@ export const getSiteSettings = cache(async function getSiteSettings(): Promise<S
     appointmentBookingUrl: (row.appointment_booking_url as string | null) || null,
     addressEn: row.address_en as string, addressAr: row.address_ar as string,
     businessHours: (row.business_hours as SiteSettingsData["businessHours"]) || [],
-    socialLinks: (row.social_links as SiteSettingsData["socialLinks"]) || [],
+    // Filters out placeholder rows (url left as "#", blank, or a javascript:
+    // pseudo-link while the admin hasn't set a real profile URL yet) — every
+    // consumer (Footer, Hero social card) can then assume every entry it
+    // receives is a genuine, clickable destination.
+    socialLinks: ((row.social_links as SiteSettingsData["socialLinks"]) || []).filter((link) => isRealUrl(link.url)),
     googleMapsEmbedUrl: row.google_maps_embed_url as string | null,
     googleMapsAddressEn: row.google_maps_address_en as string | null, googleMapsAddressAr: row.google_maps_address_ar as string | null,
     gaMeasurementId: row.ga_measurement_id as string | null, googleAdsId: row.google_ads_id as string | null,

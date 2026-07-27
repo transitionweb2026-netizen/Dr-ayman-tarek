@@ -21,11 +21,11 @@
  * - connect-src: explicit, since strict-dynamic doesn't cover fetch/XHR/
  *   beacon destinations. Supabase is here because the admin dashboard's
  *   CRUD hooks talk to it directly from the browser (not just server-side).
- * - frame-src: 'self' only — confirmed via a repo-wide search that no
- *   <iframe> exists yet (YouTube/Google Maps embeds are placeholder UI
- *   pending a future feature, not live embeds). Add
- *   https://www.youtube-nocookie.com / https://www.google.com here when
- *   those are actually wired up.
+ * - frame-src: 'self' plus youtube.com — the video library modal embeds a
+ *   real YouTube <iframe> on click (interaction-audit fix), so this is a
+ *   live requirement, not a placeholder. Add https://www.google.com here if
+ *   the Contact page map ever becomes a real <iframe> embed instead of the
+ *   current "open in Google Maps" link-out.
  * - style-src needs 'unsafe-inline': Framer Motion drives its animations
  *   via inline `style` attributes, and CSP nonces cannot cover inline style
  *   *attributes* (only <style> blocks/<link> tags) — this is a real CSP
@@ -54,12 +54,11 @@ export function buildCspHeader(nonce: string): string {
     `img-src 'self' data: https:`,
     `font-src 'self' https://fonts.gstatic.com`,
     `connect-src ${connectSrc}`,
-    `frame-src 'self'`,
+    `frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com`,
     `object-src 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,
     `frame-ancestors 'self'`,
-    `upgrade-insecure-requests`,
   ];
   return directives.join("; ");
 }

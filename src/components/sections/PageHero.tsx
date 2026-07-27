@@ -21,6 +21,7 @@ interface PageHeroProps {
   image?: string | null;
   ctaLabel?: string;
   ctaIcon?: string;
+  ctaHref?: string;
   align?: "left" | "center";
   height?: "sm" | "md";
   children?: ReactNode;
@@ -40,6 +41,7 @@ export function PageHero({
   image,
   ctaLabel,
   ctaIcon = "calendar_month",
+  ctaHref,
   align = "left",
   height = "md",
   children,
@@ -146,7 +148,7 @@ export function PageHero({
             {subtitle}
           </p>
           {ctaLabel && (
-            <Button className="w-full sm:w-auto" icon={<NeonIcon name={ctaIcon} neon={false} className="text-xl text-white" />}>
+            <Button href={ctaHref} className="w-full sm:w-auto" icon={<NeonIcon name={ctaIcon} neon={false} className="text-xl text-white" />}>
               {ctaLabel}
             </Button>
           )}

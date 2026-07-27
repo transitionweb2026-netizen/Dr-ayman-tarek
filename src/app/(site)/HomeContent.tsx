@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { HomeHero, type HomeHeroContent } from "@/components/sections/HomeHero";
 import { StatsStrip, type Stat } from "@/components/sections/StatsStrip";
 import { AboutPreview } from "@/components/sections/AboutPreview";
@@ -10,6 +11,7 @@ import { VideoSeriesPreview } from "@/components/sections/VideoSeriesPreview";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { localizedHref } from "@/lib/localizedHref";
 import { pickSection } from "@/lib/pickLang";
 import type { BilingualVideo, BilingualArticle, BilingualFaqItem, BilingualTestimonial, HeroImageConfig } from "@/server/repositories/content";
 
@@ -69,14 +71,14 @@ export function HomeContent({
       <AboutPreview
         title={about.title || ""}
         cta={
-          <button className="group flex items-center gap-2 text-small text-primary">
+          <Link href={localizedHref("/dr-ayman-tarek", language)} className="group flex items-center gap-2 text-small text-primary">
             {about.cta || ""}
             <NeonIcon
               name="arrow_forward"
               neon={false}
               className="text-primary transition-transform duration-300 ease-in-out [filter:drop-shadow(0_0_4px_rgba(192,38,255,.55))_drop-shadow(0_0_10px_rgba(168,85,247,.35))] group-hover:translate-x-1 group-hover:[filter:drop-shadow(0_0_12px_rgba(192,38,255,.6))_drop-shadow(0_0_24px_rgba(192,38,255,.45))_drop-shadow(0_0_40px_rgba(192,38,255,.3))] rtl:-scale-x-100 rtl:group-hover:-translate-x-1"
             />
-          </button>
+          </Link>
         }
       >
         <p className="text-body-lg text-on-surface-variant">{about.bio || ""}</p>

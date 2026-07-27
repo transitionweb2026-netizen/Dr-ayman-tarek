@@ -101,6 +101,7 @@ export function DrAymanTarekContent({
         }
         subtitle={hero.subtitle || ""}
         ctaLabel={hero.cta}
+        ctaHref={contact.bookingHref}
         images={heroImages}
       />
 
@@ -185,9 +186,9 @@ export function DrAymanTarekContent({
             <div className="flex items-center justify-center gap-3 lg:justify-start">
               <NeonIcon name="call" className="shrink-0 text-2xl" />
               <div>
-                <p dir="ltr" className="text-body font-bold text-white">
+                <a href={`tel:${clinicInfo.phone.replace(/[^\d+]/g, "")}`} dir="ltr" className="block text-body font-bold text-white transition-colors hover:text-primary">
                   {clinicInfo.phone}
-                </p>
+                </a>
                 <p className="text-small text-on-surface-variant">{t("contact.quickInfo.call.label")}</p>
               </div>
             </div>

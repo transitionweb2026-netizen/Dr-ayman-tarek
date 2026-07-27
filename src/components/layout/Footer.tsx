@@ -12,6 +12,31 @@ import { localizedHref } from "@/lib/localizedHref";
 import { subscribeToNewsletter } from "@/server/actions/newsletter";
 import type { SiteSettingsData, NavLinkData } from "@/server/repositories/settings";
 
+/** An admin can leave a nav link's href blank/"#" before its destination is
+ * ready — render a disabled "coming soon" state instead of a link to
+ * nowhere, same rule as everywhere else on the site. */
+function FooterNavLink({ href, label, comingSoonLabel }: { href: string; label: string; comingSoonLabel: string }) {
+  const hasRealDestination = href.trim() !== "" && href.trim() !== "#";
+  if (!hasRealDestination) {
+    return (
+      <span aria-disabled="true" className="flex cursor-not-allowed items-center gap-2 text-body text-on-surface-variant/50">
+        {label}
+        <span className="rounded-full border border-outline-variant/30 px-2 py-0.5 text-[10px] uppercase tracking-wide">
+          {comingSoonLabel}
+        </span>
+      </span>
+    );
+  }
+  return (
+    <Link
+      href={href}
+      className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary rtl:hover:-translate-x-1"
+    >
+      {label}
+    </Link>
+  );
+}
+
 /** Shared footer, identical across every page. Brand, description,
  * copyright, and both link groups are CMS-managed (Site Settings). */
 export function Footer({
@@ -82,12 +107,11 @@ export function Footer({
           <ul className="space-y-3">
             {expertiseLinks.map((link) => (
               <li key={link.href + link.labelEn}>
-                <Link
+                <FooterNavLink
                   href={localizedHref(link.href, language)}
-                  className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary rtl:hover:-translate-x-1"
-                >
-                  {language === "ar" ? link.labelAr : link.labelEn}
-                </Link>
+                  label={language === "ar" ? link.labelAr : link.labelEn}
+                  comingSoonLabel={t("common.comingSoon")}
+                />
               </li>
             ))}
           </ul>
@@ -98,12 +122,11 @@ export function Footer({
           <ul className="space-y-3">
             {journeyLinks.map((link) => (
               <li key={link.href + link.labelEn}>
-                <Link
+                <FooterNavLink
                   href={localizedHref(link.href, language)}
-                  className="block text-body text-on-surface-variant transition-transform hover:translate-x-1 hover:text-secondary rtl:hover:-translate-x-1"
-                >
-                  {language === "ar" ? link.labelAr : link.labelEn}
-                </Link>
+                  label={language === "ar" ? link.labelAr : link.labelEn}
+                  comingSoonLabel={t("common.comingSoon")}
+                />
               </li>
             ))}
           </ul>

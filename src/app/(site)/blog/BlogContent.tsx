@@ -49,9 +49,9 @@ export function BlogContent({
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} ctaIcon="auto_stories" images={heroImages} />
+      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} ctaIcon="auto_stories" ctaHref="#articles" images={heroImages} />
 
-      <section className="mx-auto max-w-container-max space-y-14 px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop">
+      <section id="articles" className="mx-auto max-w-container-max space-y-14 px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop scroll-mt-24">
         {featured && <FeaturedArticle article={toBlogArticle(featured, language)} />}
         <ArticlesGrid articles={rest.map((a) => toBlogArticle(a, language))} />
       </section>

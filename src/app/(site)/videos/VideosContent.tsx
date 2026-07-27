@@ -21,14 +21,14 @@ export function VideosContent({
   videos: BilingualVideo[];
   heroImages: HeroImageConfig;
 }) {
-  const { language } = useLanguage();
+  const { language, contact } = useLanguage();
   const hero = pickSection<HeroContent>(sections, "hero", language);
   const library = pickSection<LibraryContent>(sections, "library", language);
   const finalCta = pickSection<CtaContent>(sections, "finalCta", language);
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} images={heroImages} />
+      <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} ctaHref={contact.bookingHref} images={heroImages} />
       <VideoLibrary videos={videos} titleOverride={library.title} subtitleOverride={library.subtitle} />
       <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} />
     </>

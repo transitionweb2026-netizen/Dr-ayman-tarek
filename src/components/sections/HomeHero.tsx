@@ -12,6 +12,8 @@ import { GlowOrb } from "@/components/decor/GlowOrb";
 import { MouseParallax } from "@/components/motion/Parallax";
 import { HeroSocialCard } from "@/components/sections/HeroSocialCard";
 import { HeroBackgroundImage } from "@/components/sections/HeroBackgroundImage";
+import { useLanguage } from "@/i18n/LanguageProvider";
+import { localizedHref } from "@/lib/localizedHref";
 import type { HeroImageConfig } from "@/server/repositories/content";
 import { computeHeroLayout, heroGradientToClass, heroOverlayStops, heroSafeWidthCss, mirrorSide, scaleOverlayColor } from "@/lib/heroLayout";
 
@@ -36,6 +38,7 @@ export interface HomeHeroContent {
 
 export function HomeHero({ content, images }: { content: Partial<HomeHeroContent>; images: HeroImageConfig }) {
   const t = (key: keyof HomeHeroContent) => content[key] || "";
+  const { language, contact } = useLanguage();
 
   // Smart Hero: in "auto" strategy the layout (which side the text sits on,
   // how wide it's allowed to be, which way the gradient darkens) is derived
@@ -160,12 +163,14 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
             className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
           >
             <Button
+              href={contact.bookingHref}
               className="w-full sm:w-auto"
               icon={<NeonIcon name="calendar_month" neon={false} className="text-xl text-white" />}
             >
               {t("primaryCta")}
             </Button>
             <Button
+              href={localizedHref("/videos", language)}
               variant="ghost"
               className="w-full sm:w-auto"
               icon={<NeonIcon name="play_circle" filled className="text-xl" />}
