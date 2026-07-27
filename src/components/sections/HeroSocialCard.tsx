@@ -47,7 +47,7 @@ function MagneticIcon({ href, label, children }: { href: string; label: string; 
       whileHover={{ scale: 1.12 }}
       whileTap={{ scale: 0.94 }}
       transition={{ type: "spring", stiffness: 400, damping: 22 }}
-      className="icon-badge-neon flex h-12 w-12 items-center justify-center rounded-full"
+      className="icon-badge-neon flex aspect-square w-full max-w-[48px] items-center justify-center rounded-full"
     >
       {children}
     </motion.a>
@@ -57,7 +57,10 @@ function MagneticIcon({ href, label, children }: { href: string; label: string; 
 /** Premium glass "Connect With Us" card — social icons + phone, floated inside the Home hero.
  * WhatsApp/phone come straight from Site Settings; every other platform (Instagram, Facebook,
  * TikTok, LinkedIn, YouTube, …) is rendered from the same CMS social-links list the Footer
- * uses — a platform with no configured URL is left out entirely rather than shown dead. */
+ * uses — a platform with no configured URL is left out entirely rather than shown dead.
+ * Icons sit in one non-wrapping row — each slot is a `flex-1` capped at the original 48px,
+ * so however many platforms are configured they auto-fit the card's fixed width without ever
+ * overflowing or breaking onto a second line. */
 export function HeroSocialCard() {
   const { t, contact } = useLanguage();
   const labelFor = (platform: string) => {
@@ -92,10 +95,10 @@ export function HeroSocialCard() {
         whileInView="show"
         viewport={{ once: true, amount: 0.6 }}
         variants={staggerContainer}
-        className="relative mb-5 flex flex-wrap items-center gap-4"
+        className="relative mb-5 flex w-full items-center justify-between gap-2"
       >
         {socials.map((social) => (
-          <motion.div key={social.key} className="shrink-0" variants={staggerItem}>
+          <motion.div key={social.key} className="flex flex-1 justify-center" variants={staggerItem}>
             <MagneticIcon href={social.href} label={social.label}>
               {social.render("icon-neon h-5 w-5")}
             </MagneticIcon>
@@ -110,7 +113,7 @@ export function HeroSocialCard() {
         <span className="icon-badge-neon flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-premium group-hover:scale-110">
           <Phone className="icon-neon h-4 w-4" strokeWidth={2} />
         </span>
-        <span dir="ltr" className="text-body font-bold text-white">{contact.phone}</span>
+        <span dir="ltr" className="whitespace-nowrap text-body font-bold text-white">{contact.phone}</span>
       </a>
     </motion.div>
   );
