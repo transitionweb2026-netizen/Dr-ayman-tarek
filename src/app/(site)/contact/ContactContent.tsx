@@ -56,16 +56,20 @@ export function ContactContent({
 
   const address = language === "ar" ? settings.addressAr : settings.addressEn;
   const mapAddress = (language === "ar" ? settings.googleMapsAddressAr : settings.googleMapsAddressEn) || address;
+  const mapsHref =
+    settings.geoLatitude != null && settings.geoLongitude != null
+      ? `https://www.google.com/maps/search/?api=1&query=${settings.geoLatitude},${settings.geoLongitude}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapAddress)}`;
   const hours = settings.businessHours.map((h) => ({
     label: language === "ar" ? h.label_ar : h.label_en,
     value: language === "ar" ? h.value_ar : h.value_en,
   }));
 
   const quickInfoItems = [
-    { key: "call", icon: "call", value: settings.phone, label: quickInfo.callLabel, ltr: true },
-    { key: "email", icon: "mail", value: settings.email, label: quickInfo.emailLabel, ltr: true },
-    { key: "visit", icon: "location_on", value: address, label: quickInfo.visitLabel, ltr: false },
-    { key: "hours", icon: "schedule", value: hours[0]?.value || "", label: quickInfo.hoursLabel, ltr: false },
+    { key: "call", icon: "call", value: settings.phone, label: quickInfo.callLabel, ltr: true, href: `tel:${settings.phone.replace(/[^\d+]/g, "")}` },
+    { key: "email", icon: "mail", value: settings.email, label: quickInfo.emailLabel, ltr: true, href: `mailto:${settings.email}` },
+    { key: "visit", icon: "location_on", value: address, label: quickInfo.visitLabel, ltr: false, href: mapsHref },
+    { key: "hours", icon: "schedule", value: hours[0]?.value || "", label: quickInfo.hoursLabel, ltr: false, href: null },
   ];
 
   const faqItems = bilingualFaqItems.map((item) => {
@@ -85,9 +89,21 @@ export function ContactContent({
             {quickInfoItems.map((item) => (
               <StaggerChild key={item.key} className="flex flex-col items-center gap-3">
                 <IconBadge icon={item.icon} className="h-14 w-14 rounded-2xl" />
-                <p dir={item.ltr ? "ltr" : undefined} className="text-body-lg font-bold text-white">
-                  {item.value}
-                </p>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    dir={item.ltr ? "ltr" : undefined}
+                    className="text-body-lg font-bold text-white transition-colors hover:text-primary"
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <p dir={item.ltr ? "ltr" : undefined} className="text-body-lg font-bold text-white">
+                    {item.value}
+                  </p>
+                )}
                 <p className="text-small text-on-surface-variant">{item.label}</p>
               </StaggerChild>
             ))}
@@ -112,7 +128,7 @@ export function ContactContent({
               </div>
               <div className="flex items-center justify-between gap-3 p-5">
                 <p className="text-small text-on-surface-variant">{t("common.mapPreviewNote")}</p>
-                <a href="#" className="flex shrink-0 items-center gap-1 text-small text-primary">
+                <a href={mapsHref} target="_blank" rel="noopener noreferrer" className="flex shrink-0 items-center gap-1 text-small text-primary">
                   <NeonIcon name="open_in_new" className="text-lg" />
                   {t("common.directions")}
                 </a>

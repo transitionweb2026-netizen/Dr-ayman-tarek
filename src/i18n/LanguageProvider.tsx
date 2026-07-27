@@ -31,6 +31,23 @@ interface LanguageContextValue {
    * lists, FAQ items, service option lists, …) that t()'s string-only
    * contract can't return. Caller supplies the expected shape. */
   tRaw: <T = unknown>(path: string) => T;
+  /** CMS-driven phone/WhatsApp/social/booking values — every interactive
+   * element sitewide that needs one of these reads it from here instead of
+   * a hardcoded constant or a prop threaded through five component layers. */
+  contact: ContactInfo;
+}
+
+export interface ContactInfo {
+  phone: string;
+  whatsapp: string;
+  email: string;
+  socialLinks: { platform: string; url: string }[];
+  /** CMS "External Booking URL" if set, else the localized internal
+   * /contact path — every "Book Appointment"-style CTA sitewide should
+   * point here, so a single admin setting can redirect all of them at
+   * once without hunting down each call site. */
+  bookingHref: string;
+  bookingIsExternal: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
@@ -49,7 +66,15 @@ function applyDomDirection(lang: Language) {
   document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
+export interface RawContactInfo {
+  phone: string;
+  whatsapp: string;
+  email: string;
+  socialLinks: { platform: string; url: string }[];
+  appointmentBookingUrl: string | null;
+}
+
+export function LanguageProvider({ children, contact: rawContact }: { children: ReactNode; contact: RawContactInfo }) {
   const pathname = usePathname();
   const router = useRouter();
   // The URL is now the single source of truth for language (real /ar/*
@@ -102,9 +127,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     [language],
   );
 
+  const contact = useMemo<ContactInfo>(() => {
+    const bookingIsExternal = Boolean(rawContact.appointmentBookingUrl);
+    return {
+      phone: rawContact.phone,
+      whatsapp: rawContact.whatsapp,
+      email: rawContact.email,
+      socialLinks: rawContact.socialLinks,
+      bookingHref: rawContact.appointmentBookingUrl || localizedHref("/contact", language),
+      bookingIsExternal,
+    };
+  }, [rawContact, language]);
+
   const value = useMemo<LanguageContextValue>(
-    () => ({ language, dir: language === "ar" ? "rtl" : "ltr", setLanguage, t, tRaw }),
-    [language, setLanguage, t, tRaw],
+    () => ({ language, dir: language === "ar" ? "rtl" : "ltr", setLanguage, t, tRaw, contact }),
+    [language, setLanguage, t, tRaw, contact],
   );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;

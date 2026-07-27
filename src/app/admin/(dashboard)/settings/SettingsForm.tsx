@@ -53,7 +53,7 @@ export function SettingsForm() {
   const [form, setForm] = useState({
     doctor_name_en: "", doctor_name_ar: "", clinic_name_en: "", clinic_name_ar: "",
     logo_media_id: null as string | null, favicon_media_id: null as string | null,
-    phone: "", whatsapp: "", emergency_phone: "", email: "", address_en: "", address_ar: "",
+    phone: "", whatsapp: "", emergency_phone: "", email: "", appointment_booking_url: "", address_en: "", address_ar: "",
     google_maps_embed_url: "", google_maps_address_en: "", google_maps_address_ar: "",
     ga_measurement_id: "", google_ads_id: "", gtm_container_id: "", meta_pixel_id: "",
     footer_description_en: "", footer_description_ar: "", footer_copyright_en: "", footer_copyright_ar: "",
@@ -90,6 +90,7 @@ export function SettingsForm() {
       clinic_name_en: settings.clinic_name_en, clinic_name_ar: settings.clinic_name_ar,
       logo_media_id: settings.logo_media_id, favicon_media_id: settings.favicon_media_id,
       phone: settings.phone, whatsapp: settings.whatsapp, emergency_phone: settings.emergency_phone, email: settings.email,
+      appointment_booking_url: settings.appointment_booking_url || "",
       address_en: settings.address_en, address_ar: settings.address_ar,
       google_maps_embed_url: settings.google_maps_embed_url || "",
       google_maps_address_en: settings.google_maps_address_en || "",
@@ -191,6 +192,20 @@ export function SettingsForm() {
                 <TextField value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} dir="ltr" type="email" />
               </FieldGroup>
             </div>
+          </AdminCard>
+          <AdminCard>
+            <FieldGroup
+              label="External Booking URL"
+              hint="Optional — Calendly, a patient portal, etc. Leave blank and every 'Book Appointment' button sitewide opens the Contact page instead."
+            >
+              <TextField
+                value={form.appointment_booking_url}
+                onChange={(e) => setForm((f) => ({ ...f, appointment_booking_url: e.target.value }))}
+                dir="ltr"
+                type="url"
+                placeholder="https://calendly.com/…"
+              />
+            </FieldGroup>
           </AdminCard>
           <AdminCard>
             <BilingualField label="Clinic address" valueEn={form.address_en} valueAr={form.address_ar}

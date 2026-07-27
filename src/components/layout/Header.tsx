@@ -23,7 +23,7 @@ import type { SiteSettingsData, NavLinkData } from "@/server/repositories/settin
  */
 export function Header({ settings, navLinks }: { settings: SiteSettingsData; navLinks: NavLinkData[] }) {
   const pathname = usePathname();
-  const { t, dir, language } = useLanguage();
+  const { t, dir, language, contact } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -125,7 +125,7 @@ export function Header({ settings, navLinks }: { settings: SiteSettingsData; nav
             );
           })}
           <LanguageSwitch className="ml-2" />
-          <Button size="md" className="ml-2">
+          <Button href={contact.bookingHref} size="md" className="ml-2">
             {t("nav.bookAppointment")}
           </Button>
         </div>
@@ -224,7 +224,7 @@ export function Header({ settings, navLinks }: { settings: SiteSettingsData; nav
               })}
             </nav>
 
-            <Button size="lg" className="w-full" onClick={() => setMobileOpen(false)}>
+            <Button href={contact.bookingHref} size="lg" className="w-full" onClick={() => setMobileOpen(false)}>
               {t("nav.bookAppointment")}
             </Button>
           </motion.div>

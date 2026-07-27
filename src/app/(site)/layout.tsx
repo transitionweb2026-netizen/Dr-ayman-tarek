@@ -23,7 +23,15 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   const skipLabel = lang === "ar" ? ar.common.skipToContent : en.common.skipToContent;
 
   return (
-    <LanguageProvider>
+    <LanguageProvider
+      contact={{
+        phone: settings.phone,
+        whatsapp: settings.whatsapp,
+        email: settings.email,
+        socialLinks: settings.socialLinks,
+        appointmentBookingUrl: settings.appointmentBookingUrl,
+      }}
+    >
       {/* Invisible until focused — first Tab stop on every page lets
           keyboard/screen-reader users jump past the header nav straight to
           the page content instead of tabbing through it every time. */}

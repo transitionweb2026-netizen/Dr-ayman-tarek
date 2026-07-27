@@ -22,7 +22,7 @@ export function FinalCta({
   primaryLabel,
   showWhatsapp = true,
 }: FinalCtaProps) {
-  const { t } = useLanguage();
+  const { t, contact } = useLanguage();
   return (
     <section className="mx-auto mb-20 max-w-container-max px-margin-mobile md:px-margin-desktop">
       <GlassCard
@@ -43,11 +43,12 @@ export function FinalCta({
             <p className="text-body-lg text-on-surface-variant">{subtitle}</p>
           </Reveal>
           <Reveal delay={0.16} className="flex w-full flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
-            <Button size="lg" className="w-full px-6 py-3.5 shadow-2xl sm:w-auto lg:px-12 lg:py-5">
+            <Button href={contact.bookingHref} size="lg" className="w-full px-6 py-3.5 shadow-2xl sm:w-auto lg:px-12 lg:py-5">
               {primaryLabel ?? t("common.bookAppointment")}
             </Button>
             {showWhatsapp && (
               <Button
+                href={`https://wa.me/${contact.whatsapp}`}
                 variant="whatsapp"
                 size="lg"
                 className="w-full px-6 py-3.5 sm:w-auto lg:px-12 lg:py-5"

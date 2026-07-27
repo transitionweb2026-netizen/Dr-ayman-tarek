@@ -115,6 +115,7 @@ export interface Database {
           whatsapp: string;
           emergency_phone: string;
           email: string;
+          appointment_booking_url: string | null;
           address_en: string;
           address_ar: string;
           business_hours: Json;
@@ -505,6 +506,17 @@ export interface Database {
         };
         Insert: Partial<Database["public"]["Tables"]["content_revisions"]["Row"]> & { entity_type: string; entity_id: string; snapshot: Json };
         Update: Partial<Database["public"]["Tables"]["content_revisions"]["Row"]>;
+        Relationships: [];
+      };
+      newsletter_subscribers: {
+        Row: {
+          id: string;
+          email: string;
+          language: string;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["newsletter_subscribers"]["Row"]> & { email: string };
+        Update: Partial<Database["public"]["Tables"]["newsletter_subscribers"]["Row"]>;
         Relationships: [];
       };
     };

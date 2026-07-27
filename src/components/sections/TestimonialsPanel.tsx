@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
+import { useLanguage } from "@/i18n/LanguageProvider";
+import { localizedHref } from "@/lib/localizedHref";
 
 interface PanelTestimonial {
   quote: string;
@@ -43,6 +45,7 @@ interface TestimonialsPanelProps {
 }
 
 export function TestimonialsPanel({ content, testimonials, milestones }: TestimonialsPanelProps) {
+  const { language } = useLanguage();
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <div className="grid grid-cols-1 gap-gutter lg:grid-cols-[11fr_9fr]">
@@ -67,7 +70,7 @@ export function TestimonialsPanel({ content, testimonials, milestones }: Testimo
               </StaggerChild>
             ))}
           </Stagger>
-          <Button variant="outline" size="md" className="mx-auto mt-6">
+          <Button href={localizedHref("/dr-ayman-tarek", language)} variant="outline" size="md" className="mx-auto mt-6">
             {content.viewAll || ""}
           </Button>
         </GlassCard>

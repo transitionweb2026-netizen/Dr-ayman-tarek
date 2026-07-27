@@ -58,7 +58,7 @@ export function DrAymanTarekContent({
   clinicInfo: { en: { address: string; hours: string }; ar: { address: string; hours: string }; phone: string };
   heroImages: HeroImageConfig;
 }) {
-  const { language, t } = useLanguage();
+  const { language, t, contact } = useLanguage();
   const clinic = language === "ar" ? clinicInfo.ar : clinicInfo.en;
 
   const hero = pickSection<HeroContent>(sections, "hero", language);
@@ -146,12 +146,13 @@ export function DrAymanTarekContent({
                 <p className="text-body-lg text-on-surface-variant">{finalCta.subtitle || ""}</p>
               </Reveal>
               <Reveal delay={0.12} className="flex w-full flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
-                <Button size="lg" className="w-full px-6 py-3.5 shadow-2xl sm:w-auto lg:px-10 lg:py-4">
+                <Button href={contact.bookingHref} size="lg" className="w-full px-6 py-3.5 shadow-2xl sm:w-auto lg:px-10 lg:py-4">
                   {finalCta.bookConsultation || ""}
                 </Button>
               </Reveal>
               <Reveal delay={0.18} className="w-full sm:w-auto">
                 <Button
+                  href={`https://wa.me/${contact.whatsapp}`}
                   variant="whatsapp"
                   className="w-full px-6 py-3.5 sm:w-auto lg:px-8 lg:py-3"
                   icon={

@@ -54,6 +54,9 @@ export const ar = {
     directions: "اتجاهات الوصول",
     backToBlog: "العودة إلى المدونة",
     skipToContent: "تخطي إلى المحتوى الرئيسي",
+    playVideo: "تشغيل الفيديو",
+    watchOnYoutube: "المشاهدة على يوتيوب",
+    comingSoon: "قريبًا",
   },
 
   home: {
@@ -403,6 +406,10 @@ export const ar = {
       subtitle: "احصل على أحدث التطورات الطبية مباشرة في بريدك الإلكتروني.",
       placeholder: "بريدك الإلكتروني",
       subscribeAria: "اشتراك",
+      success: "تم الاشتراك بنجاح — شكرًا لك!",
+      invalidEmail: "يرجى إدخال بريد إلكتروني صحيح.",
+      alreadySubscribed: "هذا البريد الإلكتروني مشترك بالفعل.",
+      error: "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
     },
     copyright: "© 2024 د. أيمن طارق. التميز العالمي في جراحة المخ والأعصاب.",
     privacyPolicy: "سياسة الخصوصية",

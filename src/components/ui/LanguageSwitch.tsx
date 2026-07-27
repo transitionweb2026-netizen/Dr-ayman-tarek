@@ -51,7 +51,14 @@ export function LanguageSwitch({ className, size = "sm" }: LanguageSwitchProps) 
             aria-label={lang === "en" ? t("languageSwitch.switchToEnglish") : t("languageSwitch.switchToArabic")}
             className={cn(
               "relative rounded-full font-bold transition-colors duration-300 ease-premium",
-              isLg ? "min-w-[64px] px-5 py-2.5 text-body" : "min-w-[44px] px-3.5 py-1.5 text-small",
+              // The "sm" pill stays visually compact for the header row, but
+              // gets its actual tap target invisibly expanded to 44px (an
+              // out-of-flow ::after, so it doesn't affect surrounding layout
+              // or the pill's own visible size) to meet the touch-target
+              // minimum without changing any spacing.
+              isLg
+                ? "min-w-[64px] px-5 py-2.5 text-body"
+                : "min-w-[44px] px-3.5 py-1.5 text-small after:absolute after:-inset-y-2 after:inset-x-0 after:content-['']",
               active ? "text-white" : "text-on-surface-variant hover:text-white",
             )}
           >

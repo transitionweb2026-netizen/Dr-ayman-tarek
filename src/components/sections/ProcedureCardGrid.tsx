@@ -67,7 +67,7 @@ interface ProcedureCardGridProps {
  * Card and modal markup live here once — every consumer just supplies data.
  */
 export function ProcedureCardGrid({ eyebrow, title, subtitle, items, sectionId, topPadding = false }: ProcedureCardGridProps) {
-  const { t } = useLanguage();
+  const { t, contact } = useLanguage();
   const [activeId, setActiveId] = useState<string | null>(null);
   const active = items.find((item) => item.id === activeId) ?? null;
 
@@ -109,7 +109,7 @@ export function ProcedureCardGrid({ eyebrow, title, subtitle, items, sectionId, 
                 </div>
               </div>
 
-              <Button className="w-full">{t("common.bookAppointment")}</Button>
+              <Button href={contact.bookingHref} className="w-full">{t("common.bookAppointment")}</Button>
             </div>
           </>
         )}

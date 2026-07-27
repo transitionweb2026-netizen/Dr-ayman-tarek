@@ -8,6 +8,10 @@ export interface SiteSettingsData {
   clinicNameEn: string; clinicNameAr: string;
   logoUrl: string | null; faviconUrl: string | null;
   phone: string; whatsapp: string; emergencyPhone: string; email: string;
+  /** External scheduling system (Calendly, patient portal, …), if the clinic
+   * uses one — every "Book Appointment" CTA sitewide opens this instead of
+   * the internal /contact page when set. Null (default) = internal /contact. */
+  appointmentBookingUrl: string | null;
   addressEn: string; addressAr: string;
   businessHours: { label_en: string; label_ar: string; value_en: string; value_ar: string }[];
   socialLinks: { platform: string; url: string }[];
@@ -65,6 +69,7 @@ export const getSiteSettings = cache(async function getSiteSettings(): Promise<S
     logoUrl: logo ? mediaPublicUrl(logo.storage_path) : null,
     faviconUrl: favicon ? mediaPublicUrl(favicon.storage_path) : null,
     phone: row.phone as string, whatsapp: row.whatsapp as string, emergencyPhone: row.emergency_phone as string, email: row.email as string,
+    appointmentBookingUrl: (row.appointment_booking_url as string | null) || null,
     addressEn: row.address_en as string, addressAr: row.address_ar as string,
     businessHours: (row.business_hours as SiteSettingsData["businessHours"]) || [],
     socialLinks: (row.social_links as SiteSettingsData["socialLinks"]) || [],

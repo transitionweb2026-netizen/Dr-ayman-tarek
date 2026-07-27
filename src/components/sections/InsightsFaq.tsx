@@ -79,7 +79,9 @@ export function InsightsFaq({ content, articles, faqItems }: InsightsFaqProps) {
         <GlassCard radius="2xl" className="flex flex-col p-6">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-card-title text-white">{content.faqHeading || ""}</h2>
-            <button className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">{viewAllLabel}</button>
+            <Link href={localizedHref("/contact#faq", language)} className="shrink-0 border-b border-primary/30 pb-0.5 text-small text-primary">
+              {viewAllLabel}
+            </Link>
           </div>
           <Accordion items={faqItems.slice(0, 6)} />
         </GlassCard>

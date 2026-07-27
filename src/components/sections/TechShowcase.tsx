@@ -19,7 +19,7 @@ interface TechShowcaseProps {
 }
 
 export function TechShowcase(props: TechShowcaseProps = {}) {
-  const { t, tRaw } = useLanguage();
+  const { t, tRaw, contact } = useLanguage();
   const technologies = props.technologies ?? tRaw<string[]>("services.techShowcase.technologies");
   const heading = props.heading ?? t("services.techShowcase.heading");
   const subheading = props.subheading ?? t("services.techShowcase.subheading");
@@ -61,6 +61,7 @@ export function TechShowcase(props: TechShowcaseProps = {}) {
             </Reveal>
             <Reveal delay={0.16}>
               <Button
+                href={contact.bookingHref}
                 icon={<span className="material-symbols-outlined text-lg rtl:-scale-x-100">arrow_forward</span>}
                 iconPosition="end"
               >
