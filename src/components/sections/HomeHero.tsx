@@ -121,8 +121,8 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
         <div
           className={
             auto
-              ? `space-y-7 lg:max-w-[var(--hero-safe-width)] ${flip ? "lg:ml-auto" : "lg:mr-auto"}`
-              : "max-w-xl space-y-7"
+              ? `mt-36 space-y-7 md:mt-0 lg:max-w-[var(--hero-safe-width)] ${flip ? "lg:ml-auto" : "lg:mr-auto"}`
+              : "mt-36 max-w-xl space-y-7 md:mt-0"
           }
           style={auto ? ({ "--hero-safe-width": heroSafeWidthCss(layout!.safeTextWidthPct) } as CSSProperties) : undefined}
         >
