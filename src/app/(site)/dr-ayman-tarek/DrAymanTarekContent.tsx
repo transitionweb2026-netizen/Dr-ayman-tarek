@@ -14,25 +14,6 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
 import type { BilingualSpecialty, BilingualTestimonial, HeroImageConfig } from "@/server/repositories/content";
 
-// Bespoke illustration images, positionally matched to the always-present
-// certificate/achievement items (not admin-uploaded, so kept as a fixed
-// lookup rather than a repeater field) — preserves the original artwork
-// exactly while titles/descriptions/icons stay CMS-editable.
-const CERTIFICATE_IMAGES = [
-  "/illustrations/dr-ayman-tarek/cert-european-board.svg",
-  "/illustrations/dr-ayman-tarek/cert-isaps-fellowship.svg",
-  "/illustrations/dr-ayman-tarek/cert-burns-diploma.svg",
-  "/illustrations/dr-ayman-tarek/cert-injectables.svg",
-  "/illustrations/dr-ayman-tarek/cert-egyptian-society.svg",
-  "/illustrations/dr-ayman-tarek/cert-body-contouring-award.svg",
-];
-const ACHIEVEMENT_IMAGES = [
-  "/illustrations/dr-ayman-tarek/achievement-experience.svg",
-  "/illustrations/dr-ayman-tarek/achievement-speaker.svg",
-  "/illustrations/dr-ayman-tarek/achievement-research.svg",
-  "/illustrations/why-choose/international-standards.svg",
-];
-
 const DOCTOR_INTRO_VIDEO =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDT02aCXBfYCWE8rbwfhuNv_I8eAL7C0AlQUQu0RKPoG3OhOWu6zfPyjGgq6Qkpe2JmNyY7TwRfJL6EBx4DbAF4W2hmpO-4Ry2B7rM4AjafcZGL2IeszWF0bwHj5d_PD_XKC75OpP0uK1lA7CfiRyYNqh3dbKtKci2TnVpbQke6eRod8-2rocqS6KQ8U-UHLgPOjFc8QUlrxDDOZSwI70YJB9TE252FVlkjWd77tdI5MWTU1lFV_yb9";
 
@@ -70,11 +51,11 @@ export function DrAymanTarekContent({
   const testimonialsHeading = pickSection<TestimonialsHeadingContent>(sections, "testimonials", language);
   const finalCta = pickSection<FinalCtaContent>(sections, "finalCta", language);
 
-  const certificates: Feature[] = (certificatesContent.items || []).map((item, i) => ({
-    icon: item.icon, title: item.title, desc: item.desc, image: CERTIFICATE_IMAGES[i],
+  const certificates: Feature[] = (certificatesContent.items || []).map((item) => ({
+    icon: item.icon, title: item.title, desc: item.desc,
   }));
-  const achievements: Feature[] = (achievementsContent.items || []).map((item, i) => ({
-    icon: item.icon, title: item.title, desc: item.desc, image: ACHIEVEMENT_IMAGES[i],
+  const achievements: Feature[] = (achievementsContent.items || []).map((item) => ({
+    icon: item.icon, title: item.title, desc: item.desc,
   }));
   const stats: Stat[] = (statsContent.items || []).map((s) => ({ icon: s.icon, value: parseInt(s.value, 10) || 0, suffix: s.suffix, label: s.label }));
 
