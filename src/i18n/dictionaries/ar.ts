@@ -27,6 +27,7 @@ export const ar = {
   floatingButtons: {
     chatWhatsapp: "تواصل عبر واتساب",
     callNow: "اتصل الآن",
+    regionLabel: "تواصل سريع",
   },
 
   modal: {

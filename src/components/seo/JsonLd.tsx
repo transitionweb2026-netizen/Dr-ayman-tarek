@@ -11,6 +11,13 @@ export async function JsonLd({ data }: { data: Record<string, unknown> }) {
     <script
       type="application/ld+json"
       nonce={nonce}
+      // Browsers deliberately hide the nonce attribute/property from any
+      // later read (even the initial hydration check) to stop it leaking
+      // via the DOM — so React always sees "" where the SSR HTML had the
+      // real value and logs a hydration mismatch on this attribute alone.
+      // That's an unavoidable, harmless browser quirk (well-documented
+      // across React/Next.js), not an actual content mismatch.
+      suppressHydrationWarning
       // Escaping `<` (per Next.js's JSON-LD guidance) stops a CMS-editable
       // string field (blog title, FAQ answer, page description, ...)
       // containing "</script>" from breaking out of this tag and injecting

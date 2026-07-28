@@ -133,6 +133,8 @@ export function FloatingContactButtons({ phone, whatsapp }: { phone: string; wha
 
   return (
     <motion.div
+      role="navigation"
+      aria-label={t("floatingButtons.regionLabel")}
       className="fixed z-40 flex flex-col gap-3"
       style={{
         bottom: "max(2rem, env(safe-area-inset-bottom))",

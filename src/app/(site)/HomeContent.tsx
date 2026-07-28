@@ -70,6 +70,7 @@ export function HomeContent({
       <StatsStrip stats={stats.length > 0 ? stats : undefined} />
       <AboutPreview
         title={about.title || ""}
+        videoCaption={about.videoCaption || undefined}
         cta={
           <Link href={localizedHref("/dr-ayman-tarek", language)} className="group flex items-center gap-2 text-small text-primary">
             {about.cta || ""}

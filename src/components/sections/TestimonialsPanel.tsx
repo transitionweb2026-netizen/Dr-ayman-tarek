@@ -83,7 +83,7 @@ export function TestimonialsPanel({ content, testimonials, milestones }: Testimo
           <div className="flex flex-1 flex-col items-center gap-5 sm:flex-row">
             <Stagger className="w-full flex-1 space-y-4" gap={0.08}>
               {milestones.map((m, i) => (
-                <StaggerChild key={m.year} className="flex items-start gap-3">
+                <StaggerChild key={i} className="flex items-start gap-3">
                   <NeonIcon
                     name="check_circle"
                     filled

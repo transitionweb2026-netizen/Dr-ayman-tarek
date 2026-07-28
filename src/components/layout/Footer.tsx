@@ -103,7 +103,7 @@ export function Footer({
         </Reveal>
 
         <Reveal delay={0.05}>
-          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.expertise.title")}</h4>
+          <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.expertise.title")}</h2>
           <ul className="space-y-3">
             {expertiseLinks.map((link) => (
               <li key={link.href + link.labelEn}>
@@ -118,7 +118,7 @@ export function Footer({
         </Reveal>
 
         <Reveal delay={0.1}>
-          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.patientJourney.title")}</h4>
+          <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.patientJourney.title")}</h2>
           <ul className="space-y-3">
             {journeyLinks.map((link) => (
               <li key={link.href + link.labelEn}>
@@ -133,7 +133,7 @@ export function Footer({
         </Reveal>
 
         <Reveal delay={0.15}>
-          <h4 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.newsletter.title")}</h4>
+          <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.newsletter.title")}</h2>
           <p className="mb-4 text-body text-on-surface-variant">{t("footer.newsletter.subtitle")}</p>
           <form onSubmit={handleSubscribe} className="relative">
             <input

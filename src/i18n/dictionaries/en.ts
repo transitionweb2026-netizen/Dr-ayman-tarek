@@ -27,6 +27,7 @@ export const en = {
   floatingButtons: {
     chatWhatsapp: "Chat on WhatsApp",
     callNow: "Call now",
+    regionLabel: "Quick contact",
   },
 
   modal: {
