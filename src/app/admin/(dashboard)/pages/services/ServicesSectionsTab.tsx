@@ -1,7 +1,7 @@
 "use client";
 
 import { SectionCard } from "@/components/admin/sections/SectionCard";
-import { SectionTextFields, SectionRepeaterField, SectionStringListField } from "@/components/admin/sections/SectionFields";
+import { SectionTextFields, SectionRepeaterField, SectionStringListField, SectionImageField } from "@/components/admin/sections/SectionFields";
 import { HeroImageFields } from "@/components/admin/sections/HeroImageFields";
 
 export function ServicesSectionsTab() {
@@ -69,6 +69,7 @@ export function ServicesSectionsTab() {
               valuesAr={(ar.technologies as string[]) || []}
               onChange={(vEn, vAr) => { setEn({ technologies: vEn }); setAr({ technologies: vAr }); }}
             />
+            <SectionImageField label="Showcase Image" fieldKey="image" en={en} setEn={setEn} setAr={setAr} />
           </div>
         )}
       </SectionCard>

@@ -7,7 +7,10 @@ import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
-const SHOWCASE_IMAGE =
+// Fallback photo — rendered only until the CMS's Technology Showcase image
+// is set (Services > Technology Showcase), same "hardcoded default, CMS can
+// override" pattern as the Hero background image's own DEFAULT_HERO_IMAGE_URL.
+const DEFAULT_SHOWCASE_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuA10COCVRZUzCR5poskQ_iQU3hcQgw2sADo1ajqYliBOgACwocRoZU3uix5Xve7zyPzkt_E85jdr-kBekmHVNZ4fvQy183PKBufdMAH-66Q7_PSQWyYn_uGqt_rG-RngbcUBOneis0gsVCQqM8cifMFpihIw3kJyxeO1Pzjq9dd71nbuECfqO4nZUVZ44miHviRxUktulScPme416YaPYOZqENDae0l-LYab63hUjlOPRtHhSMHHyvk";
 
 interface TechShowcaseProps {
@@ -16,6 +19,7 @@ interface TechShowcaseProps {
   subheading?: string;
   description?: string;
   cta?: string;
+  image?: string;
 }
 
 export function TechShowcase(props: TechShowcaseProps = {}) {
@@ -25,6 +29,7 @@ export function TechShowcase(props: TechShowcaseProps = {}) {
   const subheading = props.subheading ?? t("services.techShowcase.subheading");
   const description = props.description ?? t("services.techShowcase.description");
   const cta = props.cta ?? t("services.techShowcase.cta");
+  const image = props.image || DEFAULT_SHOWCASE_IMAGE;
 
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
@@ -48,7 +53,7 @@ export function TechShowcase(props: TechShowcaseProps = {}) {
 
           <Reveal scale className="order-1 lg:order-2">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-primary/20 shadow-glow-lg">
-              <Image src={SHOWCASE_IMAGE} alt="" fill className="object-cover" />
+              <Image src={image} alt="" fill className="object-cover" />
             </div>
           </Reveal>
 

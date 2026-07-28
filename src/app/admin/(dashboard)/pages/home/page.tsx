@@ -2,7 +2,7 @@
 
 import { PageHeader } from "@/components/admin/ui/Card";
 import { SectionCard } from "@/components/admin/sections/SectionCard";
-import { SectionTextFields, SectionRepeaterField } from "@/components/admin/sections/SectionFields";
+import { SectionTextFields, SectionRepeaterField, SectionImageField } from "@/components/admin/sections/SectionFields";
 import { HeroImageFields } from "@/components/admin/sections/HeroImageFields";
 
 export default function HomePageAdmin() {
@@ -30,6 +30,14 @@ export default function HomePageAdmin() {
                 ]}
               />
               <HeroImageFields en={en} ar={ar} setEn={setEn} setAr={setAr} />
+              <SectionRepeaterField
+                label="Patient Avatars (the small overlapping photos next to the hero stat)"
+                itemsEn={(en.patientAvatars as Record<string, unknown>[]) || []}
+                itemsAr={(ar.patientAvatars as Record<string, unknown>[]) || []}
+                onChange={(itemsEn, itemsAr) => { setEn({ patientAvatars: itemsEn }); setAr({ patientAvatars: itemsAr }); }}
+                fields={[{ key: "image", label: "Photo", kind: "image" }]}
+                addLabel="Add avatar"
+              />
             </div>
           )}
         </SectionCard>
@@ -52,15 +60,18 @@ export default function HomePageAdmin() {
 
         <SectionCard pageSlug="home" sectionKey="about" title="About the Surgeon">
           {({ en, ar, setEn, setAr }) => (
-            <SectionTextFields
-              en={en} ar={ar} setEn={setEn} setAr={setAr}
-              fields={[
-                { key: "title", label: "Title" },
-                { key: "bio", label: "Bio", multiline: true },
-                { key: "cta", label: "Button label" },
-                { key: "videoCaption", label: "Video caption" },
-              ]}
-            />
+            <div className="space-y-5">
+              <SectionTextFields
+                en={en} ar={ar} setEn={setEn} setAr={setAr}
+                fields={[
+                  { key: "title", label: "Title" },
+                  { key: "bio", label: "Bio", multiline: true },
+                  { key: "cta", label: "Button label" },
+                  { key: "videoCaption", label: "Video caption" },
+                ]}
+              />
+              <SectionImageField label="Video Thumbnail" fieldKey="videoImage" en={en} setEn={setEn} setAr={setAr} />
+            </div>
           )}
         </SectionCard>
 
@@ -82,6 +93,7 @@ export default function HomePageAdmin() {
                 onChange={(itemsEn, itemsAr) => { setEn({ items: itemsEn }); setAr({ items: itemsAr }); }}
                 fields={[
                   { key: "icon", label: "Icon", kind: "icon" },
+                  { key: "image", label: "Image (optional — overrides the icon)", kind: "image" },
                   { key: "title", label: "Title" },
                   { key: "desc", label: "Description", multiline: true },
                   { key: "cta", label: "Button label" },

@@ -17,7 +17,10 @@ import { localizedHref } from "@/lib/localizedHref";
 import type { HeroImageConfig } from "@/server/repositories/content";
 import { computeHeroLayout, heroGradientToClass, heroOverlayStops, heroSafeWidthCss, mirrorSide, scaleOverlayColor } from "@/lib/heroLayout";
 
-const AVATARS = [
+// Fallback avatars — rendered only until the CMS's Patient Avatars are set
+// (Home > Hero), same "hardcoded default, CMS can override" pattern as the
+// Hero background image's own DEFAULT_HERO_IMAGE_URL.
+const DEFAULT_AVATARS = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCm5F_KClouvmKWx93nUbO6JYr4zCLdMn0h3bcl7xULyL7yjuq094yBSRl10k38bGrsF1T4CujvU4gXocmx37Ni-K7byWs0j8lbhIQqs7LwDi2ObwUG81F5LMA_rQfpiqZNXK-v4Ne4dcmgUmPb5HEl7DNkIrK5gEFViyOia2cDf0grk4bu0Qx8DJh79V_gbH7YMkYa2SP5aqzW0YeacUq_dgiY4oGjtqT52wvR0eTz-J8UtHMYDoaP",
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAlGcFmIlF87TrBs_znOexITwuddllOInrNPuJ-60UGAnDd_zC1fzYeU-dZgEFh4YTb5-dcZ0y4cOkFcRp-oU1_-TdXzRIZtvcJmvNo0Sg4ba54bu6VByiHtHdi9-gwPONW1oT_Jjz8_NPTjpQ4bCfQTjefkHLgq9aIIJqTMOTYDsFH3qFDfsUhHioiHplOFw9yh6Q7GelrVxmlHoszUzDoc-5go9vWrK1UhfmKenN-kdh3res12AOR",
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCFmLdF0PeA-Hu7BCZev7CfkgSh21k-pdy7TTyM33p0pkURQBllrCRkyADxLMdkJ6vvuRRIzw6ncPy45pXooC0PBgyC4A_SLfRZKC5508vFwEcspjTQo27u-FmNWeWqIwe1LugRDjSj72CFLPB7Ip-HQs8C3uDvSQixZlnHR3TO_yAAtdq2YuZbIwB2moMCL8Fy3E-qxMjxZklKcAqumfvLfYHmwixicxsxHmJkQQHsSz6qtZQNtutD",
@@ -34,11 +37,16 @@ export interface HomeHeroContent {
   doctorTitle: string;
   statValue: string;
   statLabel: string;
+  patientAvatars?: { image: string }[];
 }
 
 export function HomeHero({ content, images }: { content: Partial<HomeHeroContent>; images: HeroImageConfig }) {
-  const t = (key: keyof HomeHeroContent) => content[key] || "";
+  const t = (key: keyof HomeHeroContent) => (typeof content[key] === "string" ? (content[key] as string) : "");
   const { language, contact } = useLanguage();
+  const avatars =
+    content.patientAvatars && content.patientAvatars.length > 0
+      ? content.patientAvatars.map((a) => a.image)
+      : DEFAULT_AVATARS;
 
   // Smart Hero: in "auto" strategy the layout (which side the text sits on,
   // how wide it's allowed to be, which way the gradient darkens) is derived
@@ -191,8 +199,8 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
               className="flex items-center justify-center gap-6 pt-4 sm:justify-start"
             >
               <div className="flex -space-x-3 rtl:space-x-reverse">
-                {AVATARS.map((src) => (
-                  <div key={src} className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-background">
+                {avatars.map((src, i) => (
+                  <div key={i} className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-background">
                     <Image src={src} alt="" fill className="object-cover" sizes="48px" />
                   </div>
                 ))}

@@ -14,12 +14,9 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
 import type { BilingualSpecialty, BilingualTestimonial, HeroImageConfig } from "@/server/repositories/content";
 
-const DOCTOR_INTRO_VIDEO =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDT02aCXBfYCWE8rbwfhuNv_I8eAL7C0AlQUQu0RKPoG3OhOWu6zfPyjGgq6Qkpe2JmNyY7TwRfJL6EBx4DbAF4W2hmpO-4Ry2B7rM4AjafcZGL2IeszWF0bwHj5d_PD_XKC75OpP0uK1lA7CfiRyYNqh3dbKtKci2TnVpbQke6eRod8-2rocqS6KQ8U-UHLgPOjFc8QUlrxDDOZSwI70YJB9TE252FVlkjWd77tdI5MWTU1lFV_yb9";
-
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 interface HeroContent { eyebrow: string; titleLine1: string; titleLine2: string; subtitle: string; cta: string }
-interface AboutContent { title: string; videoCaption: string; bio1: string; bio2: string }
+interface AboutContent { title: string; videoCaption: string; bio1: string; bio2: string; videoImage?: string }
 interface ItemsContent { title: string; subtitle: string; items: { icon: string; title: string; desc: string }[] }
 interface SpecialtiesHeadingContent { title: string; subtitle: string }
 interface StatsContent { items: { icon: string; value: string; suffix: string; label: string }[] }
@@ -86,7 +83,7 @@ export function DrAymanTarekContent({
         images={heroImages}
       />
 
-      <AboutPreview title={about.title || ""} videoCaption={about.videoCaption || ""} videoImage={DOCTOR_INTRO_VIDEO}>
+      <AboutPreview title={about.title || ""} videoCaption={about.videoCaption || ""} videoImage={about.videoImage || undefined}>
         <p className="text-body-lg text-on-surface-variant">{about.bio1 || ""}</p>
         <p className="text-body text-on-surface-variant">{about.bio2 || ""}</p>
       </AboutPreview>

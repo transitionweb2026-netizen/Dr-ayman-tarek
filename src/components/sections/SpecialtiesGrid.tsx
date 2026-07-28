@@ -13,6 +13,8 @@ export interface SpecialtyPreviewItem {
   title: string;
   desc: string;
   cta: string;
+  /** CMS-uploaded image — when set, replaces the icon glyph in the hex badge. */
+  image?: string;
 }
 
 export interface SpecialtiesGridContent {
@@ -21,17 +23,6 @@ export interface SpecialtiesGridContent {
   subtitle: string;
   items: SpecialtyPreviewItem[];
 }
-
-// Fixed 1:1 with the 4 always-present items (brainTumors, spineSurgery,
-// neurology, neuroEndoscopy) by position — these are bespoke illustrations,
-// not admin-uploaded media, so kept as a positional lookup rather than a
-// 5th repeater field.
-const ITEM_IMAGES = [
-  "/illustrations/home/specialty-brain-tumors.svg",
-  "/illustrations/home/specialty-spine-surgery.svg",
-  "/illustrations/why-choose/personalized-treatment.svg",
-  "/illustrations/home/specialty-neuro-endoscopy.svg",
-];
 
 export function SpecialtiesGrid({ content }: { content: Partial<SpecialtiesGridContent> }) {
   const items = content.items || [];
@@ -42,8 +33,8 @@ export function SpecialtiesGrid({ content }: { content: Partial<SpecialtiesGridC
     <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap-sm md:px-margin-desktop">
       <SectionHeading eyebrow={content.eyebrow || ""} title={content.title || ""} subtitle={content.subtitle || ""} />
       <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((item, index) => {
-          const image = ITEM_IMAGES[index];
+        {items.map((item) => {
+          const image = item.image;
           return (
             <StaggerChild key={item.title}>
               <GlassCard radius="2xl" className="group flex flex-col items-center p-7 text-center">

@@ -1,7 +1,7 @@
 "use client";
 
 import { SectionCard } from "@/components/admin/sections/SectionCard";
-import { SectionTextFields, SectionRepeaterField } from "@/components/admin/sections/SectionFields";
+import { SectionTextFields, SectionRepeaterField, SectionImageField } from "@/components/admin/sections/SectionFields";
 import { HeroImageFields } from "@/components/admin/sections/HeroImageFields";
 
 export function DrAymanTarekSectionsTab() {
@@ -24,12 +24,15 @@ export function DrAymanTarekSectionsTab() {
 
       <SectionCard pageSlug="dr-ayman-tarek" sectionKey="about" title="About Dr. Ayman Tarek">
         {({ en, ar, setEn, setAr }) => (
-          <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
-            { key: "title", label: "Title" },
-            { key: "videoCaption", label: "Video caption" },
-            { key: "bio1", label: "Bio — paragraph 1", multiline: true },
-            { key: "bio2", label: "Bio — paragraph 2", multiline: true },
-          ]} />
+          <div className="space-y-5">
+            <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
+              { key: "title", label: "Title" },
+              { key: "videoCaption", label: "Video caption" },
+              { key: "bio1", label: "Bio — paragraph 1", multiline: true },
+              { key: "bio2", label: "Bio — paragraph 2", multiline: true },
+            ]} />
+            <SectionImageField label="Video Thumbnail" fieldKey="videoImage" en={en} setEn={setEn} setAr={setAr} />
+          </div>
         )}
       </SectionCard>
 

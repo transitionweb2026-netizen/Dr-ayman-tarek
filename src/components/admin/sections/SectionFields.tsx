@@ -4,6 +4,9 @@ import { useState } from "react";
 import { BilingualField, TextField } from "@/components/admin/ui/Field";
 import { Repeater } from "@/components/admin/ui/Repeater";
 import { IconPicker } from "@/components/admin/ui/IconPicker";
+import { MediaPickerField } from "@/components/admin/ui/MediaPicker";
+import { getPublicMediaUrl } from "@/lib/supabase/storage";
+import type { MediaAsset } from "@/hooks/useMediaLibrary";
 
 export interface TextFieldSpec {
   key: string;
@@ -46,13 +49,46 @@ export function SectionTextFields({
   );
 }
 
+/** A single, non-repeated CMS-uploaded image for a section (e.g. an About
+ * video thumbnail) — same media_assets/MediaPickerField system as hero
+ * images, just one flat field. Not bilingual: the resolved public URL is
+ * written identically into both en and ar content. */
+export function SectionImageField({
+  label,
+  fieldKey,
+  en,
+  setEn,
+  setAr,
+}: {
+  label: string;
+  fieldKey: string;
+  en: Record<string, unknown>;
+  setEn: (patch: Record<string, unknown>) => void;
+  setAr: (patch: Record<string, unknown>) => void;
+}) {
+  const value = (en[fieldKey] as string) || null;
+  return (
+    <MediaPickerField
+      label={label}
+      valueMediaId={value}
+      valueUrl={value}
+      onChange={(asset) => {
+        const url = asset ? getPublicMediaUrl(asset.storage_path) : null;
+        setEn({ [fieldKey]: url });
+        setAr({ [fieldKey]: url });
+      }}
+    />
+  );
+}
+
 export interface RepeaterItemFieldSpec {
   key: string;
   label: string;
   /** "text" (default): bilingual field. "icon": Material Symbol picker,
-   * same value stored in both languages. "shared": plain single text input
+   * "image": media picker — both store the same value in both languages,
+   * since icons/images aren't bilingual. "shared": plain single text input
    * (e.g. a stat's numeric value), same value stored in both languages. */
-  kind?: "text" | "icon" | "shared";
+  kind?: "text" | "icon" | "image" | "shared";
   multiline?: boolean;
 }
 
@@ -115,6 +151,21 @@ export function SectionRepeaterField({
                       onChange={(v) => patchRow({ en: { ...item.en, [f.key]: v }, ar: { ...item.ar, [f.key]: v } })}
                     />
                   </div>
+                );
+              }
+              if (f.kind === "image") {
+                const value = (item.en[f.key] as string) || null;
+                return (
+                  <MediaPickerField
+                    key={f.key}
+                    label={f.label}
+                    valueMediaId={value}
+                    valueUrl={value}
+                    onChange={(asset: MediaAsset | null) => {
+                      const url = asset ? getPublicMediaUrl(asset.storage_path) : null;
+                      patchRow({ en: { ...item.en, [f.key]: url }, ar: { ...item.ar, [f.key]: url } });
+                    }}
+                  />
                 );
               }
               if (f.kind === "shared") {
