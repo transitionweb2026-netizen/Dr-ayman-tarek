@@ -121,82 +121,88 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
         <div
           className={
             auto
-              ? `mt-36 space-y-7 md:mt-0 lg:max-w-[var(--hero-safe-width)] ${flip ? "lg:ml-auto" : "lg:mr-auto"}`
-              : "mt-36 max-w-xl space-y-7 md:mt-0"
+              ? `mt-52 md:mt-0 lg:max-w-[var(--hero-safe-width)] ${flip ? "lg:ml-auto" : "lg:mr-auto"}`
+              : "mt-52 max-w-xl md:mt-0"
           }
           style={auto ? ({ "--hero-safe-width": heroSafeWidthCss(layout!.safeTextWidthPct) } as CSSProperties) : undefined}
         >
+          {/* Hidden on mobile (<768px) — the "Global Excellence…" eyebrow was
+              covering the doctor's portrait once the content block moved
+              down to clear his face; tablet/desktop keep it, unchanged,
+              with its original spacing via mb-7 (was space-y-7's gap). */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="eyebrow shadow-glow"
+            className="eyebrow mb-7 hidden shadow-glow md:inline-flex"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary shadow-[0_0_10px_rgba(196,61,255,0.8)]" />
             {t("badge")}
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-hero text-white"
-          >
-            {t("headingLine1")}
-            <br />
-            <span className="text-gradient-brand">{t("headingLine2")}</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="max-w-lg text-body-lg text-on-surface-variant"
-          >
-            {t("description")}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
-          >
-            <Button
-              href={contact.bookingHref}
-              className="w-full sm:w-auto"
-              icon={<NeonIcon name="calendar_month" neon={false} className="text-xl text-white" />}
+          <div className="space-y-7">
+            <motion.h1
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-hero text-white"
             >
-              {t("primaryCta")}
-            </Button>
-            <Button
-              href={localizedHref("/videos", language)}
-              variant="ghost"
-              className="w-full sm:w-auto"
-              icon={<NeonIcon name="play_circle" filled className="text-xl" />}
-            >
-              {t("secondaryCta")}
-            </Button>
-          </motion.div>
+              {t("headingLine1")}
+              <br />
+              <span className="text-gradient-brand">{t("headingLine2")}</span>
+            </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex items-center justify-center gap-6 pt-4 sm:justify-start"
-          >
-            <div className="flex -space-x-3 rtl:space-x-reverse">
-              {AVATARS.map((src) => (
-                <div key={src} className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-background">
-                  <Image src={src} alt="" fill className="object-cover" sizes="48px" />
-                </div>
-              ))}
-            </div>
-            <div>
-              <p dir="ltr" className="text-card-title font-bold text-white rtl:text-right">{t("statValue")}</p>
-              <p className="text-small text-on-surface-variant">{t("statLabel")}</p>
-            </div>
-          </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="max-w-lg text-body-lg text-on-surface-variant"
+            >
+              {t("description")}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
+            >
+              <Button
+                href={contact.bookingHref}
+                className="w-full sm:w-auto"
+                icon={<NeonIcon name="calendar_month" neon={false} className="text-xl text-white" />}
+              >
+                {t("primaryCta")}
+              </Button>
+              <Button
+                href={localizedHref("/videos", language)}
+                variant="ghost"
+                className="w-full sm:w-auto"
+                icon={<NeonIcon name="play_circle" filled className="text-xl" />}
+              >
+                {t("secondaryCta")}
+              </Button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="flex items-center justify-center gap-6 pt-4 sm:justify-start"
+            >
+              <div className="flex -space-x-3 rtl:space-x-reverse">
+                {AVATARS.map((src) => (
+                  <div key={src} className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-background">
+                    <Image src={src} alt="" fill className="object-cover" sizes="48px" />
+                  </div>
+                ))}
+              </div>
+              <div>
+                <p dir="ltr" className="text-card-title font-bold text-white rtl:text-right">{t("statValue")}</p>
+                <p className="text-small text-on-surface-variant">{t("statLabel")}</p>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
         {/* Connect With Us — normal-flow stack below the CTA/stat row on
