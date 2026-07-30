@@ -45,7 +45,7 @@ export function ServicesSectionsTab() {
               itemsAr={(ar.items as Record<string, unknown>[]) || []}
               onChange={(itemsEn, itemsAr) => { setEn({ items: itemsEn }); setAr({ items: itemsAr }); }}
               fields={[
-                { key: "icon", label: "Icon", kind: "icon" },
+                { key: "image", label: "Icon Image", kind: "image" },
                 { key: "title", label: "Title" },
                 { key: "desc", label: "Description", multiline: true },
               ]}

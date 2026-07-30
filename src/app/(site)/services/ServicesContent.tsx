@@ -13,7 +13,7 @@ type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string,
 
 interface HeroContent { eyebrow: string; title: string; subtitle: string; cta: string }
 interface GridContent { eyebrow: string; title: string; subtitle: string }
-interface WhyChooseItem { icon: string; title: string; desc: string }
+interface WhyChooseItem { icon: string; image?: string; title: string; desc: string }
 interface WhyChooseContent { eyebrow: string; title: string; subtitle: string; items: WhyChooseItem[] }
 interface TechContent { heading: string; technologies: string[]; subheading: string; description: string; cta: string; image?: string }
 interface CtaContent { heading: string; subtitle: string }
@@ -35,7 +35,7 @@ export function ServicesContent({
   const tech = pickSection<TechContent>(sections, "techShowcase", language);
   const finalCta = pickSection<CtaContent>(sections, "finalCta", language);
 
-  const whyChooseFeatures: Feature[] = (whyChoose.items || []).map((item) => ({ icon: item.icon, title: item.title, desc: item.desc }));
+  const whyChooseFeatures: Feature[] = (whyChoose.items || []).map((item) => ({ icon: item.icon, image: item.image, title: item.title, desc: item.desc }));
 
   return (
     <>
