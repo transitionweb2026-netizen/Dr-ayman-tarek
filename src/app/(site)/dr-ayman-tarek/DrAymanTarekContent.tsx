@@ -9,6 +9,7 @@ import { TestimonialsGrid, type Testimonial } from "@/components/sections/Testim
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
+import { ImageBadge } from "@/components/ui/ImageBadge";
 import { Reveal } from "@/components/motion/Reveal";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
@@ -21,7 +22,7 @@ interface ItemsContent { title: string; subtitle: string; items: { icon: string;
 interface SpecialtiesHeadingContent { title: string; subtitle: string }
 interface StatsContent { items: { icon: string; value: string; suffix: string; label: string }[] }
 interface TestimonialsHeadingContent { title: string }
-interface FinalCtaContent { heading: string; subtitle: string; bookConsultation: string; chatWhatsapp: string }
+interface FinalCtaContent { heading: string; subtitle: string; bookConsultation: string; chatWhatsapp: string; image?: string }
 
 export function DrAymanTarekContent({
   sections,
@@ -112,9 +113,13 @@ export function DrAymanTarekContent({
               desktop's 3-column layout is exactly what it was before. */}
           <div className="contents md:flex md:flex-col md:gap-8 lg:contents">
             <Reveal scale className="flex items-center justify-center">
-              <div className="icon-badge-neon mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full">
-                <NeonIcon name="face_retouching_natural" className="animate-pulse text-[100px]" />
-              </div>
+              {finalCta.image ? (
+                <ImageBadge src={finalCta.image} alt={finalCta.heading || ""} className="mx-auto aspect-square w-full max-w-[220px] rounded-full" />
+              ) : (
+                <div className="icon-badge-neon mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full">
+                  <NeonIcon name="face_retouching_natural" className="animate-pulse text-[100px]" />
+                </div>
+              )}
             </Reveal>
 
             <div className="space-y-6">

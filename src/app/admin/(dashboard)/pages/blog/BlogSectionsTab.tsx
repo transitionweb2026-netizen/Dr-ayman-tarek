@@ -1,7 +1,7 @@
 "use client";
 
 import { SectionCard } from "@/components/admin/sections/SectionCard";
-import { SectionTextFields } from "@/components/admin/sections/SectionFields";
+import { SectionTextFields, SectionImageField } from "@/components/admin/sections/SectionFields";
 import { HeroImageFields } from "@/components/admin/sections/HeroImageFields";
 
 export function BlogSectionsTab() {
@@ -21,12 +21,15 @@ export function BlogSectionsTab() {
         )}
       </SectionCard>
 
-      <SectionCard pageSlug="blog" sectionKey="finalCta" title="Final CTA">
+      <SectionCard pageSlug="blog" sectionKey="finalCta" title="Final CTA" description="Also used on individual blog post pages.">
         {({ en, ar, setEn, setAr }) => (
-          <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
-            { key: "heading", label: "Heading" },
-            { key: "subtitle", label: "Subtitle", multiline: true },
-          ]} />
+          <div className="space-y-5">
+            <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
+              { key: "heading", label: "Heading" },
+              { key: "subtitle", label: "Subtitle", multiline: true },
+            ]} />
+            <SectionImageField label="CTA Icon Image" fieldKey="image" en={en} setEn={setEn} setAr={setAr} />
+          </div>
         )}
       </SectionCard>
     </div>

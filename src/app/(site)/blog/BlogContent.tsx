@@ -11,7 +11,7 @@ import type { BlogArticle } from "@/data/blog";
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 interface HeroContent { eyebrow: string; title: string; subtitle: string; cta: string }
-interface CtaContent { heading: string; subtitle: string }
+interface CtaContent { heading: string; subtitle: string; image?: string }
 
 function formatReadingTime(minutes: number | null, language: string): string {
   if (!minutes) return "";
@@ -56,7 +56,7 @@ export function BlogContent({
         <ArticlesGrid articles={rest.map((a) => toBlogArticle(a, language))} />
       </section>
 
-      <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} />
+      <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} image={finalCta.image} />
     </>
   );
 }

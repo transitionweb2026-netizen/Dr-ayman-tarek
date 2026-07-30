@@ -20,7 +20,7 @@ interface QuickInfoContent { callLabel: string; emailLabel: string; visitLabel: 
 interface ClinicHoursContent { title: string }
 interface EmergencyContent { title: string; description: string }
 interface FaqHeadingContent { title: string }
-interface FinalCtaContent { heading: string; subtitle: string }
+interface FinalCtaContent { heading: string; subtitle: string; image?: string }
 
 export function ContactContent({
   sections,
@@ -175,7 +175,7 @@ export function ContactContent({
 
       <FaqSection title={faqHeading.title || ""} items={faqItems} />
 
-      <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} />
+      <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} image={finalCta.image} />
     </>
   );
 }

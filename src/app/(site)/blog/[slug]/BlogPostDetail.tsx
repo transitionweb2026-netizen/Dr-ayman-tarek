@@ -12,7 +12,7 @@ import { localizedHref } from "@/lib/localizedHref";
 import { pickSection } from "@/lib/pickLang";
 import type { BlogPostView } from "./blogPostView";
 
-interface CtaContent { heading: string; subtitle: string }
+interface CtaContent { heading: string; subtitle: string; image?: string }
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 
 /** Article-reading layout for a single blog post — new page, so it composes
@@ -107,7 +107,7 @@ export function BlogPostDetail({ post, sections }: { post: BlogPostView; section
         </Reveal>
       </section>
 
-      {finalCta.heading && <FinalCta heading={finalCta.heading} subtitle={finalCta.subtitle || ""} />}
+      {finalCta.heading && <FinalCta heading={finalCta.heading} subtitle={finalCta.subtitle || ""} image={finalCta.image} />}
     </>
   );
 }

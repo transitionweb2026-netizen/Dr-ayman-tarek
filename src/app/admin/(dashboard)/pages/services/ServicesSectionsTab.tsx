@@ -76,10 +76,13 @@ export function ServicesSectionsTab() {
 
       <SectionCard pageSlug="services" sectionKey="finalCta" title="Final CTA">
         {({ en, ar, setEn, setAr }) => (
-          <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
-            { key: "heading", label: "Heading" },
-            { key: "subtitle", label: "Subtitle", multiline: true },
-          ]} />
+          <div className="space-y-5">
+            <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
+              { key: "heading", label: "Heading" },
+              { key: "subtitle", label: "Subtitle", multiline: true },
+            ]} />
+            <SectionImageField label="CTA Icon Image" fieldKey="image" en={en} setEn={setEn} setAr={setAr} />
+          </div>
         )}
       </SectionCard>
     </div>

@@ -114,12 +114,15 @@ export function DrAymanTarekSectionsTab() {
 
       <SectionCard pageSlug="dr-ayman-tarek" sectionKey="finalCta" title="Final CTA" description="Address, phone, and working hours shown here come from Site Settings.">
         {({ en, ar, setEn, setAr }) => (
-          <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
-            { key: "heading", label: "Heading" },
-            { key: "subtitle", label: "Subtitle", multiline: true },
-            { key: "bookConsultation", label: "Book button label" },
-            { key: "chatWhatsapp", label: "WhatsApp button label" },
-          ]} />
+          <div className="space-y-5">
+            <SectionTextFields en={en} ar={ar} setEn={setEn} setAr={setAr} fields={[
+              { key: "heading", label: "Heading" },
+              { key: "subtitle", label: "Subtitle", multiline: true },
+              { key: "bookConsultation", label: "Book button label" },
+              { key: "chatWhatsapp", label: "WhatsApp button label" },
+            ]} />
+            <SectionImageField label="CTA Icon Image" fieldKey="image" en={en} setEn={setEn} setAr={setAr} />
+          </div>
         )}
       </SectionCard>
     </div>

@@ -10,7 +10,7 @@ import type { BilingualVideo, HeroImageConfig } from "@/server/repositories/cont
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 interface HeroContent { eyebrow: string; title: string; subtitle: string; cta: string }
 interface LibraryContent { title: string; subtitle: string }
-interface CtaContent { heading: string; subtitle: string }
+interface CtaContent { heading: string; subtitle: string; image?: string }
 
 export function VideosContent({
   sections,
@@ -30,7 +30,7 @@ export function VideosContent({
     <>
       <PageHero eyebrow={hero.eyebrow || ""} title={hero.title || ""} subtitle={hero.subtitle || ""} ctaLabel={hero.cta} ctaHref={contact.bookingHref} images={heroImages} />
       <VideoLibrary videos={videos} titleOverride={library.title} subtitleOverride={library.subtitle} />
-      <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} />
+      <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} image={finalCta.image} />
     </>
   );
 }

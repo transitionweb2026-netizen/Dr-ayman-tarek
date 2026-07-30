@@ -17,7 +17,7 @@ import type { BilingualVideo, BilingualArticle, BilingualFaqItem, BilingualTesti
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 interface AboutContent { title: string; bio: string; cta: string; videoCaption: string; videoImage?: string }
-interface CtaContent { heading: string; subtitle: string; primaryLabel?: string }
+interface CtaContent { heading: string; subtitle: string; primaryLabel?: string; image?: string }
 interface StatItem { icon: string; value: string; suffix: string; label: string }
 
 export function HomeContent({
@@ -93,6 +93,7 @@ export function HomeContent({
         heading={finalCta.heading || ""}
         subtitle={finalCta.subtitle || ""}
         primaryLabel={finalCta.primaryLabel || t("home.finalCta.primaryLabel")}
+        image={finalCta.image}
       />
     </>
   );

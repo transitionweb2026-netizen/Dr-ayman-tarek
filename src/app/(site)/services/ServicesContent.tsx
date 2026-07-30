@@ -16,7 +16,7 @@ interface GridContent { eyebrow: string; title: string; subtitle: string }
 interface WhyChooseItem { icon: string; image?: string; title: string; desc: string }
 interface WhyChooseContent { eyebrow: string; title: string; subtitle: string; items: WhyChooseItem[] }
 interface TechContent { heading: string; technologies: string[]; subheading: string; description: string; cta: string; image?: string }
-interface CtaContent { heading: string; subtitle: string }
+interface CtaContent { heading: string; subtitle: string; image?: string }
 
 export function ServicesContent({
   sections,
@@ -43,7 +43,7 @@ export function ServicesContent({
       <ServicesGrid eyebrowOverride={grid.eyebrow} titleOverride={grid.title} subtitleOverride={grid.subtitle} services={services} />
       <FeatureGrid eyebrow={whyChoose.eyebrow || ""} title={whyChoose.title || ""} subtitle={whyChoose.subtitle || ""} features={whyChooseFeatures} />
       <TechShowcase heading={tech.heading} technologies={tech.technologies} subheading={tech.subheading} description={tech.description} cta={tech.cta} image={tech.image} />
-      <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} />
+      <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} image={finalCta.image} />
     </>
   );
 }

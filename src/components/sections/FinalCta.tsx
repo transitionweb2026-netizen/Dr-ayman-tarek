@@ -3,11 +3,14 @@
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { NeonIcon } from "@/components/ui/NeonIcon";
+import { ImageBadge } from "@/components/ui/ImageBadge";
 import { Reveal } from "@/components/motion/Reveal";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface FinalCtaProps {
   icon?: string;
+  /** CMS-uploaded image, same badge footprint as the icon — when present, replaces it entirely. */
+  image?: string;
   heading: string;
   subtitle: string;
   primaryLabel?: string;
@@ -17,6 +20,7 @@ interface FinalCtaProps {
 /** The closing CTA block reused (with different copy) at the bottom of every page. */
 export function FinalCta({
   icon = "psychology",
+  image,
   heading,
   subtitle,
   primaryLabel,
@@ -31,9 +35,13 @@ export function FinalCta({
         className="flex flex-col items-center gap-6 overflow-hidden border-primary/15 p-margin-mobile text-center shadow-glow-lg md:flex-row md:p-10 md:text-left lg:p-section-gap rtl:md:text-right"
       >
         <Reveal scale className="relative z-10 w-full md:w-1/3">
-          <div className="icon-badge-neon mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full">
-            <NeonIcon name={icon} className="animate-pulse text-[100px]" />
-          </div>
+          {image ? (
+            <ImageBadge src={image} alt={heading} className="mx-auto aspect-square w-full max-w-[220px] rounded-full" />
+          ) : (
+            <div className="icon-badge-neon mx-auto flex aspect-square w-full max-w-[220px] items-center justify-center rounded-full">
+              <NeonIcon name={icon} className="animate-pulse text-[100px]" />
+            </div>
+          )}
         </Reveal>
         <div className="relative z-10 w-full space-y-6 md:w-2/3">
           <Reveal>
