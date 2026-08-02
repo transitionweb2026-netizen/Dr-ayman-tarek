@@ -92,9 +92,11 @@ export function TestimonialsPanel({ content, testimonials, milestones }: Testimo
                   />
                   <div>
                     <h4 className="text-body font-bold leading-snug text-white">{m.title}</h4>
-                    <p className="text-small text-on-surface-variant">
-                      {m.place} • {m.year}
-                    </p>
+                    {(m.place || m.year) && (
+                      <p className="text-small text-on-surface-variant">
+                        {[m.place, m.year].filter(Boolean).join(" • ")}
+                      </p>
+                    )}
                   </div>
                 </StaggerChild>
               ))}

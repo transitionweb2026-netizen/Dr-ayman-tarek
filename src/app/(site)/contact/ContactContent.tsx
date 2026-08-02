@@ -2,7 +2,6 @@
 
 import { PageHero } from "@/components/sections/PageHero";
 import { ContactForm } from "@/components/sections/ContactForm";
-import { FaqSection } from "@/components/sections/FaqSection";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { IconBadge } from "@/components/ui/IconBadge";
@@ -19,13 +18,11 @@ interface HeroContent { eyebrow: string; title: string; subtitle: string }
 interface QuickInfoContent { callLabel: string; emailLabel: string; visitLabel: string; hoursLabel: string }
 interface ClinicHoursContent { title: string }
 interface EmergencyContent { title: string; description: string }
-interface FaqHeadingContent { title: string }
 interface FinalCtaContent { heading: string; subtitle: string; image?: string }
 
 export function ContactContent({
   sections,
   settings,
-  faqItems: bilingualFaqItems,
   services,
   generalConsultationLabel,
   otherLabel,
@@ -51,7 +48,6 @@ export function ContactContent({
   const quickInfo = pickSection<QuickInfoContent>(sections, "quickInfo", language);
   const clinicHours = pickSection<ClinicHoursContent>(sections, "clinicHours", language);
   const emergency = pickSection<EmergencyContent>(sections, "emergency", language);
-  const faqHeading = pickSection<FaqHeadingContent>(sections, "faq", language);
   const finalCta = pickSection<FinalCtaContent>(sections, "finalCta", language);
 
   const address = language === "ar" ? settings.addressAr : settings.addressEn;
@@ -71,11 +67,6 @@ export function ContactContent({
     { key: "visit", icon: "location_on", value: address, label: quickInfo.visitLabel, ltr: false, href: mapsHref },
     { key: "hours", icon: "schedule", value: hours[0]?.value || "", label: quickInfo.hoursLabel, ltr: false, href: null },
   ];
-
-  const faqItems = bilingualFaqItems.map((item) => {
-    const copy = language === "ar" ? item.ar : item.en;
-    return { question: copy.question, answer: copy.answer };
-  });
 
   const formContent = pickSection<Record<string, string>>(sections, "form", language);
 
@@ -172,8 +163,6 @@ export function ContactContent({
           </Reveal>
         </div>
       </section>
-
-      <FaqSection title={faqHeading.title || ""} items={faqItems} />
 
       <FinalCta heading={finalCta.heading || ""} subtitle={finalCta.subtitle || ""} image={finalCta.image} />
     </>

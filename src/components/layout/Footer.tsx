@@ -1,16 +1,21 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { toast } from "sonner";
 import { Reveal } from "@/components/motion/Reveal";
 import { NeonIcon } from "@/components/ui/NeonIcon";
 import { socialGlyphFor } from "@/components/ui/SocialGlyph";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { localizedHref } from "@/lib/localizedHref";
-import { subscribeToNewsletter } from "@/server/actions/newsletter";
 import type { SiteSettingsData, NavLinkData } from "@/server/repositories/settings";
+
+/** Clinic branches shown in the footer's Contact column — literal copy the
+ * client supplied verbatim (multiple physical locations, not the single
+ * `settings.address` used elsewhere for maps/schema.org), so it's static
+ * rather than routed through a CMS field. Same Arabic text on both
+ * languages since no English version of these addresses was provided. */
+const FOOTER_LOCATIONS = ["45 ش الدقي – ميدان الدقي", "مول سنترادا - ميدان جهينه - الشيخ زايد", "عيادة مدينة نصر"];
+const FOOTER_EMAIL = "Aymantarek84@gmail.com";
 
 /** An admin can leave a nav link's href blank/"#" before its destination is
  * ready — render a disabled "coming soon" state instead of a link to
@@ -50,23 +55,6 @@ export function Footer({
   const brandName = language === "ar" ? settings.doctorNameAr : settings.doctorNameEn;
   const description = language === "ar" ? settings.footerDescriptionAr : settings.footerDescriptionEn;
   const copyright = language === "ar" ? settings.footerCopyrightAr : settings.footerCopyrightEn;
-  const [subscribing, setSubscribing] = useState(false);
-
-  async function handleSubscribe(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const email = String(new FormData(form).get("email") || "");
-    setSubscribing(true);
-    const result = await subscribeToNewsletter({ email, language });
-    setSubscribing(false);
-    if (result.ok) {
-      toast.success(t("footer.newsletter.success"));
-      form.reset();
-    } else {
-      const key = result.error === "invalidEmail" ? "invalidEmail" : result.error === "alreadySubscribed" ? "alreadySubscribed" : "error";
-      toast.error(t(`footer.newsletter.${key}`));
-    }
-  }
 
   return (
     <footer className="w-full border-t border-outline-variant/30 bg-surface-container-lowest pb-10 pt-section-gap">
@@ -116,26 +104,19 @@ export function Footer({
         </Reveal>
 
         <Reveal delay={0.1}>
-          <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.newsletter.title")}</h2>
-          <p className="mb-4 text-body text-on-surface-variant">{t("footer.newsletter.subtitle")}</p>
-          <form onSubmit={handleSubscribe} className="relative">
-            <input
-              type="email"
-              name="email"
-              required
-              disabled={subscribing}
-              placeholder={t("footer.newsletter.placeholder")}
-              className="w-full rounded-full border border-outline-variant/30 bg-surface-container px-6 py-4 text-white placeholder-on-surface-variant/40 outline-none transition-shadow focus:border-primary focus:shadow-glow disabled:opacity-60"
-            />
-            <button
-              type="submit"
-              disabled={subscribing}
-              aria-label={t("footer.newsletter.subscribeAria")}
-              className="absolute right-1 top-1 flex h-12 w-12 items-center justify-center rounded-full btn-primary disabled:opacity-60 rtl:right-auto rtl:left-1"
-            >
-              <span className="material-symbols-outlined text-sm text-white rtl:-scale-x-100">send</span>
-            </button>
-          </form>
+          <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.contact.title")}</h2>
+          <div className="space-y-3 text-body text-on-surface-variant">
+            <p className="font-bold text-white">{brandName}</p>
+            {FOOTER_LOCATIONS.map((location) => (
+              <p key={location}>{location}</p>
+            ))}
+            <p>
+              <span className="text-white">{t("footer.contact.emailLabel")} </span>
+              <a href={`mailto:${FOOTER_EMAIL}`} dir="ltr" className="inline-block hover:text-primary">
+                {FOOTER_EMAIL}
+              </a>
+            </p>
+          </div>
         </Reveal>
       </div>
 

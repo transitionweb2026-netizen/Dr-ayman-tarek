@@ -35,6 +35,7 @@ export function ServicesGrid({ services, eyebrowOverride, titleOverride, subtitl
       items={items}
       sectionId="services"
       topPadding
+      showDurationRecovery={false}
     />
   );
 }

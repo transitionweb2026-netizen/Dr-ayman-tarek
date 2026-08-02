@@ -394,15 +394,9 @@ export const en = {
     quickLinks: {
       title: "Quick Links",
     },
-    newsletter: {
-      title: "Newsletter",
-      subtitle: "Get the latest medical breakthroughs delivered to your inbox.",
-      placeholder: "Your email address",
-      subscribeAria: "Subscribe",
-      success: "You're subscribed — thank you!",
-      invalidEmail: "Please enter a valid email address.",
-      alreadySubscribed: "This email is already subscribed.",
-      error: "Something went wrong. Please try again.",
+    contact: {
+      title: "Contact",
+      emailLabel: "Email:",
     },
     copyright: "© 2024 Dr. Ayman Tarek. Global Excellence in Neurosurgery.",
     privacyPolicy: "Privacy Policy",

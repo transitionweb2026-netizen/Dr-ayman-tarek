@@ -6,7 +6,6 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { localizedHref } from "@/lib/localizedHref";
 
 export interface SpecialtyPreviewItem {
   icon: string;
@@ -26,8 +25,7 @@ export interface SpecialtiesGridContent {
 
 export function SpecialtiesGrid({ content }: { content: Partial<SpecialtiesGridContent> }) {
   const items = content.items || [];
-  const { language } = useLanguage();
-  const servicesHref = localizedHref("/services", language);
+  const { contact } = useLanguage();
 
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap-sm md:px-margin-desktop">
@@ -56,7 +54,7 @@ export function SpecialtiesGrid({ content }: { content: Partial<SpecialtiesGridC
                 </div>
                 <h3 className="mb-3 text-card-title text-white">{item.title}</h3>
                 <p className="mb-6 text-body text-on-surface-variant">{item.desc}</p>
-                <Button href={servicesHref} variant="outline" size="md">
+                <Button href={contact.bookingHref} variant="outline" size="md">
                   {item.cta}
                 </Button>
               </GlassCard>
