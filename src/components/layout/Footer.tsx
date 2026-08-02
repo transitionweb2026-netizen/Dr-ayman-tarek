@@ -65,7 +65,7 @@ export function Footer({
       {settings.footerBadgeUrl && (
         <div className="mx-auto mb-10 max-w-container-max px-margin-mobile md:px-margin-desktop">
           <Reveal className="flex items-center gap-4 pb-6">
-            <div className="relative h-9 w-9 shrink-0 sm:h-10 sm:w-10">
+            <div className="relative h-14 w-14 shrink-0 sm:h-16 sm:w-16">
               <Image src={settings.footerBadgeUrl} alt={brandName} fill className="object-contain" />
             </div>
             <span className="text-card-title font-bold text-gradient-brand">{brandName}</span>
