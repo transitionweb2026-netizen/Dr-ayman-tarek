@@ -111,6 +111,7 @@ export interface Database {
           clinic_name_ar: string;
           logo_media_id: string | null;
           favicon_media_id: string | null;
+          footer_badge_media_id: string | null;
           phone: string;
           whatsapp: string;
           emergency_phone: string;

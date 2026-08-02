@@ -58,6 +58,22 @@ export function Footer({
 
   return (
     <footer className="w-full border-t border-outline-variant/30 bg-surface-container-lowest pb-10 pt-section-gap">
+      {/* Premium branding row — separate from the brand column below (own
+          logo slot, settings.footerBadgeUrl, distinct from settings.logoUrl).
+          Hidden entirely until that image is uploaded, so nothing changes
+          here until then. */}
+      {settings.footerBadgeUrl && (
+        <div className="mx-auto mb-10 max-w-container-max px-margin-mobile md:px-margin-desktop">
+          <Reveal className="flex items-center gap-4 pb-6">
+            <div className="relative h-9 w-9 shrink-0 sm:h-10 sm:w-10">
+              <Image src={settings.footerBadgeUrl} alt={brandName} fill className="object-contain" />
+            </div>
+            <span className="text-card-title font-bold text-gradient-brand">{brandName}</span>
+          </Reveal>
+          <div className="h-px w-full bg-gradient-to-r from-primary/50 via-primary/15 to-transparent rtl:bg-gradient-to-l" />
+        </div>
+      )}
+
       <div className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile md:grid-cols-3 md:px-margin-desktop">
         <Reveal className="space-y-6">
           <Link href={localizedHref("/", language)} className="flex w-fit items-center gap-3">

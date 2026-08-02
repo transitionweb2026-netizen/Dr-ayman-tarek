@@ -52,7 +52,7 @@ export function SettingsForm() {
 
   const [form, setForm] = useState({
     doctor_name_en: "", doctor_name_ar: "", clinic_name_en: "", clinic_name_ar: "",
-    logo_media_id: null as string | null, favicon_media_id: null as string | null,
+    logo_media_id: null as string | null, favicon_media_id: null as string | null, footer_badge_media_id: null as string | null,
     phone: "", whatsapp: "", emergency_phone: "", email: "", appointment_booking_url: "", address_en: "", address_ar: "",
     google_maps_embed_url: "", google_maps_address_en: "", google_maps_address_ar: "",
     ga_measurement_id: "", google_ads_id: "", gtm_container_id: "", meta_pixel_id: "",
@@ -71,15 +71,18 @@ export function SettingsForm() {
   const [keywordsAr, setKeywordsAr] = useState("");
   const [logo, setLogo] = useState<MediaAsset | null>(null);
   const [favicon, setFavicon] = useState<MediaAsset | null>(null);
+  const [footerBadge, setFooterBadge] = useState<MediaAsset | null>(null);
   const [defaultOgImage, setDefaultOgImage] = useState<MediaAsset | null>(null);
   const [defaultTwitterImage, setDefaultTwitterImage] = useState<MediaAsset | null>(null);
 
   const { data: existingLogo } = useMediaAssetById(settings?.logo_media_id ?? null);
   const { data: existingFavicon } = useMediaAssetById(settings?.favicon_media_id ?? null);
+  const { data: existingFooterBadge } = useMediaAssetById(settings?.footer_badge_media_id ?? null);
   const { data: existingDefaultOg } = useMediaAssetById(settings?.default_og_image_media_id ?? null);
   const { data: existingDefaultTwitter } = useMediaAssetById(settings?.default_twitter_image_media_id ?? null);
   useEffect(() => { if (existingLogo) setLogo(existingLogo); }, [existingLogo]);
   useEffect(() => { if (existingFavicon) setFavicon(existingFavicon); }, [existingFavicon]);
+  useEffect(() => { if (existingFooterBadge) setFooterBadge(existingFooterBadge); }, [existingFooterBadge]);
   useEffect(() => { if (existingDefaultOg) setDefaultOgImage(existingDefaultOg); }, [existingDefaultOg]);
   useEffect(() => { if (existingDefaultTwitter) setDefaultTwitterImage(existingDefaultTwitter); }, [existingDefaultTwitter]);
 
@@ -89,6 +92,7 @@ export function SettingsForm() {
       doctor_name_en: settings.doctor_name_en, doctor_name_ar: settings.doctor_name_ar,
       clinic_name_en: settings.clinic_name_en, clinic_name_ar: settings.clinic_name_ar,
       logo_media_id: settings.logo_media_id, favicon_media_id: settings.favicon_media_id,
+      footer_badge_media_id: settings.footer_badge_media_id,
       phone: settings.phone, whatsapp: settings.whatsapp, emergency_phone: settings.emergency_phone, email: settings.email,
       appointment_booking_url: settings.appointment_booking_url || "",
       address_en: settings.address_en, address_ar: settings.address_ar,
@@ -372,14 +376,21 @@ export function SettingsForm() {
       )}
 
       {tab === "footer" && (
-        <AdminCard>
-          <BilingualField label="Footer description" multiline valueEn={form.footer_description_en} valueAr={form.footer_description_ar}
-            onChangeEn={(v) => setForm((f) => ({ ...f, footer_description_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, footer_description_ar: v }))} />
-          <div className="mt-4">
-            <BilingualField label="Copyright line" valueEn={form.footer_copyright_en} valueAr={form.footer_copyright_ar}
-              onChangeEn={(v) => setForm((f) => ({ ...f, footer_copyright_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, footer_copyright_ar: v }))} />
-          </div>
-        </AdminCard>
+        <div className="space-y-6">
+          <AdminCard>
+            <BilingualField label="Footer description" multiline valueEn={form.footer_description_en} valueAr={form.footer_description_ar}
+              onChangeEn={(v) => setForm((f) => ({ ...f, footer_description_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, footer_description_ar: v }))} />
+            <div className="mt-4">
+              <BilingualField label="Copyright line" valueEn={form.footer_copyright_en} valueAr={form.footer_copyright_ar}
+                onChangeEn={(v) => setForm((f) => ({ ...f, footer_copyright_en: v }))} onChangeAr={(v) => setForm((f) => ({ ...f, footer_copyright_ar: v }))} />
+            </div>
+          </AdminCard>
+          <AdminCard>
+            <MediaPickerField label="Footer Branding Badge" valueMediaId={form.footer_badge_media_id} valueUrl={footerBadge ? getPublicMediaUrl(footerBadge.storage_path) : null}
+              onChange={(asset) => { setFooterBadge(asset); setForm((f) => ({ ...f, footer_badge_media_id: asset?.id ?? null })); }} />
+            <p className="mt-3 text-xs text-on-surface-variant">A dedicated symbol/emblem for a new premium branding row above the footer&apos;s columns — separate from the Logo above. That row stays hidden until an image is set here.</p>
+          </AdminCard>
+        </div>
       )}
 
       {tab === "navigation" && <NavigationTab />}

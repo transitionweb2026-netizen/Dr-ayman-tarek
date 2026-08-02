@@ -12,6 +12,10 @@ export interface SiteSettingsData {
   doctorNameEn: string; doctorNameAr: string;
   clinicNameEn: string; clinicNameAr: string;
   logoUrl: string | null; faviconUrl: string | null;
+  /** Premium symbol/emblem for the footer's dedicated branding block —
+   * distinct from `logoUrl` (header + existing footer brand column). Null
+   * until the client uploads one; that block renders nothing until then. */
+  footerBadgeUrl: string | null;
   phone: string; whatsapp: string; emergencyPhone: string; email: string;
   /** External scheduling system (Calendly, patient portal, …), if the clinic
    * uses one — every "Book Appointment" CTA sitewide opens this instead of
@@ -52,7 +56,7 @@ export const getSiteSettings = cache(async function getSiteSettings(): Promise<S
   const { data, error } = await supabase
     .from("site_settings")
     .select(
-      "*, logo:media_assets!site_settings_logo_media_id_fkey(storage_path), favicon:media_assets!site_settings_favicon_media_id_fkey(storage_path), default_og_image:media_assets!site_settings_default_og_image_media_id_fkey(storage_path), default_twitter_image:media_assets!site_settings_default_twitter_image_media_id_fkey(storage_path)",
+      "*, logo:media_assets!site_settings_logo_media_id_fkey(storage_path), favicon:media_assets!site_settings_favicon_media_id_fkey(storage_path), default_og_image:media_assets!site_settings_default_og_image_media_id_fkey(storage_path), default_twitter_image:media_assets!site_settings_default_twitter_image_media_id_fkey(storage_path), footer_badge:media_assets!site_settings_footer_badge_media_id_fkey(storage_path)",
     )
     .eq("id", 1)
     .single();
@@ -62,6 +66,7 @@ export const getSiteSettings = cache(async function getSiteSettings(): Promise<S
   const favicon = row.favicon as { storage_path: string } | null;
   const defaultOgImage = row.default_og_image as { storage_path: string } | null;
   const defaultTwitterImage = row.default_twitter_image as { storage_path: string } | null;
+  const footerBadge = row.footer_badge as { storage_path: string } | null;
   let supabaseAssetHost: string | null = null;
   try {
     supabaseAssetHost = process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin : null;
@@ -73,6 +78,7 @@ export const getSiteSettings = cache(async function getSiteSettings(): Promise<S
     clinicNameEn: row.clinic_name_en as string, clinicNameAr: row.clinic_name_ar as string,
     logoUrl: logo ? mediaPublicUrl(logo.storage_path) : null,
     faviconUrl: favicon ? mediaPublicUrl(favicon.storage_path) : null,
+    footerBadgeUrl: footerBadge ? mediaPublicUrl(footerBadge.storage_path) : null,
     phone: row.phone as string, whatsapp: row.whatsapp as string, emergencyPhone: row.emergency_phone as string, email: row.email as string,
     appointmentBookingUrl: (row.appointment_booking_url as string | null) || null,
     addressEn: row.address_en as string, addressAr: row.address_ar as string,
