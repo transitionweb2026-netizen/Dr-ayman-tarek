@@ -391,19 +391,8 @@ export const ar = {
 
   footer: {
     description: "نُرسي المعيار العالمي في جراحة الأعصاب والتشخيص السريري من خلال الدقة والشغف والابتكار التقني.",
-    expertise: {
-      title: "التخصصات",
-      neurosurgery: "جراحة الأعصاب",
-      neurology: "طب الأعصاب",
-      spineCare: "رعاية العمود الفقري",
-      neuroOncology: "أورام الجهاز العصبي",
-    },
-    patientJourney: {
-      title: "رحلة المريض",
-      firstVisit: "دليل الزيارة الأولى",
-      research: "الأبحاث السريرية",
-      recovery: "موارد التعافي",
-      insurance: "التأمين والفوترة",
+    quickLinks: {
+      title: "روابط سريعة",
     },
     newsletter: {
       title: "النشرة البريدية",

@@ -55,7 +55,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <PageTransition>
         <main id="main-content">{children}</main>
       </PageTransition>
-      <Footer settings={settings} expertiseLinks={navLinks.footerExpertise} journeyLinks={navLinks.footerJourney} />
+      <Footer settings={settings} navLinks={navLinks.header} />
     </LanguageProvider>
   );
 }

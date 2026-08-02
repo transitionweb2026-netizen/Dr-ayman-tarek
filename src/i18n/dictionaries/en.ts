@@ -391,19 +391,8 @@ export const en = {
 
   footer: {
     description: "Setting the global standard in neurological surgery and clinical diagnostics through precision, passion, and technological innovation.",
-    expertise: {
-      title: "Expertise",
-      neurosurgery: "Neurosurgery",
-      neurology: "Neurology",
-      spineCare: "Spine Care",
-      neuroOncology: "Neuro-Oncology",
-    },
-    patientJourney: {
-      title: "Patient Journey",
-      firstVisit: "First Visit Guide",
-      research: "Clinical Research",
-      recovery: "Recovery Resources",
-      insurance: "Insurance & Billing",
+    quickLinks: {
+      title: "Quick Links",
     },
     newsletter: {
       title: "Newsletter",

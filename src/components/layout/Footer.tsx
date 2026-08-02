@@ -41,12 +41,10 @@ function FooterNavLink({ href, label, comingSoonLabel }: { href: string; label: 
  * copyright, and both link groups are CMS-managed (Site Settings). */
 export function Footer({
   settings,
-  expertiseLinks,
-  journeyLinks,
+  navLinks,
 }: {
   settings: SiteSettingsData;
-  expertiseLinks: NavLinkData[];
-  journeyLinks: NavLinkData[];
+  navLinks: NavLinkData[];
 }) {
   const { t, language } = useLanguage();
   const brandName = language === "ar" ? settings.doctorNameAr : settings.doctorNameEn;
@@ -72,7 +70,7 @@ export function Footer({
 
   return (
     <footer className="w-full border-t border-outline-variant/30 bg-surface-container-lowest pb-10 pt-section-gap">
-      <div className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile md:grid-cols-4 md:px-margin-desktop">
+      <div className="mx-auto grid max-w-container-max grid-cols-1 gap-gutter px-margin-mobile md:grid-cols-3 md:px-margin-desktop">
         <Reveal className="space-y-6">
           <Link href={localizedHref("/", language)} className="flex w-fit items-center gap-3">
             {settings.logoUrl ? (
@@ -103,9 +101,9 @@ export function Footer({
         </Reveal>
 
         <Reveal delay={0.05}>
-          <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.expertise.title")}</h2>
+          <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.quickLinks.title")}</h2>
           <ul className="space-y-3">
-            {expertiseLinks.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href + link.labelEn}>
                 <FooterNavLink
                   href={localizedHref(link.href, language)}
@@ -118,21 +116,6 @@ export function Footer({
         </Reveal>
 
         <Reveal delay={0.1}>
-          <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.patientJourney.title")}</h2>
-          <ul className="space-y-3">
-            {journeyLinks.map((link) => (
-              <li key={link.href + link.labelEn}>
-                <FooterNavLink
-                  href={localizedHref(link.href, language)}
-                  label={language === "ar" ? link.labelAr : link.labelEn}
-                  comingSoonLabel={t("common.comingSoon")}
-                />
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
-        <Reveal delay={0.15}>
           <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.newsletter.title")}</h2>
           <p className="mb-4 text-body text-on-surface-variant">{t("footer.newsletter.subtitle")}</p>
           <form onSubmit={handleSubscribe} className="relative">
