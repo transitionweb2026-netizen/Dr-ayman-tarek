@@ -3,7 +3,7 @@ import { LegalPageContent } from "@/components/sections/LegalPageContent";
 import { termsOfServiceContent } from "@/data/legalContent";
 
 export const metadata: Metadata = {
-  title: "شروط الخدمة | د. أيمن طارق",
+  title: "شروط الاستخدام | د. أيمن طارق",
   description: "الشروط التي تحكم استخدامك لموقع عيادة د. أيمن طارق.",
   robots: { index: false, follow: true },
 };

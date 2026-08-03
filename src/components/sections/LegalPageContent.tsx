@@ -28,20 +28,22 @@ export function LegalPageContent({ content }: { content: LegalPageData }) {
             <NeonIcon name="description" className="text-4xl" />
           </div>
           <h1 className="mb-3 text-hero text-white">{t(content.title)}</h1>
-          <p className="mb-4 text-small uppercase tracking-widest text-primary">{t(content.lastUpdated)}</p>
-          <p className="text-body-lg text-on-surface-variant">{t(content.intro)}</p>
+          {t(content.lastUpdated) && (
+            <p className="mb-4 text-small uppercase tracking-widest text-primary">{t(content.lastUpdated)}</p>
+          )}
+          {t(content.intro) && <p className="text-body-lg text-on-surface-variant">{t(content.intro)}</p>}
         </Reveal>
       </section>
 
       <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
         <Stagger className="mx-auto max-w-3xl space-y-6">
-          {content.sections.map((section) => (
-            <StaggerChild key={section.heading.en}>
+          {content.sections.map((section, i) => (
+            <StaggerChild key={i}>
               <GlassCard radius="2xl" interactive={false} className="p-7 text-left rtl:text-right md:p-8">
                 <h2 className="mb-4 text-card-title text-white">{t(section.heading)}</h2>
                 <div className="space-y-4">
                   {section.body.map((paragraph) => (
-                    <p key={paragraph.en} className="text-body text-on-surface-variant">
+                    <p key={paragraph.en} className="whitespace-pre-line text-body text-on-surface-variant">
                       {t(paragraph)}
                     </p>
                   ))}
