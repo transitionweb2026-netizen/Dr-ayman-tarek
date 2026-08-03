@@ -147,6 +147,30 @@ export function Footer({
           </Link>
         </div>
       </div>
+
+      {/* "Built by" agency credit — fixed, not CMS content, not the client's
+          own branding (that's the badge above and the brand column). Layout
+          stays LTR always: it's Transition's own fixed lockup, so it doesn't
+          mirror with the site's language like the rest of the footer does. */}
+      <div className="mx-auto mt-10 flex max-w-container-max justify-center px-margin-mobile md:px-margin-desktop">
+        <div dir="ltr" className="flex flex-col items-center gap-3">
+          <div className="flex items-center gap-3 rounded-full bg-gradient-brand px-5 py-2.5 shadow-glow">
+            <a
+              href="https://transitioneg.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-small font-bold text-white transition-opacity hover:opacity-80"
+            >
+              Transition
+            </a>
+            <div className="relative h-9 w-9 shrink-0">
+              <Image src="/brand/transition-logo.png" alt="" fill className="object-contain" />
+            </div>
+            <span className="text-small text-white/80">تصميم وتطوير</span>
+          </div>
+          <div className="h-px w-48 bg-gradient-to-r from-primary/50 via-primary/15 to-transparent" />
+        </div>
+      </div>
     </footer>
   );
 }
