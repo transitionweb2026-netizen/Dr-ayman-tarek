@@ -399,5 +399,6 @@ export const ar = {
     copyright: "© 2024 د. أيمن طارق. التميز العالمي في جراحة المخ والأعصاب.",
     privacyPolicy: "سياسة الخصوصية",
     termsOfService: "شروط الخدمة",
+    agencyCredit: "تصميم وتطوير",
   },
 } as const;

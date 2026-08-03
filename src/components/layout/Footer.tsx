@@ -159,7 +159,7 @@ export function Footer({
             <div className="relative h-9 w-9 shrink-0">
               <Image src="/brand/transition-logo.png" alt="" fill className="object-contain" />
             </div>
-            <span className="text-small text-white/80">تصميم وتطوير</span>
+            <span className="text-small text-white/80">{t("footer.agencyCredit")}</span>
           </div>
           <div className="h-px w-48 bg-gradient-to-r from-primary/50 via-primary/15 to-transparent" />
         </div>

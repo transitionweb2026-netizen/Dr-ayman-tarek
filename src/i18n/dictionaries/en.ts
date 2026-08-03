@@ -399,5 +399,6 @@ export const en = {
     copyright: "© 2024 Dr. Ayman Tarek. Global Excellence in Neurosurgery.",
     privacyPolicy: "Privacy Policy",
     termsOfService: "Terms of Service",
+    agencyCredit: "Design & Development",
   },
 } as const;
