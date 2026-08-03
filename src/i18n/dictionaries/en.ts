@@ -48,8 +48,6 @@ export const en = {
     readMore: "Read More",
     readStory: "Read Story",
     viewAll: "View All",
-    recovery: "Recovery",
-    duration: "Duration",
     bookAppointment: "Book Appointment",
     share: "Share",
     consultVirtualAssistant: "Consult Virtual Assistant",

@@ -48,8 +48,6 @@ export const ar = {
     readMore: "اقرأ المزيد",
     readStory: "اقرأ القصة",
     viewAll: "عرض الكل",
-    recovery: "فترة التعافي",
-    duration: "مدة العملية",
     bookAppointment: "احجز موعد",
     share: "مشاركة",
     consultVirtualAssistant: "تواصل مع المساعد الافتراضي",

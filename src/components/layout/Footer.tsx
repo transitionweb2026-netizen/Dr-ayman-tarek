@@ -7,15 +7,8 @@ import { NeonIcon } from "@/components/ui/NeonIcon";
 import { socialGlyphFor } from "@/components/ui/SocialGlyph";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { localizedHref } from "@/lib/localizedHref";
+import { CLINIC_LOCATIONS, CLINIC_EMAIL } from "@/lib/clinicContactInfo";
 import type { SiteSettingsData, NavLinkData } from "@/server/repositories/settings";
-
-/** Clinic branches shown in the footer's Contact column — literal copy the
- * client supplied verbatim (multiple physical locations, not the single
- * `settings.address` used elsewhere for maps/schema.org), so it's static
- * rather than routed through a CMS field. Same Arabic text on both
- * languages since no English version of these addresses was provided. */
-const FOOTER_LOCATIONS = ["45 ش الدقي – ميدان الدقي", "مول سنترادا - ميدان جهينه - الشيخ زايد", "عيادة مدينة نصر"];
-const FOOTER_EMAIL = "Aymantarek84@gmail.com";
 
 /** An admin can leave a nav link's href blank/"#" before its destination is
  * ready — render a disabled "coming soon" state instead of a link to
@@ -123,13 +116,13 @@ export function Footer({
           <h2 className="mb-6 text-micro uppercase tracking-widest text-white">{t("footer.contact.title")}</h2>
           <div className="space-y-3 text-body text-on-surface-variant">
             <p className="font-bold text-white">{brandName}</p>
-            {FOOTER_LOCATIONS.map((location) => (
-              <p key={location}>{location}</p>
+            {CLINIC_LOCATIONS.map((location) => (
+              <p key={location.en}>{language === "ar" ? location.ar : location.en}</p>
             ))}
             <p>
               <span className="text-white">{t("footer.contact.emailLabel")} </span>
-              <a href={`mailto:${FOOTER_EMAIL}`} dir="ltr" className="inline-block hover:text-primary">
-                {FOOTER_EMAIL}
+              <a href={`mailto:${CLINIC_EMAIL}`} dir="ltr" className="inline-block hover:text-primary">
+                {CLINIC_EMAIL}
               </a>
             </p>
           </div>

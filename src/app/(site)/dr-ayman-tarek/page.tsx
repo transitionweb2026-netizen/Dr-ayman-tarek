@@ -32,9 +32,8 @@ export default async function DrAymanTarekPage() {
   ]);
 
   const clinicInfo = {
-    en: { address: settings.addressEn, hours: settings.businessHours[0]?.value_en || "" },
-    ar: { address: settings.addressAr, hours: settings.businessHours[0]?.value_ar || "" },
     phone: settings.phone,
+    emergencyPhone: settings.emergencyPhone,
   };
 
   return (

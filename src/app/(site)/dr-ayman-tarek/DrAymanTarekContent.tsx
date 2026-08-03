@@ -13,6 +13,7 @@ import { ImageBadge } from "@/components/ui/ImageBadge";
 import { Reveal } from "@/components/motion/Reveal";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { pickSection } from "@/lib/pickLang";
+import { CLINIC_LOCATIONS, CLINIC_EMAIL } from "@/lib/clinicContactInfo";
 import type { BilingualSpecialty, BilingualTestimonial, HeroImageConfig } from "@/server/repositories/content";
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
@@ -34,11 +35,10 @@ export function DrAymanTarekContent({
   sections: Sections;
   specialties: BilingualSpecialty[];
   testimonials: BilingualTestimonial[];
-  clinicInfo: { en: { address: string; hours: string }; ar: { address: string; hours: string }; phone: string };
+  clinicInfo: { phone: string; emergencyPhone: string };
   heroImages: HeroImageConfig;
 }) {
   const { language, t, contact } = useLanguage();
-  const clinic = language === "ar" ? clinicInfo.ar : clinicInfo.en;
 
   const hero = pickSection<HeroContent>(sections, "hero", language);
   const about = pickSection<AboutContent>(sections, "about", language);
@@ -59,7 +59,7 @@ export function DrAymanTarekContent({
 
   const specialtyItems: ProcedureCardItem[] = specialties.map((s) => {
     const copy = language === "ar" ? s.ar : s.en;
-    return { id: s.slug, title: copy.title, shortDescription: copy.shortDescription, description: copy.description, image: s.image, recovery: copy.recovery || "", duration: copy.duration || "" };
+    return { id: s.slug, title: copy.title, shortDescription: copy.shortDescription, description: copy.description, image: s.image };
   });
 
   const testimonials: Testimonial[] = bilingualTestimonials.map((item) => {
@@ -155,22 +155,26 @@ export function DrAymanTarekContent({
             <div className="flex items-center justify-center gap-3 lg:justify-start">
               <NeonIcon name="location_on" className="shrink-0 text-2xl" />
               <div>
-                <p className="text-body font-bold text-white">{clinic.address}</p>
+                {CLINIC_LOCATIONS.map((location) => (
+                  <p key={location.en} className="text-body font-bold text-white">{language === "ar" ? location.ar : location.en}</p>
+                ))}
                 <p className="text-small text-on-surface-variant">{t("contact.quickInfo.visit.label")}</p>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 lg:justify-start">
-              <NeonIcon name="schedule" className="shrink-0 text-2xl" />
+              <NeonIcon name="mail" className="shrink-0 text-2xl" />
               <div>
-                <p className="text-body font-bold text-white">{clinic.hours}</p>
-                <p className="text-small text-on-surface-variant">{t("contact.quickInfo.hours.label")}</p>
+                <a href={`mailto:${CLINIC_EMAIL}`} dir="ltr" className="block text-body font-bold text-white transition-colors hover:text-primary">
+                  {CLINIC_EMAIL}
+                </a>
+                <p className="text-small text-on-surface-variant">{t("contact.quickInfo.email.label")}</p>
               </div>
             </div>
             <div className="flex items-center justify-center gap-3 lg:justify-start">
               <NeonIcon name="call" className="shrink-0 text-2xl" />
               <div>
-                <a href={`tel:${clinicInfo.phone.replace(/[^\d+]/g, "")}`} dir="ltr" className="block text-body font-bold text-white transition-colors hover:text-primary">
-                  {clinicInfo.phone}
+                <a href={`tel:${clinicInfo.emergencyPhone.replace(/[^\d+]/g, "")}`} dir="ltr" className="block text-body font-bold text-white transition-colors hover:text-primary">
+                  {clinicInfo.emergencyPhone}
                 </a>
                 <p className="text-small text-on-surface-variant">{t("contact.quickInfo.call.label")}</p>
               </div>

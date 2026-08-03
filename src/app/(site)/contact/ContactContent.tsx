@@ -16,7 +16,6 @@ import type { BilingualFaqItem, BilingualService, HeroImageConfig } from "@/serv
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 interface HeroContent { eyebrow: string; title: string; subtitle: string }
 interface QuickInfoContent { callLabel: string; emailLabel: string; visitLabel: string; hoursLabel: string }
-interface ClinicHoursContent { title: string }
 interface EmergencyContent { title: string; description: string }
 interface FinalCtaContent { heading: string; subtitle: string; image?: string }
 
@@ -46,7 +45,6 @@ export function ContactContent({
 
   const hero = pickSection<HeroContent>(sections, "hero", language);
   const quickInfo = pickSection<QuickInfoContent>(sections, "quickInfo", language);
-  const clinicHours = pickSection<ClinicHoursContent>(sections, "clinicHours", language);
   const emergency = pickSection<EmergencyContent>(sections, "emergency", language);
   const finalCta = pickSection<FinalCtaContent>(sections, "finalCta", language);
 
@@ -56,16 +54,10 @@ export function ContactContent({
     settings.geoLatitude != null && settings.geoLongitude != null
       ? `https://www.google.com/maps/search/?api=1&query=${settings.geoLatitude},${settings.geoLongitude}`
       : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapAddress)}`;
-  const hours = settings.businessHours.map((h) => ({
-    label: language === "ar" ? h.label_ar : h.label_en,
-    value: language === "ar" ? h.value_ar : h.value_en,
-  }));
-
   const quickInfoItems = [
     { key: "call", icon: "call", value: settings.phone, label: quickInfo.callLabel, ltr: true, href: `tel:${settings.phone.replace(/[^\d+]/g, "")}` },
     { key: "email", icon: "mail", value: settings.email, label: quickInfo.emailLabel, ltr: true, href: `mailto:${settings.email}` },
     { key: "visit", icon: "location_on", value: address, label: quickInfo.visitLabel, ltr: false, href: mapsHref },
-    { key: "hours", icon: "schedule", value: hours[0]?.value || "", label: quickInfo.hoursLabel, ltr: false, href: null },
   ];
 
   const formContent = pickSection<Record<string, string>>(sections, "form", language);
@@ -76,7 +68,7 @@ export function ContactContent({
 
       <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap-sm md:px-margin-desktop">
         <GlassCard radius="3xl" interactive={false} className="w-full px-gutter py-10 shadow-glow">
-          <Stagger className="grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-4" gap={0.08}>
+          <Stagger className="grid grid-cols-1 gap-6 text-center sm:grid-cols-3" gap={0.08}>
             {quickInfoItems.map((item) => (
               <StaggerChild key={item.key} className="flex flex-col items-center gap-3">
                 <IconBadge icon={item.icon} className="h-14 w-14 rounded-2xl" />
@@ -123,20 +115,6 @@ export function ContactContent({
                   <NeonIcon name="open_in_new" className="text-lg" />
                   {t("common.directions")}
                 </a>
-              </div>
-            </GlassCard>
-          </Reveal>
-
-          <Reveal delay={0.12}>
-            <GlassCard radius="2xl" interactive={false} className="p-7">
-              <h3 className="mb-5 text-card-title text-white">{clinicHours.title || ""}</h3>
-              <div className="space-y-3 text-body">
-                {hours.map((h, i) => (
-                  <div key={h.label} className="flex justify-between">
-                    <span className="text-on-surface-variant">{h.label}</span>
-                    <span className={i === hours.length - 1 ? "font-bold text-primary" : "font-bold text-white"}>{h.value}</span>
-                  </div>
-                ))}
               </div>
             </GlassCard>
           </Reveal>

@@ -22,8 +22,6 @@ export function ServicesGrid({ services, eyebrowOverride, titleOverride, subtitl
       shortDescription: copy.shortDescription,
       description: copy.description,
       image: s.image,
-      recovery: copy.recovery || "",
-      duration: copy.duration || "",
     };
   });
 
@@ -35,7 +33,6 @@ export function ServicesGrid({ services, eyebrowOverride, titleOverride, subtitl
       items={items}
       sectionId="services"
       topPadding
-      showDurationRecovery={false}
     />
   );
 }

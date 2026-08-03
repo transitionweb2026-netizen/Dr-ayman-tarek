@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { LegalPagePlaceholder } from "@/components/sections/LegalPagePlaceholder";
+import { LegalPageContent } from "@/components/sections/LegalPageContent";
+import { termsOfServiceContent } from "@/data/legalContent";
 
 export const metadata: Metadata = {
-  title: "شروط الخدمة",
+  title: "شروط الخدمة | د. أيمن طارق",
+  description: "الشروط التي تحكم استخدامك لموقع عيادة د. أيمن طارق.",
   robots: { index: false, follow: true },
 };
 
 export default function TermsOfServicePageArabic() {
-  return <LegalPagePlaceholder title="شروط الخدمة" />;
+  return <LegalPageContent content={termsOfServiceContent} />;
 }

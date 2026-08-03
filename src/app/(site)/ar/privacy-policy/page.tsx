@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { LegalPagePlaceholder } from "@/components/sections/LegalPagePlaceholder";
+import { LegalPageContent } from "@/components/sections/LegalPageContent";
+import { privacyPolicyContent } from "@/data/legalContent";
 
 export const metadata: Metadata = {
-  title: "سياسة الخصوصية",
+  title: "سياسة الخصوصية | د. أيمن طارق",
+  description: "كيف تقوم عيادة د. أيمن طارق بجمع بياناتك الشخصية واستخدامها وحمايتها.",
   robots: { index: false, follow: true },
 };
 
 export default function PrivacyPolicyPageArabic() {
-  return <LegalPagePlaceholder title="سياسة الخصوصية" />;
+  return <LegalPageContent content={privacyPolicyContent} />;
 }

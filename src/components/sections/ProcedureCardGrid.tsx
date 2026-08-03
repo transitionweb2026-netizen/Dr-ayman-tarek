@@ -16,8 +16,6 @@ export interface ProcedureCardItem {
   shortDescription: string;
   description: string;
   image: string;
-  recovery: string;
-  duration: string;
 }
 
 function ProcedureCard({ item, onSelect }: { item: ProcedureCardItem; onSelect: () => void }) {
@@ -59,8 +57,6 @@ interface ProcedureCardGridProps {
   sectionId?: string;
   /** Extra breathing room above the grid — ServicesGrid needs it directly under the hero; sections following another content block don't. */
   topPadding?: boolean;
-  /** Recovery/duration info boxes in the detail modal — on by default (Technical Specialties). ServicesGrid turns this off. */
-  showDurationRecovery?: boolean;
 }
 
 /**
@@ -68,7 +64,7 @@ interface ProcedureCardGridProps {
  * procedure/specialty list appears (Services, Technical Specialties, …).
  * Card and modal markup live here once — every consumer just supplies data.
  */
-export function ProcedureCardGrid({ eyebrow, title, subtitle, items, sectionId, topPadding = false, showDurationRecovery = true }: ProcedureCardGridProps) {
+export function ProcedureCardGrid({ eyebrow, title, subtitle, items, sectionId, topPadding = false }: ProcedureCardGridProps) {
   const { t, contact } = useLanguage();
   const [activeId, setActiveId] = useState<string | null>(null);
   const active = items.find((item) => item.id === activeId) ?? null;
@@ -99,19 +95,6 @@ export function ProcedureCardGrid({ eyebrow, title, subtitle, items, sectionId, 
             <div className="space-y-6 p-8">
               <h3 className="text-section-title text-white">{active.title}</h3>
               <p className="text-body-lg text-on-surface-variant">{active.description}</p>
-
-              {showDurationRecovery && (
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="glass rounded-xl border-primary/10 p-4">
-                    <p className="mb-1 text-small text-on-surface-variant">{t("common.recovery")}</p>
-                    <p className="text-body font-bold text-white">{active.recovery}</p>
-                  </div>
-                  <div className="glass rounded-xl border-primary/10 p-4">
-                    <p className="mb-1 text-small text-on-surface-variant">{t("common.duration")}</p>
-                    <p className="text-body font-bold text-white">{active.duration}</p>
-                  </div>
-                </div>
-              )}
 
               <Button href={contact.bookingHref} className="w-full">{t("common.bookAppointment")}</Button>
             </div>
