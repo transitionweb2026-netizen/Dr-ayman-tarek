@@ -81,3 +81,81 @@ export async function deleteMediaAsset(id: string, storagePath: string) {
   const { error } = await supabase.from("media_assets").delete().eq("id", id);
   if (error) throw error;
 }
+
+export const MAX_VIDEO_FILE_SIZE_BYTES = 300 * 1024 * 1024; // 300MB
+export const ACCEPTED_VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/ogg", "video/quicktime"];
+
+export function validateVideoFile(file: File): string | null {
+  const looksLikeVideo = file.type.startsWith("video/") || /\.(mp4|webm|ogv|ogg|mov|m4v)$/i.test(file.name);
+  if (!looksLikeVideo) return "Please choose a video file (MP4, WebM, MOV, or OGG).";
+  if (file.size > MAX_VIDEO_FILE_SIZE_BYTES) {
+    return `Video is too large — max ${MAX_VIDEO_FILE_SIZE_BYTES / (1024 * 1024)}MB, this file is ${Math.round(file.size / (1024 * 1024))}MB.`;
+  }
+  return null;
+}
+
+/**
+ * Same wire format as the supabase-js `storage.upload()` call inside
+ * uploadMediaAsset() above (multipart POST to /storage/v1/object/{bucket}/{path}
+ * with the session's bearer token), reimplemented over XMLHttpRequest instead
+ * of fetch purely to get byte-level `upload.onprogress` events — fetch has no
+ * browser-standard way to report upload progress, which the CMS video field
+ * needs for large file uploads.
+ */
+export async function uploadMediaAssetWithProgress(
+  file: File,
+  onProgress: (percent: number) => void,
+  folderId: string | null = null,
+) {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) throw new Error("Not signed in.");
+
+  const ext = file.name.includes(".") ? file.name.slice(file.name.lastIndexOf(".")) : "";
+  const storagePath = `${crypto.randomUUID()}${ext}`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/${BUCKET}/${storagePath}`;
+
+  await new Promise<void>((resolve, reject) => {
+    const form = new FormData();
+    form.append("cacheControl", "31536000");
+    form.append("", file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+    xhr.setRequestHeader("apikey", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+    xhr.setRequestHeader("Authorization", `Bearer ${session.access_token}`);
+    xhr.setRequestHeader("x-upsert", "false");
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) resolve();
+      else reject(new Error(`Upload failed (${xhr.status}): ${xhr.responseText || "unknown error"}`));
+    };
+    xhr.onerror = () => reject(new Error("Network error during upload."));
+    xhr.send(form);
+  });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase
+    .from("media_assets")
+    .insert({
+      folder_id: folderId,
+      file_name: file.name,
+      storage_path: storagePath,
+      mime_type: file.type || "video/mp4",
+      kind: detectKind(file.type || "video/mp4"),
+      file_size: file.size,
+      uploaded_by: user?.id ?? null,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}

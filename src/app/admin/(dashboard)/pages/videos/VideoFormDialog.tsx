@@ -7,6 +7,7 @@ import { Dialog } from "@/components/admin/ui/Dialog";
 import { AdminButton } from "@/components/admin/ui/Button";
 import { BilingualField, FieldGroup, TextField, ToggleField } from "@/components/admin/ui/Field";
 import { MediaPickerField } from "@/components/admin/ui/MediaPicker";
+import { VideoUploadField } from "@/components/admin/ui/VideoUploadField";
 import { createClient } from "@/lib/supabase/client";
 import { getPublicMediaUrl } from "@/lib/supabase/storage";
 import { slugify } from "@/lib/slugify";
@@ -36,6 +37,7 @@ const emptyForm = {
   description_en: "",
   description_ar: "",
   thumbnail_media_id: null as string | null,
+  video_media_id: null as string | null,
   youtube_url: "",
   duration: "",
   category_en: "",
@@ -48,6 +50,7 @@ export function VideoFormDialog({ item, nextOrder, onClose }: { item: VideoRow |
   const [form, setForm] = useState(emptyForm);
   const [slugTouched, setSlugTouched] = useState(false);
   const [thumbnail, setThumbnail] = useState<MediaAsset | null>(null);
+  const [videoAsset, setVideoAsset] = useState<MediaAsset | null>(null);
   const create = videoHooks.useCreate();
   const update = videoHooks.useUpdate();
   const saving = create.isPending || update.isPending;
@@ -56,6 +59,11 @@ export function VideoFormDialog({ item, nextOrder, onClose }: { item: VideoRow |
   useEffect(() => {
     if (existingThumb) setThumbnail(existingThumb);
   }, [existingThumb]);
+
+  const { data: existingVideo } = useMediaAssetById(item && item !== "new" ? item.video_media_id : null);
+  useEffect(() => {
+    if (existingVideo) setVideoAsset(existingVideo);
+  }, [existingVideo]);
 
   useEffect(() => {
     if (item && item !== "new") {
@@ -68,6 +76,7 @@ export function VideoFormDialog({ item, nextOrder, onClose }: { item: VideoRow |
         description_en: item.description_en,
         description_ar: item.description_ar,
         thumbnail_media_id: item.thumbnail_media_id,
+        video_media_id: item.video_media_id,
         youtube_url: item.youtube_url,
         duration: item.duration || "",
         category_en: item.category_en || "",
@@ -77,10 +86,12 @@ export function VideoFormDialog({ item, nextOrder, onClose }: { item: VideoRow |
       });
       setSlugTouched(true);
       setThumbnail(null);
+      setVideoAsset(null);
     } else {
       setForm(emptyForm);
       setSlugTouched(false);
       setThumbnail(null);
+      setVideoAsset(null);
     }
   }, [item]);
 
@@ -147,8 +158,14 @@ export function VideoFormDialog({ item, nextOrder, onClose }: { item: VideoRow |
             valueUrl={thumbnail ? getPublicMediaUrl(thumbnail.storage_path) : null}
             onChange={(asset) => { setThumbnail(asset); setForm((f) => ({ ...f, thumbnail_media_id: asset?.id ?? null })); }}
           />
+          <VideoUploadField
+            label="Video file"
+            hint="MP4, WebM, MOV, or OGG — max 300MB"
+            valueUrl={videoAsset ? getPublicMediaUrl(videoAsset.storage_path) : null}
+            onChange={(asset) => { setVideoAsset(asset); setForm((f) => ({ ...f, video_media_id: asset?.id ?? null })); }}
+          />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <FieldGroup label="YouTube URL">
+            <FieldGroup label="YouTube URL" hint="Used as a fallback when no video file is uploaded">
               <TextField value={form.youtube_url} onChange={(e) => setForm((f) => ({ ...f, youtube_url: e.target.value }))} dir="ltr" placeholder="https://youtube.com/watch?v=..." />
             </FieldGroup>
             <FieldGroup label="Duration" hint='e.g. "6:24"'>

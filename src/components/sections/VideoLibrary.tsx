@@ -13,7 +13,7 @@ import type { BilingualVideo } from "@/server/repositories/content";
 
 interface Video {
   id: string; title: string; category: string; duration: string; date: string;
-  thumbnail: string; shortDescription: string; description: string; youtubeUrl: string;
+  thumbnail: string; shortDescription: string; description: string; youtubeUrl: string; videoUrl: string | null;
 }
 
 /** Accepts watch/short/embed URL shapes and returns a playable embed URL, or
@@ -85,7 +85,7 @@ export function VideoLibrary({ videos: bilingualVideos, titleOverride, subtitleO
     const copy = language === "ar" ? v.ar : v.en;
     return {
       id: v.slug, title: copy.title, category: copy.category || "", duration: v.duration || "", date: copy.date,
-      thumbnail: v.thumbnail, shortDescription: copy.shortDescription, description: copy.description, youtubeUrl: v.youtubeUrl,
+      thumbnail: v.thumbnail, shortDescription: copy.shortDescription, description: copy.description, youtubeUrl: v.youtubeUrl, videoUrl: v.videoUrl,
     };
   });
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -93,6 +93,9 @@ export function VideoLibrary({ videos: bilingualVideos, titleOverride, subtitleO
   const [shareConfirmed, setShareConfirmed] = useState(false);
   const active = videos.find((v) => v.id === activeId) ?? null;
   const embedUrl = active ? toYouTubeEmbedUrl(active.youtubeUrl) : null;
+  // An uploaded video file (from the CMS's Video file field) always takes
+  // priority over the YouTube fallback when both are set.
+  const hasPlayableVideo = Boolean(active?.videoUrl) || Boolean(embedUrl);
 
   async function handleShare() {
     if (!active) return;
@@ -132,7 +135,15 @@ export function VideoLibrary({ videos: bilingualVideos, titleOverride, subtitleO
         {active && (
           <>
             <div className="relative mx-auto mt-8 flex aspect-[9/16] w-full max-w-[300px] items-center justify-center overflow-hidden rounded-[28px] shadow-glow-lg">
-              {playing && embedUrl ? (
+              {playing && active.videoUrl ? (
+                <video
+                  src={active.videoUrl}
+                  autoPlay
+                  controls
+                  playsInline
+                  className="h-full w-full object-cover"
+                />
+              ) : playing && embedUrl ? (
                 <iframe
                   src={embedUrl}
                   title={active.title}
@@ -144,7 +155,7 @@ export function VideoLibrary({ videos: bilingualVideos, titleOverride, subtitleO
                 <>
                   <Image src={active.thumbnail} alt={active.title} fill className="object-cover" />
                   <div className="absolute inset-0 bg-background/50" />
-                  {embedUrl ? (
+                  {hasPlayableVideo ? (
                     <button
                       onClick={() => setPlaying(true)}
                       aria-label={t("common.playVideo")}

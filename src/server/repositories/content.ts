@@ -341,7 +341,7 @@ export const getSpecialties = cache(async function getSpecialties(): Promise<Bil
 });
 
 export interface BilingualVideo {
-  id: string; slug: string; thumbnail: string; youtubeUrl: string; duration: string | null; featured: boolean;
+  id: string; slug: string; thumbnail: string; videoUrl: string | null; youtubeUrl: string; duration: string | null; featured: boolean;
   publishedAtIso: string | null;
   en: { title: string; shortDescription: string; description: string; category: string | null; date: string };
   ar: { title: string; shortDescription: string; description: string; category: string | null; date: string };
@@ -349,15 +349,21 @@ export interface BilingualVideo {
 
 export const getVideos = cache(async function getVideos(): Promise<BilingualVideo[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("videos").select("*, media_assets(storage_path)").eq("status", "published").order("display_order");
+  const { data, error } = await supabase
+    .from("videos")
+    .select("*, thumbnail_asset:media_assets!thumbnail_media_id(storage_path), video_asset:media_assets!video_media_id(storage_path)")
+    .eq("status", "published")
+    .order("display_order");
   if (error) throw error;
   return (data as unknown as Array<Record<string, unknown>>).map((row) => {
-    const media = row.media_assets as { storage_path: string } | null;
+    const thumbnailAsset = row.thumbnail_asset as { storage_path: string } | null;
+    const videoAsset = row.video_asset as { storage_path: string } | null;
     const date = row.published_at ? new Date(row.published_at as string).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) : "";
     return {
       id: row.id as string,
       slug: row.slug as string,
-      thumbnail: resolveImage(media?.storage_path, row.thumbnail_url as string | null),
+      thumbnail: resolveImage(thumbnailAsset?.storage_path, row.thumbnail_url as string | null),
+      videoUrl: videoAsset?.storage_path ? mediaPublicUrl(videoAsset.storage_path) : null,
       youtubeUrl: row.youtube_url as string,
       duration: row.duration as string | null,
       featured: row.is_featured as boolean,

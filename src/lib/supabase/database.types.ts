@@ -355,6 +355,7 @@ export interface Database {
           description_ar: string;
           thumbnail_media_id: string | null;
           thumbnail_url: string | null;
+          video_media_id: string | null;
           youtube_url: string;
           duration: string | null;
           category_en: string | null;
