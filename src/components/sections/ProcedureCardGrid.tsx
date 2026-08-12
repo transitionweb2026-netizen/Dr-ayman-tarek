@@ -27,6 +27,7 @@ function ProcedureCard({ item, onSelect }: { item: ProcedureCardItem; onSelect: 
             src={item.image}
             alt={item.title}
             fill
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
@@ -90,7 +91,7 @@ export function ProcedureCardGrid({ eyebrow, title, subtitle, items, sectionId, 
         {active && (
           <>
             <div className="relative h-56 w-full md:h-64">
-              <Image src={active.image} alt={active.title} fill className="object-cover" />
+              <Image src={active.image} alt={active.title} fill sizes="(min-width: 700px) 672px, 100vw" className="object-cover" />
             </div>
             <div className="space-y-6 p-8">
               <h3 className="text-section-title text-white">{active.title}</h3>

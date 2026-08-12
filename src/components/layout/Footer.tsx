@@ -59,7 +59,7 @@ export function Footer({
         <div className="mx-auto mb-10 max-w-container-max px-margin-mobile md:px-margin-desktop">
           <Reveal className="flex items-center gap-4 pb-6">
             <div className="relative h-14 w-14 shrink-0 sm:h-16 sm:w-16">
-              <Image src={settings.footerBadgeUrl} alt={brandName} fill className="object-contain" />
+              <Image src={settings.footerBadgeUrl} alt={brandName} fill sizes="64px" className="object-contain" />
             </div>
             <span className="text-card-title font-bold text-gradient-brand">{brandName}</span>
           </Reveal>
@@ -157,7 +157,7 @@ export function Footer({
               Transition
             </a>
             <div className="relative h-9 w-9 shrink-0">
-              <Image src="/brand/transition-logo.png" alt="" fill className="object-contain" />
+              <Image src="/brand/transition-logo.png" alt="" fill sizes="36px" className="object-contain" />
             </div>
             <span className="text-small text-white/80">{t("footer.agencyCredit")}</span>
           </div>

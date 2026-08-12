@@ -53,7 +53,7 @@ export function TechShowcase(props: TechShowcaseProps = {}) {
 
           <Reveal scale className="order-1 lg:order-2">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-primary/20 shadow-glow-lg">
-              <Image src={image} alt="" fill className="object-cover" />
+              <Image src={image} alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
             </div>
           </Reveal>
 

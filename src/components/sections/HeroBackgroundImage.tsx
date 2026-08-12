@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import type { HeroImageConfig } from "@/server/repositories/content";
 import { computeHeroLayout } from "@/lib/heroLayout";
@@ -55,8 +55,31 @@ export function HeroBackgroundImage({ images, children }: { images: HeroImageCon
     transform: mobileScale !== 1 ? `scale(${mobileScale})` : undefined,
   };
 
+  // All three tiers are art-directed crops of possibly-different source
+  // images (not just resized copies), so a single <Image> can't cover all
+  // breakpoints — but giving all three `priority` (as before) made Next.js
+  // preload every tier's bytes unconditionally, regardless of which one the
+  // CSS `md:hidden`/`lg:hidden` classes actually display. That meant mobile
+  // visitors always downloaded the tablet+desktop crops too (and vice
+  // versa). A `<link rel=preload>` supports a `media` attribute the browser
+  // honors natively, so each tier's own breakpoint (matching the Tailwind
+  // `md`/`lg` cutoffs used below) can gate its own preload — only the crop
+  // that's actually going to render ever gets fetched. getImageProps()
+  // reproduces the exact optimized srcSet/sizes next/image would generate
+  // for that tier without rendering a second <Image>.
+  const mobilePreload = getImageProps({ src: images.mobileImageUrl, alt: "", fill: true, sizes: "100vw" }).props;
+  const tabletPreload = getImageProps({ src: images.tabletImageUrl, alt: "", fill: true, sizes: "100vw" }).props;
+  const desktopPreload = getImageProps({ src: images.desktopImageUrl, alt: "", fill: true, sizes: "100vw" }).props;
+
   return (
     <>
+      {/* Rendered as plain <link> tags (React/Next hoist these into <head>
+          automatically), each scoped with `media` so only the breakpoint
+          that's actually visible triggers a fetch. */}
+      <link rel="preload" as="image" media="(max-width: 767px)" imageSrcSet={mobilePreload.srcSet} imageSizes={mobilePreload.sizes} fetchPriority="high" />
+      <link rel="preload" as="image" media="(min-width: 768px) and (max-width: 1023px)" imageSrcSet={tabletPreload.srcSet} imageSizes={tabletPreload.sizes} fetchPriority="high" />
+      <link rel="preload" as="image" media="(min-width: 1024px)" imageSrcSet={desktopPreload.srcSet} imageSizes={desktopPreload.sizes} fetchPriority="high" />
+
       {images.backgroundImageUrl && (
         <div
           className="absolute inset-0"
@@ -65,17 +88,18 @@ export function HeroBackgroundImage({ images, children }: { images: HeroImageCon
             filter: images.backgroundBlur ? `blur(${images.backgroundBlur}px)` : undefined,
           }}
         >
-          <Image src={images.backgroundImageUrl} alt="" fill className="object-cover" />
+          <Image src={images.backgroundImageUrl} alt="" fill sizes="100vw" className="object-cover" />
         </div>
       )}
 
-      {/* Mobile tier (<768px) */}
+      {/* Mobile tier (<768px) — no `priority`: the media-scoped preload
+          above already starts this tier's fetch when it's the active one,
+          and the browser reuses that in-flight/cached response here. */}
       <div className="absolute inset-0 md:hidden">
         <Image
           src={images.mobileImageUrl}
           alt={mobileAlt}
           fill
-          priority
           sizes="100vw"
           className={objectFit}
           style={mobileImageStyle}
@@ -88,7 +112,6 @@ export function HeroBackgroundImage({ images, children }: { images: HeroImageCon
           src={images.tabletImageUrl}
           alt={desktopAlt}
           fill
-          priority
           sizes="100vw"
           className={objectFit}
           style={desktopImageStyle}
@@ -101,7 +124,6 @@ export function HeroBackgroundImage({ images, children }: { images: HeroImageCon
           src={images.desktopImageUrl}
           alt={desktopAlt}
           fill
-          priority
           sizes="100vw"
           className={objectFit}
           style={desktopImageStyle}

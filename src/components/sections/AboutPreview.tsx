@@ -38,7 +38,7 @@ export function AboutPreview({
       <Reveal direction={dir === "rtl" ? "right" : "left"} className="group relative">
         <div className="absolute -inset-4 rounded-3xl bg-primary/15 blur-3xl transition-all duration-700 group-hover:bg-primary/25" />
         <GlassCard radius="3xl" interactive={false} className="relative flex aspect-video items-center justify-center overflow-hidden">
-          <Image src={videoImage} alt="" fill className="object-cover opacity-40 transition-transform duration-700 group-hover:scale-105" />
+          <Image src={videoImage} alt="" fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover opacity-40 transition-transform duration-700 group-hover:scale-105" />
           <MotionLink
             href={localizedHref("/videos", language)}
             aria-label={t("common.playVideo")}

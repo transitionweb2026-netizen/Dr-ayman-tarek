@@ -46,6 +46,7 @@ function VideoCard({ video, onSelect }: { video: Video; onSelect: () => void }) 
             src={video.thumbnail}
             alt={video.title}
             fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
@@ -153,7 +154,7 @@ export function VideoLibrary({ videos: bilingualVideos, titleOverride, subtitleO
                 />
               ) : (
                 <>
-                  <Image src={active.thumbnail} alt={active.title} fill className="object-cover" />
+                  <Image src={active.thumbnail} alt={active.title} fill sizes="300px" className="object-cover" />
                   <div className="absolute inset-0 bg-background/50" />
                   {hasPlayableVideo ? (
                     <button

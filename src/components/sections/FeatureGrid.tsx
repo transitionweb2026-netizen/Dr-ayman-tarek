@@ -36,7 +36,7 @@ export function FeatureGrid({ eyebrow, title, subtitle, features, layout = "icon
             {layout === "icon-top" ? (
               <GlassCard radius="2xl" className="flex h-full flex-col items-center p-7 text-center">
                 {feature.image ? (
-                  <ImageBadge src={feature.image} alt={feature.title} className="mb-5 h-16 w-16 rounded-2xl" />
+                  <ImageBadge src={feature.image} alt={feature.title} className="mb-5 h-16 w-16 rounded-2xl" sizes="64px" />
                 ) : (
                   <IconBadge icon={feature.icon} className="mb-5 h-16 w-16 rounded-2xl" iconClassName="text-3xl" />
                 )}
@@ -46,7 +46,7 @@ export function FeatureGrid({ eyebrow, title, subtitle, features, layout = "icon
             ) : (
               <GlassCard radius="xl" className="flex h-full items-start gap-4 p-7">
                 {feature.image ? (
-                  <ImageBadge src={feature.image} alt={feature.title} className="h-12 w-12 rounded-full" />
+                  <ImageBadge src={feature.image} alt={feature.title} className="h-12 w-12 rounded-full" sizes="48px" />
                 ) : (
                   <IconBadge icon={feature.icon} className="h-12 w-12 rounded-full" iconClassName="text-2xl" />
                 )}

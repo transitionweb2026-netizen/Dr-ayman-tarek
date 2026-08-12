@@ -41,6 +41,7 @@ export function VideoSeriesPreview({ videos, titleOverride }: VideoSeriesPreview
                     src={video.thumbnail}
                     alt={video.title}
                     fill
+                    sizes="(min-width: 1024px) 33vw, 100vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/40 transition-colors group-hover:bg-black/20">

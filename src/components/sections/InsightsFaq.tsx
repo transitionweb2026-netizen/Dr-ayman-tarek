@@ -28,7 +28,7 @@ function ArticleCard({ article, readStoryLabel, href }: { article: InsightArticl
   return (
     <GlassCard radius="2xl" className="flex h-full flex-col p-6">
       <div className="relative h-40 w-full shrink-0 overflow-hidden rounded-2xl">
-        <Image src={article.image} alt={article.title} fill className="object-cover transition-transform duration-700 hover:scale-110" />
+        <Image src={article.image} alt={article.title} fill sizes="(min-width: 1024px) 23vw, (min-width: 768px) 45vw, 90vw" className="object-cover transition-transform duration-700 hover:scale-110" />
       </div>
       <div className="mt-4 flex-1 space-y-2">
         <div className="flex items-center gap-3">
