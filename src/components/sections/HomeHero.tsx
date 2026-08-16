@@ -99,7 +99,17 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
   // height regardless of language; only min-h (not a hard height) is used,
   // so nothing is ever clipped if copy changes later and needs more room.
   return (
-    <section className="relative flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 pt-20 lg:min-h-[800px]">
+    // mt-20 (not the old pt-20) reserves the fixed header's own height
+    // (h-20) as real layout space instead of internal padding: the header
+    // is `position: fixed` (out of flow) with a semi-transparent
+    // background, so this section's box — and everything absolutely
+    // positioned inside it, including the full-bleed background photo
+    // below — previously started at the very top of the page and bled up
+    // behind/through the header. Starting the section's own box below the
+    // header instead keeps the photo fully contained in the Hero while
+    // leaving the text content's on-page position unchanged (mt-20 outside
+    // the box replaces the exact 80px pt-20 used to provide inside it).
+    <section className="relative mt-20 flex min-h-[82vh] flex-col items-center justify-center overflow-hidden pb-10 lg:min-h-[800px]">
       {/* Full-bleed background artwork — one photo per breakpoint (art
           directed, not just resized), CMS-configurable via HeroImageConfig.
           This same treatment carries the doctor's photo at every

@@ -93,8 +93,14 @@ export function PageHero({
       : undefined;
 
   return (
+    // mt-20 (not pt-20) reserves the fixed header's own height (h-20) as
+    // real layout space instead of internal padding — see HomeHero.tsx for
+    // why: the header is `position: fixed` with a semi-transparent
+    // background, so this section's absolutely-positioned background photo
+    // was bleeding up behind/through it. This keeps the text's on-page
+    // position unchanged while containing the photo fully inside the Hero.
     <section
-      className={`relative flex flex-col overflow-hidden pt-20 pb-10 ${
+      className={`relative mt-20 flex flex-col overflow-hidden pb-10 ${
         height === "sm" ? "min-h-[45vh] lg:min-h-[380px]" : "min-h-[55vh] lg:min-h-[460px]"
       } items-center justify-center`}
     >
