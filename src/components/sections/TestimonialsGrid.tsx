@@ -25,9 +25,17 @@ export function TestimonialsGrid({ title, testimonials }: { title: string; testi
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pt-section-gap-sm pb-section-gap-sm md:px-margin-desktop">
       <SectionHeading title={title} />
-      <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6" gap={0.05}>
+      {/* flex-wrap + explicit per-item widths (matching the sm/lg/xl column
+          counts a grid would have used) instead of grid-cols-* — a grid
+          track leaves a partial final row stretched/left-aligned, while
+          flex's justify-center naturally centers a short last row as a
+          group. */}
+      <Stagger className="flex flex-wrap items-stretch justify-center gap-4" gap={0.05}>
         {testimonials.map((t) => (
-          <StaggerChild key={t.name}>
+          <StaggerChild
+            key={t.name}
+            className="w-full shrink-0 sm:w-[calc((100%_-_16px)/2)] lg:w-[calc((100%_-_32px)/3)] xl:w-[calc((100%_-_80px)/6)]"
+          >
             <GlassCard radius="xl" className="flex h-full flex-col p-4 text-center">
               <Stars />
               <p className="line-clamp-4 flex-1 text-sm italic leading-relaxed text-on-surface-variant">

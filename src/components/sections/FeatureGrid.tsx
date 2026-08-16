@@ -19,6 +19,11 @@ interface FeatureGridProps {
   features: Feature[];
   layout?: "icon-top" | "icon-side";
   columns?: 3 | 4;
+  /** Opt-in: switches the grid to a centered flex-wrap layout so a partial
+   * final row (e.g. 8 cards over 3 columns leaving 2 orphaned) centers as a
+   * group instead of trailing off to one side. Off by default so every
+   * other FeatureGrid caller keeps its exact current layout. */
+  centerLastRow?: boolean;
 }
 
 const colClass: Record<3 | 4, string> = {
@@ -26,13 +31,26 @@ const colClass: Record<3 | 4, string> = {
   4: "sm:grid-cols-2 lg:grid-cols-4",
 };
 
-export function FeatureGrid({ eyebrow, title, subtitle, features, layout = "icon-top", columns = 4 }: FeatureGridProps) {
+// Matches colClass's column counts, but as explicit flex-item widths (gap-gutter = 24px)
+// so a short final row centers instead of stretching/left-aligning like a grid track would.
+const colWidthClass: Record<3 | 4, string> = {
+  3: "sm:w-[calc((100%_-_24px)/2)] lg:w-[calc((100%_-_48px)/3)]",
+  4: "sm:w-[calc((100%_-_24px)/2)] lg:w-[calc((100%_-_72px)/4)]",
+};
+
+export function FeatureGrid({ eyebrow, title, subtitle, features, layout = "icon-top", columns = 4, centerLastRow = false }: FeatureGridProps) {
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
       <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
-      <Stagger className={`grid grid-cols-1 gap-gutter ${colClass[columns]}`}>
+      <Stagger
+        className={
+          centerLastRow
+            ? "flex flex-wrap items-stretch justify-center gap-gutter"
+            : `grid grid-cols-1 gap-gutter ${colClass[columns]}`
+        }
+      >
         {features.map((feature) => (
-          <StaggerChild key={feature.title}>
+          <StaggerChild key={feature.title} className={centerLastRow ? `w-full shrink-0 ${colWidthClass[columns]}` : undefined}>
             {layout === "icon-top" ? (
               <GlassCard radius="2xl" className="flex h-full flex-col items-center p-7 text-center">
                 {feature.image ? (

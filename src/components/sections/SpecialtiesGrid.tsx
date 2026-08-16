@@ -30,11 +30,15 @@ export function SpecialtiesGrid({ content }: { content: Partial<SpecialtiesGridC
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile py-section-gap-sm md:px-margin-desktop">
       <SectionHeading eyebrow={content.eyebrow || ""} title={content.title || ""} subtitle={content.subtitle || ""} />
-      <Stagger className="grid grid-cols-1 items-start gap-gutter sm:grid-cols-2 lg:grid-cols-4">
+      {/* flex-wrap + explicit per-item widths (matching the sm/lg column
+          counts a grid would have used) instead of grid-cols-* — with 5
+          items over 4 columns a grid track leaves the 5th card alone at the
+          start of its row, while flex's justify-center centers it instead. */}
+      <Stagger className="flex flex-wrap items-start justify-center gap-gutter">
         {items.map((item) => {
           const image = item.image;
           return (
-            <StaggerChild key={item.title}>
+            <StaggerChild key={item.title} className="w-full shrink-0 sm:w-[calc((100%_-_24px)/2)] lg:w-[calc((100%_-_72px)/4)]">
               <GlassCard radius="2xl" className="group flex flex-col items-center p-7 text-center">
                 {/* This hex badge keeps its own signature interaction (icon inverts to
                     dark on a solid-purple hex when hovered) rather than adopting the

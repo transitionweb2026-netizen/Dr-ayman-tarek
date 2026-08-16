@@ -89,7 +89,7 @@ export function DrAymanTarekContent({
         <p className="text-body text-on-surface-variant">{about.bio2 || ""}</p>
       </AboutPreview>
 
-      <FeatureGrid title={certificatesContent.title || ""} subtitle={certificatesContent.subtitle || ""} features={certificates} columns={3} />
+      <FeatureGrid title={certificatesContent.title || ""} subtitle={certificatesContent.subtitle || ""} features={certificates} columns={3} centerLastRow />
 
       <ProcedureCardGrid title={specialtiesHeading.title || ""} subtitle={specialtiesHeading.subtitle || ""} items={specialtyItems} />
 
