@@ -1,12 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Stagger, StaggerChild } from "@/components/motion/Stagger";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { localizedHref } from "@/lib/localizedHref";
+import { VideoPlayerModal, type PlayableVideo } from "./VideoPlayerModal";
 import type { BilingualVideo } from "@/server/repositories/content";
 
 interface VideoSeriesPreviewProps {
@@ -16,13 +16,18 @@ interface VideoSeriesPreviewProps {
 
 export function VideoSeriesPreview({ videos, titleOverride }: VideoSeriesPreviewProps) {
   const { language, t } = useLanguage();
-  const featured = videos
+  const featured: PlayableVideo[] = videos
     .filter((v) => v.featured)
     .slice(0, 3)
     .map((v) => {
       const copy = language === "ar" ? v.ar : v.en;
-      return { id: v.slug, title: copy.title, shortDescription: copy.shortDescription, thumbnail: v.thumbnail };
+      return {
+        id: v.slug, title: copy.title, category: copy.category || "", duration: v.duration || "", date: copy.date,
+        thumbnail: v.thumbnail, shortDescription: copy.shortDescription, description: copy.description, youtubeUrl: v.youtubeUrl, videoUrl: v.videoUrl,
+      };
     });
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const active = featured.find((v) => v.id === activeId) ?? null;
 
   return (
     <section className="mx-auto max-w-container-max px-margin-mobile pb-section-gap-sm md:px-margin-desktop">
@@ -34,7 +39,7 @@ export function VideoSeriesPreview({ videos, titleOverride }: VideoSeriesPreview
       <Stagger className="grid grid-cols-1 items-start gap-gutter lg:grid-cols-3">
         {featured.map((video) => (
           <StaggerChild key={video.id}>
-            <Link href={localizedHref("/videos", language)}>
+            <button onClick={() => setActiveId(video.id)} className="block w-full text-left rtl:text-right">
               <GlassCard radius="3xl" className="group overflow-hidden">
                 <div className="relative aspect-[9/16] overflow-hidden">
                   <Image
@@ -58,10 +63,12 @@ export function VideoSeriesPreview({ videos, titleOverride }: VideoSeriesPreview
                   <p className="text-small text-on-surface-variant">{video.shortDescription}</p>
                 </div>
               </GlassCard>
-            </Link>
+            </button>
           </StaggerChild>
         ))}
       </Stagger>
+
+      <VideoPlayerModal video={active} onClose={() => setActiveId(null)} />
     </section>
   );
 }
