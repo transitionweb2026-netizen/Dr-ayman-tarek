@@ -134,20 +134,6 @@ export function HomeHero({ content, images }: { content: Partial<HomeHeroContent
           }
           style={auto ? ({ "--hero-safe-width": heroSafeWidthCss(layout!.safeTextWidthPct) } as CSSProperties) : undefined}
         >
-          {/* Hidden on mobile (<768px) — the "Global Excellence…" eyebrow was
-              covering the doctor's portrait once the content block moved
-              down to clear his face; tablet/desktop keep it, unchanged,
-              with its original spacing via mb-7 (was space-y-7's gap). */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="eyebrow mb-7 hidden shadow-glow md:inline-flex"
-          >
-            <span className="h-2 w-2 animate-pulse rounded-full bg-primary shadow-[0_0_10px_rgba(196,61,255,0.8)]" />
-            {t("badge")}
-          </motion.div>
-
           <div className="space-y-7">
             <motion.h1
               initial={{ opacity: 0, y: 28 }}

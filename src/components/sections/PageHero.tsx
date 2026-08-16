@@ -11,6 +11,9 @@ import type { HeroImageConfig } from "@/server/repositories/content";
 import { computeHeroLayout, heroGradientToClass, heroOverlayStops, heroSafeWidthCss, scaleOverlayColor } from "@/lib/heroLayout";
 
 interface PageHeroProps {
+  /** No longer rendered (the eyebrow badge was removed site-wide) — kept
+   * required so every existing caller passing CMS eyebrow copy still
+   * type-checks without touching each page. */
   eyebrow: string;
   title: ReactNode;
   subtitle: string;
@@ -34,7 +37,6 @@ interface PageHeroProps {
  * of the content-side/flip logic below — a centered layout has no "which
  * side" for a subject to be protected from. */
 export function PageHero({
-  eyebrow,
   title,
   subtitle,
   images,
@@ -139,10 +141,6 @@ export function PageHero({
           }
           style={auto && layout ? ({ "--hero-safe-width": heroSafeWidthCss(layout.safeTextWidthPct) } as CSSProperties) : undefined}
         >
-          <span className="eyebrow mb-6 shadow-glow">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-primary shadow-[0_0_10px_rgba(196,61,255,0.8)]" />
-            {eyebrow}
-          </span>
           <h1 className="mb-4 text-hero text-white">{title}</h1>
           <p className={`mb-8 text-body-lg text-on-surface-variant ${isCenter ? "mx-auto max-w-xl" : "max-w-xl"}`}>
             {subtitle}
