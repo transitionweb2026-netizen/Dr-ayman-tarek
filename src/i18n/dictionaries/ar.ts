@@ -50,7 +50,7 @@ export const ar = {
     viewAll: "عرض الكل",
     bookAppointment: "احجز موعد",
     share: "مشاركة",
-    consultVirtualAssistant: "تواصل مع المساعد الافتراضي",
+    consultVirtualAssistant: "تواصل معنا عبر الواتس اب",
     linkCopied: "تم نسخ الرابط.",
     mapPreviewNote: "معاينة الخريطة — تُحمَّل الخريطة التفاعلية على الموقع الفعلي.",
     directions: "اتجاهات الوصول",

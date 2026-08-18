@@ -50,7 +50,7 @@ export const en = {
     viewAll: "View All",
     bookAppointment: "Book Appointment",
     share: "Share",
-    consultVirtualAssistant: "Consult Virtual Assistant",
+    consultVirtualAssistant: "Contact Us Through WhatsApp",
     linkCopied: "Link copied to clipboard.",
     mapPreviewNote: "Map preview — interactive map loads on the live site.",
     directions: "Directions",
