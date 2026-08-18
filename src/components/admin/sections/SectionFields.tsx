@@ -5,6 +5,7 @@ import { BilingualField, TextField } from "@/components/admin/ui/Field";
 import { Repeater } from "@/components/admin/ui/Repeater";
 import { IconPicker } from "@/components/admin/ui/IconPicker";
 import { MediaPickerField } from "@/components/admin/ui/MediaPicker";
+import { VideoUploadField } from "@/components/admin/ui/VideoUploadField";
 import { getPublicMediaUrl } from "@/lib/supabase/storage";
 import type { MediaAsset } from "@/hooks/useMediaLibrary";
 
@@ -71,6 +72,42 @@ export function SectionImageField({
     <MediaPickerField
       label={label}
       valueMediaId={value}
+      valueUrl={value}
+      onChange={(asset) => {
+        const url = asset ? getPublicMediaUrl(asset.storage_path) : null;
+        setEn({ [fieldKey]: url });
+        setAr({ [fieldKey]: url });
+      }}
+    />
+  );
+}
+
+/** A single, non-repeated CMS-uploaded video file for a section (e.g. the
+ * About preview's play button) — same media_assets/Storage pipeline and
+ * upload UI (progress, type/size validation) as the Videos collection's
+ * video field, just one flat field instead of a per-item one. Not
+ * bilingual: the resolved public URL is written identically into both en
+ * and ar content. */
+export function SectionVideoField({
+  label,
+  hint,
+  fieldKey,
+  en,
+  setEn,
+  setAr,
+}: {
+  label: string;
+  hint?: string;
+  fieldKey: string;
+  en: Record<string, unknown>;
+  setEn: (patch: Record<string, unknown>) => void;
+  setAr: (patch: Record<string, unknown>) => void;
+}) {
+  const value = (en[fieldKey] as string) || null;
+  return (
+    <VideoUploadField
+      label={label}
+      hint={hint}
       valueUrl={value}
       onChange={(asset) => {
         const url = asset ? getPublicMediaUrl(asset.storage_path) : null;

@@ -2,7 +2,7 @@
 
 import { PageHeader } from "@/components/admin/ui/Card";
 import { SectionCard } from "@/components/admin/sections/SectionCard";
-import { SectionTextFields, SectionRepeaterField, SectionImageField } from "@/components/admin/sections/SectionFields";
+import { SectionTextFields, SectionRepeaterField, SectionImageField, SectionVideoField } from "@/components/admin/sections/SectionFields";
 import { HeroImageFields } from "@/components/admin/sections/HeroImageFields";
 
 export default function HomePageAdmin() {
@@ -71,6 +71,7 @@ export default function HomePageAdmin() {
                 ]}
               />
               <SectionImageField label="Video Thumbnail" fieldKey="videoImage" en={en} setEn={setEn} setAr={setAr} />
+              <SectionVideoField label="About Video" hint="Plays in place when set; falls back to linking to the Videos page otherwise." fieldKey="videoUrl" en={en} setEn={setEn} setAr={setAr} />
             </div>
           )}
         </SectionCard>

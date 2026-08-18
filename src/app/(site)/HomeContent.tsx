@@ -16,7 +16,7 @@ import { pickSection } from "@/lib/pickLang";
 import type { BilingualVideo, BilingualArticle, BilingualFaqItem, BilingualTestimonial, HeroImageConfig } from "@/server/repositories/content";
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
-interface AboutContent { title: string; bio: string; cta: string; videoCaption: string; videoImage?: string }
+interface AboutContent { title: string; bio: string; cta: string; videoCaption: string; videoImage?: string; videoUrl?: string }
 interface CtaContent { heading: string; subtitle: string; primaryLabel?: string; image?: string }
 interface StatItem { icon: string; value: string; suffix: string; label: string }
 
@@ -72,6 +72,7 @@ export function HomeContent({
         title={about.title || ""}
         videoCaption={about.videoCaption || undefined}
         videoImage={about.videoImage || undefined}
+        videoUrl={about.videoUrl || undefined}
         cta={
           <Link href={localizedHref("/dr-ayman-tarek", language)} className="group flex items-center gap-2 text-small text-primary">
             {about.cta || ""}

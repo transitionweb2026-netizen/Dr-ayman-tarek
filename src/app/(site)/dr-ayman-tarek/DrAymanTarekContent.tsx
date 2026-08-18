@@ -18,7 +18,7 @@ import type { BilingualSpecialty, BilingualTestimonial, HeroImageConfig } from "
 
 type Sections = Record<string, { en: Record<string, unknown>; ar: Record<string, unknown> }>;
 interface HeroContent { eyebrow: string; titleLine1: string; titleLine2: string; subtitle: string; cta: string }
-interface AboutContent { title: string; videoCaption: string; bio1: string; bio2: string; videoImage?: string }
+interface AboutContent { title: string; videoCaption: string; bio1: string; bio2: string; videoImage?: string; videoUrl?: string }
 interface ItemsContent { title: string; subtitle: string; items: { icon: string; title: string; desc: string }[] }
 interface SpecialtiesHeadingContent { title: string; subtitle: string }
 interface StatsContent { items: { icon: string; value: string; suffix: string; label: string }[] }
@@ -84,7 +84,7 @@ export function DrAymanTarekContent({
         images={heroImages}
       />
 
-      <AboutPreview title={about.title || ""} videoCaption={about.videoCaption || ""} videoImage={about.videoImage || undefined}>
+      <AboutPreview title={about.title || ""} videoCaption={about.videoCaption || ""} videoImage={about.videoImage || undefined} videoUrl={about.videoUrl || undefined}>
         <p className="text-body-lg text-on-surface-variant">{about.bio1 || ""}</p>
         <p className="text-body text-on-surface-variant">{about.bio2 || ""}</p>
       </AboutPreview>
